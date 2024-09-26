@@ -2,7 +2,7 @@ import PostEntity from "src/Post/Post.entity";
 import UserEntity from "src/User/User.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({name: "Like"})
 export default class LikeEntity {
     
     @PrimaryGeneratedColumn({unsigned: true})

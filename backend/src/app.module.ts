@@ -1,9 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {entities, controllers} from '.';
+import GuardModule from './Guard/Guard.Module';
+import UserModule from './User/User.Module';
+import AuthModule from './Auth/Auth.Module';
 
 @Module({
+  exports: [GuardModule, AuthModule, UserModule],
   imports: [
+    GuardModule,
+    UserModule,
+    AuthModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       port: Number(process.env.DB_PORT) || 3306,
@@ -12,10 +19,8 @@ import {entities, controllers} from '.';
       password: process.env.DB_PASSWORD || "root",
       database: process.env.DB_DATABASE || "nesTwitter",
       entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity],
-      synchronize: true,
       // synchronize: process.env.ENV === "development",
     })
   ],
-  controllers: [controllers.LikeController, controllers.UserController, controllers.PostController],
 })
 export class AppModule {}

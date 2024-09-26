@@ -10,7 +10,7 @@ import { UserTypeToken } from "src/types";
 export default class UserService {
 
     constructor(
-        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+        @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
         private readonly AuthService: AuthService
     ) {}
 
@@ -34,7 +34,9 @@ export default class UserService {
 
         await this.userRepository.save(newUser);
 
-        return this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken)
+        const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
+
+        return { token };
 
     }
 
