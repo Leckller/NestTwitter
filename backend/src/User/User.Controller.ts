@@ -1,8 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
-import GetUserDto from "./DTOs/GetUser.Dto";
 import AuthGuard from "src/Guard/Auth.Guard";
 import UserService from "./User.Service";
+import GetUserRequestDto from "./DTOs/GetUser.Request.Dto";
+import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 
 @Controller('user')
 export default class UserController {
@@ -20,9 +21,9 @@ export default class UserController {
 
     @Get()
     @UseGuards(AuthGuard)
-    public getUser (): GetUserDto {
+    public async getUser (@Body() {address}: GetUserRequestDto): Promise<GetUserResponseDto> {
 
-        return new GetUserDto();
+        return await this.userService.getUserByAddress(address);
 
     }
 

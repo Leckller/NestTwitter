@@ -1,10 +1,11 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import UserEntity from "./User.entity";
 import AuthService from "src/Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
 import { UserTypeToken } from "src/types";
+import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 
 @Injectable()
 export default class UserService {
@@ -37,6 +38,22 @@ export default class UserService {
         const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
 
         return { token };
+
+    }
+
+    public async getUserByAddress(address: string) {
+
+        const user = await this.userRepository.findOne({where: {address}, relations: {posts: true}});
+
+        if(!user) {
+
+            throw new NotFoundException("Usuário não encontrado");
+
+        }
+
+        const {banner, name, posts, photo} = user;
+
+        return new GetUserResponseDto(banner, name, photo, address, posts);
 
     }
 
