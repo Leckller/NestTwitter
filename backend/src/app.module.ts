@@ -17,6 +17,5 @@ import {entities, controllers} from '.';
     })
   ],
   controllers: [controllers.LikeController, controllers.UserController, controllers.PostController],
-  providers: [],
 })
 export class AppModule {}
