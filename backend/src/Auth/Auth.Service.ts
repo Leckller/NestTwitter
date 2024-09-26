@@ -11,6 +11,10 @@ export default class AuthService {
 
     public async encrypt (text: string) {
         
+        const salt = await bcrypt.genSalt();
+
+        return await bcrypt.hash(text, salt)
+
     }
 
     public async compare (passOne, passTwo) {
@@ -46,7 +50,5 @@ export default class AuthService {
         }
 
     }
-
-
 
 };

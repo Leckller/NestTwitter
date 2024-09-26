@@ -1,20 +1,26 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import PostEntity from "src/Post/Post.entity";
+import { UserType } from "src/types";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export default class UserEntity {
-    @PrimaryGeneratedColumn()
+export default class UserEntity implements UserType {
+    @PrimaryGeneratedColumn({unsigned: true})
     id: number;
 
     @Column()
     name: string;
     
-    @Column()
+    @Column({
+        unique: true
+    })
     email: string;
     
     @Column()
     password: string;
     
-    @Column()
+    @Column({
+        unique: true
+    })
     address: string;
     
     @Column()
@@ -22,5 +28,8 @@ export default class UserEntity {
     
     @Column()
     banner: string;
+
+    @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
+    posts: PostEntity[]
     
 }
