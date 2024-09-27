@@ -21,7 +21,7 @@ export default class AuthGuard implements CanActivate{
 
             const data = this.AuthService.verifyToken(authorization);
 
-            request.token = data
+            request.user = data
 
             return true;
 

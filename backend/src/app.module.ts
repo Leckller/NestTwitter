@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {entities, controllers} from '.';
+import {entities} from '.';
 import GuardModule from './Guard/Guard.Module';
 import UserModule from './User/User.Module';
 import AuthModule from './Auth/Auth.Module';
+import PostModule from './Post/Post.Module';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
@@ -11,6 +12,7 @@ import AuthModule from './Auth/Auth.Module';
     GuardModule,
     UserModule,
     AuthModule,
+    PostModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       port: Number(process.env.DB_PORT) || 3306,

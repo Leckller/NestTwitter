@@ -4,7 +4,7 @@ export const GetUser = createParamDecorator((data: string, context: ExecutionCon
 
     const request = context.switchToHttp().getRequest();
 
-    if(!request.token) {
+    if(!request.user) {
 
         throw new BadRequestException("Você precisa estar logado para realizar esta operação");
 
@@ -12,10 +12,10 @@ export const GetUser = createParamDecorator((data: string, context: ExecutionCon
 
     if(data) {
 
-        return request.token[data];
+        return request.user[data];
 
     }
 
-    return request.token;
+    return request.user;
 
 })
