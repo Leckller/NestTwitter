@@ -5,6 +5,7 @@ import GuardModule from './Guard/Guard.Module';
 import UserModule from './User/User.Module';
 import AuthModule from './Auth/Auth.Module';
 import PostModule from './Post/Post.Module';
+import LikeModule from './Like/Like.Module';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
@@ -13,6 +14,7 @@ import PostModule from './Post/Post.Module';
     UserModule,
     AuthModule,
     PostModule,
+    LikeModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       port: Number(process.env.DB_PORT) || 3306,

@@ -50,8 +50,15 @@ export default class PostService {
     public async getGlobalPosts() {
 
         const posts = await this.postRepository.find({
-            relations: {user: true, likes: true},
-            select: {user: {address: true, photo: true, name: true, id: true}}});
+            relations: {user: true, likes: { user: true}},
+            select: {
+                user: {address: true, photo: true, name: true, id: true},
+                likes: {
+                    id: true, 
+                    user: {
+                        name: true, address: true, photo: true, id: true
+                    }},
+            }});
 
         return {posts};
 
