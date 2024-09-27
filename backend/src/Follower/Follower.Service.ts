@@ -50,7 +50,29 @@ export default class FollowerService {
 
         await this.followerRepository.save(follow);
 
-        return {ok: true, message: `${followingUser.name} agora está seguindo ${followedUser.name}`};
+        return {ok: true, message: `${followingUser.name + "-" + followingUser.address} agora está seguindo ${followedUser.name + "-" + followedUser.address}`, follow};
+
+    }
+
+    public async getPostsByFollows(userId: number) {
+
+        const user = await this.userRepository.findOne({where: {id: userId}});
+        
+        if(!user) {
+
+            throw new NotFoundException("Usuário não encontrado");
+
+        }
+
+        const posts = await this.followerRepository.find({
+            where: {following: user},
+            relations: {followed: {posts: true}},
+            order: {id: "DESC"},
+            take: 10,
+            select: {followed: {id: true, name: true, photo: true, address: true}}
+        });
+
+        return {posts}
 
     }
 

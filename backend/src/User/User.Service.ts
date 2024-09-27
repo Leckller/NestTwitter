@@ -37,7 +37,7 @@ export default class UserService {
 
         await this.userRepository.save(newUser);
 
-        const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
+        const token = this.AuthService.createToken({address, banner, id: newUser.id, name, photo} as UserTypeToken);
 
         return { token };
 
