@@ -22,7 +22,7 @@ export default class LikeService {
 
         if(!user) {
 
-            throw new UnauthorizedException("Você não tem permissão para fazer isso.");
+            throw new NotFoundException("Usuário não encontrado.");
 
         }
 

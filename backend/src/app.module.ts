@@ -6,6 +6,7 @@ import UserModule from './User/User.Module';
 import AuthModule from './Auth/Auth.Module';
 import PostModule from './Post/Post.Module';
 import LikeModule from './Like/Like.Module';
+import FollowerModule from './Follower/Follower.Module';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
@@ -15,14 +16,15 @@ import LikeModule from './Like/Like.Module';
     AuthModule,
     PostModule,
     LikeModule,
+    FollowerModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       port: Number(process.env.DB_PORT) || 3306,
       host: process.env.DB_HOST || "localhost",
       username: process.env.DB_USERNAME || "root",
       password: process.env.DB_PASSWORD || "root",
-      database: process.env.DB_DATABASE || "nesTwitter",
-      entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity],
+      database: process.env.DB_DATABASE || "nestwitter",
+      entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity, entities.FollowerEntity],
       // synchronize: process.env.ENV === "development",
     })
   ],
