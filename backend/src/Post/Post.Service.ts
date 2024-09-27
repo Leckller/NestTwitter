@@ -34,7 +34,7 @@ export default class PostService {
 
         await this.postRepository.save(post);
 
-        return {ok: true, post}
+        return {ok: true}
 
     }
 
@@ -47,5 +47,14 @@ export default class PostService {
 
     }
 
+    public async getGlobalPosts() {
+
+        const posts = await this.postRepository.find({
+            relations: {user: true, likes: true},
+            select: {user: {address: true, photo: true, name: true, id: true}}});
+
+        return {posts};
+
+    }
 
 }

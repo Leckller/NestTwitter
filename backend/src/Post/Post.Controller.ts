@@ -14,7 +14,11 @@ export default class PostController {
     ) {}
 
     @Get("global")
-    public async getGlobalPosts() {}
+    public async getGlobalPosts() {
+
+        return await this.postService.getGlobalPosts();
+
+    }
 
     @Get("circle")
     public async getCircleUserPosts(){}
