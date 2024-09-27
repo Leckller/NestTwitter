@@ -15,6 +15,7 @@ export default class UserController {
     @Post()
     public async createUser (@Body() {address, banner, email, name, password, photo}: CreateUserDto) {
 
+        // return -> {Token}
         return await this.userService.createUser({address, banner, email, name, password, photo});
 
     }
@@ -24,6 +25,14 @@ export default class UserController {
     public async getUser (@Body() {address}: GetUserRequestDto): Promise<GetUserResponseDto> {
 
         return await this.userService.getUserByAddress(address);
+
+    }
+
+    @Post("login")
+    public async login (@Body() {address, banner, email, name, password, photo}: CreateUserDto) {
+        
+        // return -> {Token}
+        return await this.userService.login({address, banner, email, name, password, photo});
 
     }
 

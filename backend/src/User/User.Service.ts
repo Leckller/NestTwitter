@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import UserEntity from "./User.entity";
@@ -30,6 +30,8 @@ export default class UserService {
         }
 
         const newUser = this.userRepository.create(user);
+
+        newUser.password = await this.AuthService.encrypt(user.password);
         
         const {address, name, photo, banner, id} = newUser;
 
@@ -54,6 +56,26 @@ export default class UserService {
         const {banner, name, posts, photo} = user;
 
         return new GetUserResponseDto(banner, name, photo, address, posts);
+
+    }
+
+    public async login(user: CreateUserDto) {
+
+        const findUser = await this.userRepository.findOne({where: {email: user.email}});
+
+        if(!findUser) {
+
+            throw new UnauthorizedException("Email ou senha inválidos")
+
+        }
+
+        const {address, name, photo, banner, id} = findUser;
+
+        await this.AuthService.compare(user.password, findUser.password);
+
+        const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
+
+        return {token};
 
     }
 

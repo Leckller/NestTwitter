@@ -2,17 +2,19 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import PostEntity from "./Post.entity";
 import { Repository } from "typeorm";
+import UserEntity from "src/User/User.entity";
 
 @Injectable()
 export default class PostService {
 
     constructor (
-        @InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>
+        @InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>,
+        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>
     ) {}
 
     private async findUser(userId: number) {
 
-        const user = await this.postRepository.findOne({where: {id: userId}});
+        const user = await this.userRepository.findOne({where: {id: userId}});
 
         if(!user) {
 
