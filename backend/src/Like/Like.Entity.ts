@@ -1,6 +1,6 @@
-import PostEntity from "src/Post/Post.entity";
-import UserEntity from "src/User/User.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import PostEntity from "../Post/Post.entity";
+import UserEntity from "../User/User.entity";
+import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "Like"})
 export default class LikeEntity {

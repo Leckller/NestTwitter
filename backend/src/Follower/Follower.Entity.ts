@@ -1,5 +1,5 @@
-import UserEntity from "src/User/User.entity";
-import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import UserEntity from "../User/User.entity";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export default class FollowerEntity {

@@ -3,8 +3,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import FollowerEntity from "./Follower.Entity";
 import FollowerController from "./Follower.Controller";
 import FollowerService from "./Follower.Service";
-import UserEntity from "src/User/User.entity";
-import AuthModule from "src/Auth/Auth.Module";
+import UserEntity from "../User/User.entity";
+import AuthModule from "../Auth/Auth.Module";
 
 @Module({
     controllers: [FollowerController],

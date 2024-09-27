@@ -1,6 +1,6 @@
-import FollowerEntity from "src/Follower/Follower.Entity";
-import PostEntity from "src/Post/Post.entity";
-import { UserType } from "src/types";
+import FollowerEntity from "../Follower/Follower.Entity";
+import PostEntity from "../Post/Post.entity";
+import { UserType } from "../types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "User"})
