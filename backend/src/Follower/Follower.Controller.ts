@@ -1,7 +1,9 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
-import AuthGuard from "src/Guard/Auth.Guard";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import AuthGuard from "../Guard/Auth.Guard";
 import FollowerRequestDto from "./DTOs/Follower.Request.Dto";
 import FollowerService from "./Follower.Service";
+import { GetUser } from "../decorators/User.Decorator";
+import { UserTypeToken } from "../types";
 
 @Controller("follow")
 @UseGuards(AuthGuard)
@@ -12,9 +14,16 @@ export default class FollowerController {
     ) {}
 
     @Post()
-    public async createFollower (@Body() {followedId, followingId}: FollowerRequestDto) {
+    public async createFollower (@GetUser() {id}: UserTypeToken, @Body() {followedId}: FollowerRequestDto) {
 
-        return await this.followerService.createFollower(+followedId, +followingId);
+        return await this.followerService.createFollower(+followedId, +id);
+
+    }
+
+    @Get("circle")
+    public async circleFollows (@GetUser() {id}: UserTypeToken) {
+
+        return await this.followerService.getPostsByFollows(+id);
 
     }
 

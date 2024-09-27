@@ -1,5 +1,5 @@
-import UserEntity from "src/User/User.entity";
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import UserEntity from "../User/User.entity";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export default class FollowerEntity {
@@ -7,12 +7,12 @@ export default class FollowerEntity {
     @PrimaryGeneratedColumn({unsigned: true})
     id: number;
 
-    @OneToOne(()=> UserEntity)
-    @JoinColumn()
+    // essa relação tá errada fi
+
+    @ManyToOne(()=> UserEntity, (userEntity) => userEntity.followers)
     followed: UserEntity;
     
-    @OneToOne(()=> UserEntity)
-    @JoinColumn()
+    @ManyToOne(()=> UserEntity, (userEntity) => userEntity.following)
     following: UserEntity;
 
 } 

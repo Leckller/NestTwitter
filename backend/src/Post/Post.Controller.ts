@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
-import AuthGuard from "src/Guard/Auth.Guard";
+import AuthGuard from "../Guard/Auth.Guard";
 import PostService from "./Post.Service";
 import PostRequestDto from "./DTOs/Post.Request.dto";
-import { GetUser } from "src/decorators/User.Decorator";
-import { TokenType } from "src/types";
+import { GetUser } from "../decorators/User.Decorator";
+import { TokenType } from "../types";
 
 @Controller("post")
 @UseGuards(AuthGuard)

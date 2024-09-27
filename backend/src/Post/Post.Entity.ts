@@ -1,5 +1,5 @@
-import LikeEntity from "src/Like/Like.entity";
-import UserEntity from "src/User/User.entity";
+import LikeEntity from "../Like/Like.entity";
+import UserEntity from "../User/User.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "Post"})

@@ -3,8 +3,8 @@ import PostController from "./Post.Controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import PostEntity from "./Post.entity";
 import PostService from "./Post.Service";
-import AuthModule from "src/Auth/Auth.Module";
-import UserEntity from "src/User/User.entity";
+import AuthModule from "../Auth/Auth.Module";
+import UserEntity from "../User/User.entity";
 
 @Module({
     providers: [PostService],

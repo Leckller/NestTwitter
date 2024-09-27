@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { InjectRepository } from "@nestjs/typeorm";
 import FollowerEntity from "./Follower.Entity";
 import { Repository } from "typeorm";
-import UserEntity from "src/User/User.entity";
+import UserEntity from "../User/User.entity";
 
 @Injectable()
 export default class FollowerService {
@@ -50,7 +50,37 @@ export default class FollowerService {
 
         await this.followerRepository.save(follow);
 
-        return {ok: true, message: `${followingUser.name} agora está seguindo ${followedUser.name}`};
+        return {ok: true, message: `${followingUser.name + "-" + followingUser.address} agora está seguindo ${followedUser.name + "-" + followedUser.address}`, follow};
+
+    }
+
+    public async getPostsByFollows(userId: number) {
+
+        const user = await this.userRepository.findOne({where: {id: userId}});
+        
+        if(!user) {
+
+            throw new NotFoundException("Usuário não encontrado");
+
+        }
+
+        const posts = await this.followerRepository.find({
+            where: {following: user},
+            relations: {followed: {posts: {likes: {user: true}}}},
+            order: {id: "DESC"},
+            take: 10,
+            select: {
+                followed: {
+                    id: true, name: true, photo: true, address: true, posts: {
+                        id: true,
+                        text: true,
+                        likes: {id: true, user: {photo: true, name: true, address: true, id: true}}
+                    }
+                }
+            }
+        });
+
+        return {posts}
 
     }
 

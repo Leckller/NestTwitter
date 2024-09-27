@@ -1,5 +1,6 @@
-import PostEntity from "src/Post/Post.entity";
-import { UserType } from "src/types";
+import FollowerEntity from "../Follower/Follower.Entity";
+import PostEntity from "../Post/Post.entity";
+import { UserType } from "../types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: "User"})
@@ -31,5 +32,11 @@ export default class UserEntity implements UserType {
 
     @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
     posts: PostEntity[]
+
+    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.following)
+    followers: FollowerEntity;
     
+    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
+    following: FollowerEntity;
+
 }

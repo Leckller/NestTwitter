@@ -2,8 +2,8 @@ import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/co
 import { InjectRepository } from "@nestjs/typeorm";
 import LikeEntity from "./Like.entity";
 import { Repository } from "typeorm";
-import UserEntity from "src/User/User.entity";
-import PostEntity from "src/Post/Post.entity";
+import UserEntity from "../User/User.entity";
+import PostEntity from "../Post/Post.entity";
 
 @Injectable()
 export default class LikeService {

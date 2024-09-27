@@ -2,9 +2,9 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import UserEntity from "./User.entity";
-import AuthService from "src/Auth/Auth.Service";
+import AuthService from "../Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
-import { UserTypeToken } from "src/types";
+import { UserTypeToken } from "../types";
 import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 
 @Injectable()
@@ -37,7 +37,7 @@ export default class UserService {
 
         await this.userRepository.save(newUser);
 
-        const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
+        const token = this.AuthService.createToken({address, banner, id: newUser.id, name, photo} as UserTypeToken);
 
         return { token };
 
