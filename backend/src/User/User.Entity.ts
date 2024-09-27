@@ -2,7 +2,7 @@ import PostEntity from "src/Post/Post.entity";
 import { UserType } from "src/types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({name: "User"})
 export default class UserEntity implements UserType {
     @PrimaryGeneratedColumn({unsigned: true})
     id: number;

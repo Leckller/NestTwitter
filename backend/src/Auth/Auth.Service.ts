@@ -17,11 +17,11 @@ export default class AuthService {
 
     }
 
-    public async compare (passOne, passTwo) {
+    public async compare (data: string, encrypted: string) {
 
-        if(!await bcrypt.compare(passOne, passTwo)) {
+        if(!await bcrypt.compare(data, encrypted)) {
 
-            throw new UnauthorizedException("Senha errada filhão")
+            throw new UnauthorizedException("Email ou senha inválidos")
 
         }
 

@@ -1,16 +1,17 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import UserEntity from "./User.entity";
 import AuthService from "src/Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
 import { UserTypeToken } from "src/types";
+import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 
 @Injectable()
 export default class UserService {
 
     constructor(
-        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+        @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
         private readonly AuthService: AuthService
     ) {}
 
@@ -29,12 +30,52 @@ export default class UserService {
         }
 
         const newUser = this.userRepository.create(user);
+
+        newUser.password = await this.AuthService.encrypt(user.password);
         
         const {address, name, photo, banner, id} = newUser;
 
         await this.userRepository.save(newUser);
 
-        return this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken)
+        const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
+
+        return { token };
+
+    }
+
+    public async getUserByAddress(address: string) {
+
+        const user = await this.userRepository.findOne({where: {address}, relations: {posts: true}});
+
+        if(!user) {
+
+            throw new NotFoundException("Usuário não encontrado");
+
+        }
+
+        const {banner, name, posts, photo} = user;
+
+        return new GetUserResponseDto(banner, name, photo, address, posts);
+
+    }
+
+    public async login(user: CreateUserDto) {
+
+        const findUser = await this.userRepository.findOne({where: {email: user.email}});
+
+        if(!findUser) {
+
+            throw new UnauthorizedException("Email ou senha inválidos")
+
+        }
+
+        const {address, name, photo, banner, id} = findUser;
+
+        await this.AuthService.compare(user.password, findUser.password);
+
+        const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
+
+        return {token};
 
     }
 
