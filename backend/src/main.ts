@@ -20,11 +20,14 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  const port = process.env.PORT
+
+  await app.listen(port || 3000);
   
   console.log("\nNest Backend:")
-  console.log("\x1b[36m%s\x1b[0m", "http://localhost:3000")
+  console.log("\x1b[36m%s\x1b[0m", `http://localhost:${port || 3000}`)
   console.log("\nSwagger:")
-  console.log("\x1b[36m%s\x1b[0m", "http://localhost:3000/api")
+  console.log("\x1b[36m%s\x1b[0m", `http://localhost:${port || 3000}/api`)
+
 }
 bootstrap();
