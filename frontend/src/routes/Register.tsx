@@ -1,18 +1,26 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserType } from '../types';
+import UserConnect from '../service/User-Connection.Service';
+import PostUserCreateDto from '../service/Post-User-Create.Dto';
+import { useAppDispatch } from '../hooks/reduxHooks';
+import { setToken } from '../redux/Reducers/User';
 
 function Register() {
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
   const [register, setRegister] = useState <Partial<UserType>>({
-    email: '', password: '',
+    email: '', password: '', name: '', address: '',
   });
-  const [newUser, setNewUser] = useState(true);
-  const loginFields = [
+
+  const registerFields = [
     { key: 'email', text: 'Email' },
     { key: 'password', text: 'Senha' },
     { key: 'name', text: 'Nome' },
     { key: 'address', text: '@ do usuário' },
   ];
-  const registerFields = loginFields.slice(0, 2);
 
   const handleRegister = (key: 'email' | 'senha', value: string) => {
     setRegister({ ...register, [key]: value });
@@ -20,70 +28,53 @@ function Register() {
 
   return (
     <div>
-      <header>
-        <h1>
-          Bem vindo!
-        </h1>
-      </header>
 
       <main>
 
-        {newUser ? (
-          <form onSubmit={ (e) => e.preventDefault() }>
+        <form
+          onSubmit={ async (e) => {
+            e.preventDefault();
+            const { name, address, password, email } = register;
+            const createUser = await UserConnect.createUser(
+              new PostUserCreateDto(name!, address!, password!, email!),
+            );
 
-            {registerFields.map(({ text, key }) => (
-              <label key={ text }>
-                <h2>{text}</h2>
-                <input
-                  onChange={ ({ target: { value } }) => {
-                    handleRegister(key as any, value);
-                  } }
-                  type="text"
-                />
-              </label>
+            if (createUser?.statusCode === 400) {
+              console.log(createUser);
+              return;
+            }
 
-            ))}
+            dispatch(setToken(createUser.token));
+          } }
+        >
 
-            <button>Criar conta</button>
-            <p>
-              Não possui uma conta?
-              <button
-                onClick={ () => setNewUser(false) }
-                className="text-blue-600"
-              >
-                Crie agora!
-              </button>
-            </p>
-          </form>
+          {registerFields.map(({ text, key }) => (
+            <label key={ text }>
+              <h2>{text}</h2>
+              <input
+                value={ register[key as keyof UserType] }
+                onChange={ ({ target: { value } }) => {
+                  handleRegister(key as any, value);
+                } }
+                type="text"
+              />
+            </label>
 
-        ) : (
+          ))}
 
-          <form onSubmit={ (e) => e.preventDefault() }>
+          <button>Criar conta</button>
 
-            {loginFields.map(({ text, key }) => (
-              <label key={ text }>
-                <h2>{text}</h2>
-                <input
-                  onChange={ ({ target: { value } }) => {
-                    handleRegister(key as any, value);
-                  } }
-                  type="text"
-                />
-              </label>
+          <p>
+            Já possui uma conta?
+            <button
+              onClick={ () => navigate('/') }
+              className="text-blue-600"
+            >
+              Faça o login!
+            </button>
+          </p>
 
-            ))}
-
-            <p>
-              Já possui uma conta?
-              <button
-                onClick={ () => setNewUser(true) }
-                className="text-blue-600"
-              >
-                Faça o login!
-              </button>
-            </p>
-          </form>
-        )}
+        </form>
 
       </main>
     </div>
