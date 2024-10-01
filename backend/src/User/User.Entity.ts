@@ -39,4 +39,17 @@ export default class UserEntity implements UserType {
     @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
     following: FollowerEntity;
 
+    constructor(user?: Partial<UserEntity>) {
+        this.id= user?.id;
+        this.address = user?.address;
+        this.banner = user?.banner;
+        this.email = user?.email;
+        this.followers = user?.followers;
+        this.following= user?.following;
+        this.name = user?.name;
+        this.password = user?.password;
+        this.photo = user?.photo;
+        this.posts = user?.posts;
+    }
+
 }
