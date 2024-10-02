@@ -7,9 +7,9 @@ import { setToken } from '../redux/Reducers/User';
 import Field from '../components/Register-Login/Field';
 
 function Login() {
-  const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
 
   const [register, setRegister] = useState<Partial<UserType>>({
     email: '', password: '',

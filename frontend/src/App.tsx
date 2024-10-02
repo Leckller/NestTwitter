@@ -1,12 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './routes/Home';
-import NotFound from './routes/NotFound';
-import { useAppSelector } from './hooks/reduxHooks';
-import Register from './routes/Register';
-import Login from './routes/Login';
+import { useEffect } from 'react';
+import { Home, Login, NotFound, Profile, Register, Search } from './routes';
+import { useAppDispatch, useAppSelector } from './hooks/reduxHooks';
+import { setToken } from './redux/Reducers/User';
 
 function App() {
   const { User: { token } } = useAppSelector((s) => s);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const localToken = localStorage.getItem('nToken')!;
+    if (localToken !== '') {
+      dispatch(setToken(localToken));
+    }
+  }, []);
 
   if (!token) {
     return (
@@ -21,6 +28,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={ <Home /> } />
+      <Route path="/search" element={ <Search /> } />
+      <Route path="/profile/:address" element={ <Profile /> } />
       <Route path="*" element={ <NotFound /> } />
     </Routes>
   );
