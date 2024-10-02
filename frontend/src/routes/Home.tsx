@@ -1,5 +1,5 @@
 import { Footer, Header, Main } from '../components/Home';
-import CreatePost from '../components/Home/CreatePost';
+import CreatePost from '../components/Post/CreatePost';
 import Popup from '../components/Popup';
 import { useAppSelector } from '../hooks/reduxHooks';
 

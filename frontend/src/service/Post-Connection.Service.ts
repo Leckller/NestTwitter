@@ -34,7 +34,7 @@ export class PostConnection {
     return request as any;
   }
 
-  public async globalPosts(token: string): Promise<{ posts: PostType }> {
+  public async globalPosts(token: string): Promise<{ posts: PostType[] }> {
     const request = await this.Request({
       method: 'GET',
       url: `${baseUrl}/global`,
