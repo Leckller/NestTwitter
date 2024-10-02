@@ -1,7 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import UserService from "./User.Service";
-import { UserRepositoryMock } from "../../test/User.Repository.Mock";
 import AuthModule from "../Auth/Auth.Module";
+import UserEntity from "./User.entity";
+import { getRepositoryToken } from "@nestjs/typeorm";
+
+const UserMockList: UserEntity[] = [
+    new UserEntity({id: 1, name: "ruy"}),
+    new UserEntity({id: 2, name: "morghana"}),
+    new UserEntity({id: 3, name: "pablo"}),
+]
+
 
 describe('--- User Test ---', () => {
 
@@ -12,8 +20,14 @@ describe('--- User Test ---', () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 UserService,
-                AuthModule,
-                UserRepositoryMock   
+                {
+                    provide: getRepositoryToken(UserEntity),
+                    useValue: {
+                        findOne: jest.fn(),
+                        create: jest.fn(),
+                        save: jest.fn()
+                    }
+                }
             ],
             imports: [
                 AuthModule,
@@ -28,6 +42,12 @@ describe('--- User Test ---', () => {
     test("Service Defined", () => {
 
         expect(userService).toBeDefined()
+
+    })
+
+    describe('Post - route: /user', async () => {
+
+        
 
     })
 

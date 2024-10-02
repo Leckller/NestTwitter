@@ -6,6 +6,7 @@ import AuthService from "../Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
 import { UserTypeToken } from "../types";
 import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
+import LoginUserDto from "./DTOs/LoginUser.Dto";
 
 @Injectable()
 export default class UserService {
@@ -59,7 +60,7 @@ export default class UserService {
 
     }
 
-    public async login(user: CreateUserDto) {
+    public async login(user: LoginUserDto) {
 
         const findUser = await this.userRepository.findOne({where: {email: user.email}});
 
