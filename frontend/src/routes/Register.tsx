@@ -5,6 +5,7 @@ import UserConnect from '../service/User-Connection.Service';
 import PostUserCreateDto from '../service/Post-User-Create.Dto';
 import { useAppDispatch } from '../hooks/reduxHooks';
 import { setToken } from '../redux/Reducers/User';
+import Field from '../components/Register-Login/Field';
 
 function Register() {
   const navigate = useNavigate();
@@ -22,16 +23,13 @@ function Register() {
     { key: 'address', text: '@ do usuário' },
   ];
 
-  const handleRegister = (key: 'email' | 'senha', value: string) => {
-    setRegister({ ...register, [key]: value });
-  };
-
   return (
-    <div>
+    <div className="w-screen h-screen flex items-center justify-center">
 
-      <main>
+      <main className="">
 
         <form
+          className="flex flex-col gap-5"
           onSubmit={ async (e) => {
             e.preventDefault();
             const { name, address, password, email } = register;
@@ -39,8 +37,8 @@ function Register() {
               new PostUserCreateDto(name!, address!, password!, email!),
             );
 
-            if (createUser?.statusCode === 400) {
-              console.log(createUser);
+            if (createUser?.statusCode === 400 || createUser?.statusCode === 401) {
+              alert(createUser.message);
               return;
             }
 
@@ -49,17 +47,14 @@ function Register() {
         >
 
           {registerFields.map(({ text, key }) => (
-            <label key={ text }>
-              <h2>{text}</h2>
-              <input
-                value={ register[key as keyof UserType] }
-                onChange={ ({ target: { value } }) => {
-                  handleRegister(key as any, value);
-                } }
-                type="text"
-              />
-            </label>
-
+            <Field
+              key={ text }
+              keyField={ key }
+              password={ false }
+              register={ register }
+              setRegister={ setRegister }
+              text={ text }
+            />
           ))}
 
           <button>Criar conta</button>

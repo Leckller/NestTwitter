@@ -4,67 +4,70 @@ import UserConnect from '../service/User-Connection.Service';
 import { UserType } from '../types';
 import { useAppDispatch } from '../hooks/reduxHooks';
 import { setToken } from '../redux/Reducers/User';
+import Field from '../components/Register-Login/Field';
 
 function Login() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
-  const [register, setRegister] = useState <Partial<UserType>>({
+  const [register, setRegister] = useState<Partial<UserType>>({
     email: '', password: '',
   });
 
   const fields = [
-    { key: 'email', text: 'Email' },
+    { key: 'email', text: 'Email', password: false },
     { key: 'password', text: 'Senha', password: true },
   ];
 
-  const handleRegister = (key: 'email' | 'senha', value: string) => {
-    setRegister({ ...register, [key]: value });
-  };
-
   return (
-    <form
-      onSubmit={ async (e) => {
-        e.preventDefault();
-        const login = await UserConnect
-          .loginUser(register.email!, register.password!);
+    <div className="w-screen h-screen flex items-center justify-center">
 
-        if (login?.statusCode === 400) {
-          console.log(login);
-          return;
-        }
+      <main className="">
+        <form
+          className="flex flex-col gap-5"
+          onSubmit={ async (e) => {
+            e.preventDefault();
+            const login = await UserConnect
+              .loginUser(register.email!, register.password!);
 
-        dispatch(setToken(login.token));
-      } }
-    >
+            if (login?.statusCode === 400 || login?.statusCode === 401) {
+              alert(login.message);
+              return;
+            }
 
-      {fields.map(({ text, key, password }) => (
-        <label key={ text }>
-          <h2>{text}</h2>
-          <input
-            value={ register[key as keyof UserType] }
-            onChange={ ({ target: { value } }) => {
-              handleRegister(key as any, value);
-            } }
-            type={ password ? 'password' : 'text' }
-          />
-        </label>
-
-      ))}
-
-      <button>Iniciar Sessão</button>
-
-      <p>
-        Não possui uma conta?
-        <button
-          onClick={ () => navigate('/register') }
-          className="text-blue-600"
+            dispatch(setToken(login.token));
+          } }
         >
-          Crie agora!
-        </button>
-      </p>
-    </form>
+
+          {fields.map(({ text, key, password }) => (
+            <Field
+              key={ text }
+              keyField={ key }
+              password={ password }
+              register={ register }
+              setRegister={ setRegister }
+              text={ text }
+            />
+          ))}
+
+          <button>Iniciar Sessão</button>
+
+          <p>
+            Não possui uma conta?
+            <button
+              onClick={ () => navigate('/register') }
+              className="text-blue-600"
+            >
+              Crie agora!
+            </button>
+          </p>
+
+        </form>
+
+      </main>
+
+    </div>
   );
 }
 
