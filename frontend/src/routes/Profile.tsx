@@ -21,6 +21,8 @@ function Profile() {
         alert('Usuário não encontado');
         return;
       }
+      console.log(resp);
+
       setUser(resp as any);
     });
   }, []);
