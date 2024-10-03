@@ -31,12 +31,12 @@ function Login() {
             const login = await UserConnect
               .loginUser(register.email!, register.password!);
 
-            if (login?.statusCode === 400 || login?.statusCode === 401) {
+            if (!login.ok) {
               alert(login.message);
               return;
             }
 
-            dispatch(setToken(login.token));
+            dispatch(setToken(login.result.token));
           } }
         >
 

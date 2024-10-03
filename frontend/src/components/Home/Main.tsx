@@ -12,11 +12,11 @@ function Main() {
 
   useEffect(() => {
     PostConnect.globalPosts(token).then((resp) => {
-      if (!resp) {
+      if (!resp.ok) {
         alert('Ops... parece que tivemos um problema com as postagens');
         return;
       }
-      dispatch(setPosts(resp.posts));
+      dispatch(setPosts(resp.result.posts));
     });
   }, []);
 

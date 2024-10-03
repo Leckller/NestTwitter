@@ -1,5 +1,5 @@
-export default interface ResponseFetchType {
+export default interface ResponseType<T> {
+  ok: boolean,
   message: string,
-  error: string,
-  statusCode: number
+  result: T
 }

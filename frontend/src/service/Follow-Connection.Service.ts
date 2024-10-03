@@ -1,3 +1,6 @@
+import { PostType } from '../types';
+import ResponseType from '../types/Response.Type';
+
 const baseUrl = 'http://localhost:3000/follow';
 
 type FetchConfig = {
@@ -21,20 +24,23 @@ export class FollowConnection {
     return response;
   }
 
-  async followUser(userId: number) {
-    const request = await this.Request({
+  async followUser(userId: number, token: string)
+    : Promise<ResponseType<{ posts: PostType[] }>> {
+    const request = await this.Request<ResponseType<{ posts: PostType[] }>>({
       method: 'POST',
       url: baseUrl,
       body: JSON.stringify({ followedId: userId }),
+      headers: { authorization: token },
     });
 
     return request;
   }
 
-  async getFollowersPosts() {
-    const request = await this.Request({
+  async getFollowersPosts(token:string): Promise<ResponseType<{ posts: PostType[] }>> {
+    const request = await this.Request<ResponseType<{ posts: PostType[] }>>({
       method: 'GET',
       url: `${baseUrl}/circle`,
+      headers: { authorization: token },
     });
 
     return request;

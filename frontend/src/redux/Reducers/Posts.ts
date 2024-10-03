@@ -23,6 +23,9 @@ export const PostSlice = createSlice({
       state.posts = [action.payload, ...state.posts];
     },
 
+    // setLikePost(state, action: PayloadAction<>) {
+    // },
+
   },
 });
 

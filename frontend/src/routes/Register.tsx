@@ -37,12 +37,12 @@ function Register() {
               new PostUserCreateDto(name!, address!, password!, email!),
             );
 
-            if (createUser?.statusCode === 400 || createUser?.statusCode === 401) {
+            if (!createUser.ok) {
               alert(createUser.message);
               return;
             }
 
-            dispatch(setToken(createUser.token));
+            dispatch(setToken(createUser.result.token));
           } }
         >
 
