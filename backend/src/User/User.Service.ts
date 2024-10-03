@@ -7,6 +7,7 @@ import CreateUserDto from "./DTOs/CreateUser.Dto";
 import { UserTypeToken } from "../types";
 import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 import LoginUserDto from "./DTOs/LoginUser.Dto";
+import ResponseDto from "src/Utils/Response.Dto";
 
 @Injectable()
 export default class UserService {
@@ -20,13 +21,13 @@ export default class UserService {
 
         if(await this.userRepository.findOne({where: {email: user.email}})) {
             
-            throw new BadRequestException("Já existe um usuário com este email.");
+            throw new BadRequestException(new ResponseDto("Já existe um usuário com este email.", false, {}));
 
         }
 
         if (await this.userRepository.findOne({where: {address: user.address}})) {
 
-            throw new BadRequestException('Já existe um usuário com este @');
+            throw new BadRequestException(new ResponseDto('Já existe um usuário com este @', false, {}));
 
         }
 
@@ -34,13 +35,13 @@ export default class UserService {
 
         newUser.password = await this.AuthService.encrypt(user.password);
         
-        const {address, name, photo, banner, id} = newUser;
+        const {address, name, photo, banner} = newUser;
 
         await this.userRepository.save(newUser);
 
         const token = this.AuthService.createToken({address, banner, id: newUser.id, name, photo} as UserTypeToken);
 
-        return { token };
+        return new ResponseDto('Usuário criado com sucesso', true, { token });
 
     }
 
@@ -50,13 +51,13 @@ export default class UserService {
 
         if(!user) {
 
-            throw new NotFoundException("Usuário não encontrado");
+            return new NotFoundException(new ResponseDto('Usuário não encontrado', false, {}));
 
         }
 
         const {banner, name, posts, photo} = user;
 
-        return new GetUserResponseDto(banner, name, photo, address, posts);
+        return new ResponseDto("Usuário encontrado", true, new GetUserResponseDto(banner, name, photo, address, posts));
 
     }
 
@@ -66,7 +67,7 @@ export default class UserService {
 
         if(!findUser) {
 
-            throw new UnauthorizedException("Email ou senha inválidos")
+            throw new UnauthorizedException(new ResponseDto("Email ou senha inválidos", false, {  }))
 
         }
 
@@ -76,7 +77,7 @@ export default class UserService {
 
         const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
 
-        return {token};
+        return new ResponseDto('Bem vindo de volta!', true, { token });
 
     }
 

@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import PostEntity from "./Post.entity";
 import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
+import ResponseDto from "src/Utils/Response.Dto";
 
 @Injectable()
 export default class PostService {
@@ -18,7 +19,7 @@ export default class PostService {
 
         if(!user) {
 
-            throw new NotFoundException("Usuário inválido! Faça o login novamente.")
+            throw new NotFoundException(new ResponseDto("Usuário inválido! Faça o login novamente.", false, {}))
 
         }
 
@@ -34,7 +35,7 @@ export default class PostService {
 
         await this.postRepository.save(post);
 
-        return {ok: true}
+        return new ResponseDto("Post criado!", true, {});
 
     }
 
@@ -60,7 +61,7 @@ export default class PostService {
                     }},
             }});
 
-        return {posts};
+        return new ResponseDto("Global posts", true, {posts});
 
     }
 

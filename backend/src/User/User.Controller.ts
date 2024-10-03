@@ -23,7 +23,7 @@ export default class UserController {
 
     @Get("/:address")
     @UseGuards(AuthGuard)
-    public async getUserByAddress (@Param('address') address): Promise<GetUserResponseDto> {
+    public async getUserByAddress (@Param('address') address) {
 
         return await this.userService.getUserByAddress(address);
 
