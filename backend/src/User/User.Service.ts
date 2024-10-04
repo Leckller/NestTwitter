@@ -35,13 +35,15 @@ export default class UserService {
 
         newUser.password = await this.AuthService.encrypt(user.password);
         
-        const {address, name, photo, banner} = newUser;
+        const {address, name, photo, banner, id, bgColor, textColor} = newUser;
 
         await this.userRepository.save(newUser);
 
         const token = this.AuthService.createToken({address, banner, id: newUser.id, name, photo} as UserTypeToken);
 
-        return new ResponseDto('Usuário criado com sucesso', true, { token });
+        return new ResponseDto('Usuário criado com sucesso', true, { token, user: {
+            id, name, photo, address, banner, bgColor, textColor
+        } });
 
     }
 
@@ -55,9 +57,10 @@ export default class UserService {
 
         }
 
-        const {banner, name, posts, photo} = user;
+        const {banner, name, posts, photo, textColor, bgColor} = user;
 
-        return new ResponseDto("Usuário encontrado", true, new GetUserResponseDto(banner, name, photo, address, posts));
+        return new ResponseDto("Usuário encontrado", true, new GetUserResponseDto(
+            banner, name, photo, address, posts, bgColor, textColor ));
 
     }
 
@@ -71,13 +74,15 @@ export default class UserService {
 
         }
 
-        const {address, name, photo, banner, id} = findUser;
+        const {address, name, photo, banner, id, bgColor, textColor} = findUser;
 
         await this.AuthService.compare(user.password, findUser.password);
 
         const token = this.AuthService.createToken({address, banner, id, name, photo} as UserTypeToken);
 
-        return new ResponseDto('Bem vindo de volta!', true, { token });
+        return new ResponseDto('Bem vindo de volta!', true, { token, user: {
+            id, name, photo, address, banner, bgColor, textColor
+        } });
 
     }
 

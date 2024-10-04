@@ -6,13 +6,15 @@ import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
 import { TokenType } from "src/types";
 import PostRequestDto from "./DTOs/Post.Request.dto";
+import LikeEntity from "src/Like/Like.entity";
 
 @Injectable()
 export default class PostService {
 
     constructor (
         @InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>,
-        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>
+        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+        @InjectRepository(LikeEntity) private readonly likeRepository: Repository<LikeEntity>,
     ) {}
 
     private async findUser(userId: number) {
@@ -36,17 +38,31 @@ export default class PostService {
         const post = this.postRepository.create({bgColor,text, textColor, user: user, likes: []});
 
         await this.postRepository.save(post);
+        
+        const responsePost = {
+            ...post,
+            user: {
+                id: post.user.id,
+                address: post.user.address,
+                photo: post.user.photo,
+                name: post.user.name,
+                bgColor: post.user.bgColor,
+                textColor: post.user.textColor,
+            },
+            // likes: 0 as any usar isso aqui mais tarde
+        } as PostEntity
 
-        return new ResponseDto("Post criado!", true, {});
+        return new ResponseDto("Post criado!", true, {...responsePost});
 
     }
 
     public async getGlobalPosts() {
 
         const posts = await this.postRepository.find({
-            relations: {user: true},
+            relations: {user: true, likes: true},
             select: {
-                user: {address: true, photo: true, name: true, id: true},
+                user: {address: true, photo: true, name: true, id: true, bgColor: true, textColor: true},
+                likes: {id: true}
             }});
 
         return new ResponseDto("Global posts", true, {posts});
