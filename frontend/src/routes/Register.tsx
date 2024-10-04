@@ -33,16 +33,21 @@ function Register() {
           onSubmit={ async (e) => {
             e.preventDefault();
             const { name, address, password, email } = register;
-            const createUser = await UserConnect.createUser(
+
+            const {message, ok, result: {token,user}} = await UserConnect.createUser(
+
               new PostUserCreateDto(name!, address!, password!, email!),
+
             );
 
-            if (createUser?.statusCode === 400 || createUser?.statusCode === 401) {
-              alert(createUser.message);
+            if (!ok) {
+
+              alert(message);
               return;
+
             }
 
-            dispatch(setToken(createUser.token));
+            dispatch(setToken({token, user}));
           } }
         >
 

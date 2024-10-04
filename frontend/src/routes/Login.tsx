@@ -28,15 +28,15 @@ function Login() {
           className="flex flex-col gap-5"
           onSubmit={ async (e) => {
             e.preventDefault();
-            const login = await UserConnect
+            const {ok, message, result: {token, user}} = await UserConnect
               .loginUser(register.email!, register.password!);
 
-            if (login?.statusCode === 400 || login?.statusCode === 401) {
-              alert(login.message);
+            if (!ok) {
+              alert(message);
               return;
             }
 
-            dispatch(setToken(login.token));
+            dispatch(setToken({token, user}));
           } }
         >
 

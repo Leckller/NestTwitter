@@ -23,6 +23,12 @@ export const PostSlice = createSlice({
       state.posts = [action.payload, ...state.posts];
     },
 
+    setLikePost(state, action: PayloadAction<{postId: number, userId: number}>) {
+
+      // Alterar no backend para enviar apenas o count dos likes
+
+    },
+
   },
 });
 

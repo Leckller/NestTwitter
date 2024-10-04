@@ -4,6 +4,7 @@ import LikeEntity from "./Like.entity";
 import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import PostEntity from "../Post/Post.entity";
+import ResponseDto from "src/Utils/Response.Dto";
 
 @Injectable()
 export default class LikeService {
@@ -22,7 +23,7 @@ export default class LikeService {
 
         if(!user) {
 
-            throw new NotFoundException("Usuário não encontrado.");
+            throw new NotFoundException(new ResponseDto("Usuário não encontrado.", false, {}));
 
         }
 
@@ -30,7 +31,7 @@ export default class LikeService {
 
         if(!post) {
 
-            throw new NotFoundException("Post não encontrado.");
+            throw new NotFoundException(new ResponseDto("Post não encontrado.", false, {}));
         
         }
 
@@ -40,7 +41,7 @@ export default class LikeService {
 
             await this.likeRepository.remove(findLike);
 
-            return {ok: true, message: "Like removido"}
+            return new ResponseDto("Like removido", true, {})
 
         }
 
@@ -48,7 +49,31 @@ export default class LikeService {
 
         await this.likeRepository.save(like);
 
-        return {ok: true, like, message: "Liked"};
+        return new ResponseDto("Liked", true, {})
+
+    }
+
+    public async getLikesByPost(postId: number) {
+
+        const likes = await this.likeRepository.find({
+            where: {post: {id: postId}}, relations: {user: true},
+            select: {
+                user: {
+                    id: true,
+                    photo: true,
+                    name: true,
+                    address: true,
+                }
+            }
+        });
+
+        if(!likes) {
+
+            throw new NotFoundException(new ResponseDto("Post não encontrado.", false, {}));
+        
+        }
+
+        return new ResponseDto("Likes", true, {likes});
 
     }
 

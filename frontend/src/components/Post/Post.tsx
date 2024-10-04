@@ -1,38 +1,21 @@
 import { PostType } from '../../types';
+import FooterPost from './FooterPost';
+import HeaderPost from './HeaderPost';
 
 function Post({ post }: { post: PostType }) {
   return (
-    <article className="flex flex-col border-t w-full p-4">
+    <article
+      className={ `flex flex-col border-t w-full p-4 post-${post.id}` }
+      style={ { backgroundColor: post.bgColor, color: post.textColor } }
+    >
 
-      <article>
-        <img src={ post.user.photo } alt={ post.user.name } />
-
-        <p className="flex gap-2 items-center">
-
-          <strong className="text-lg">
-
-            {post.user.name}
-
-          </strong>
-
-          {post.user.address}
-        </p>
-      </article>
+      <HeaderPost post={ post } />
 
       <p>
         {post.text}
       </p>
 
-      <article>
-
-        <p>
-
-          {post.likes.length}
-          <button onClick={ () => {} }>Like</button>
-
-        </p>
-
-      </article>
+      <FooterPost post={ post } />
 
     </article>
   );

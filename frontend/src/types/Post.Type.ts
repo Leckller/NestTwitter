@@ -5,7 +5,7 @@ type User = {
   photo: string;
 };
 
-type Like = {
+export type LikeType = {
   id: number;
   user: User;
 };
@@ -13,8 +13,10 @@ type Like = {
 type PostType = {
   id: number;
   text: string;
+  bgColor: string;
+  textColor: string;
   user: User;
-  likes: Like[];
+  likes: LikeType[];
 };
 
 export default PostType;

@@ -25,7 +25,6 @@ import FollowerModule from './Follower/Follower.Module';
       password: process.env.DB_PASSWORD || "root",
       database: process.env.DB_DATABASE || "nestwitter",
       entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity, entities.FollowerEntity],
-      // synchronize: process.env.ENV === "development",
     })
   ],
 })

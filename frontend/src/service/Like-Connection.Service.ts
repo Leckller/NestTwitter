@@ -1,3 +1,5 @@
+import ResponseType from '../types/Response.Type';
+
 const baseUrl = 'http://localhost:3000/like';
 
 type FetchConfig = {
@@ -21,11 +23,12 @@ export class LikeConnection {
     return response;
   }
 
-  async likePost(postId: number) {
-    const request = await this.Request({
+  async likePost(postId: number, token: string): Promise<ResponseType<any>> {
+    const request = await this.Request<ResponseType<any>>({
       method: 'POST',
       url: baseUrl,
       body: JSON.stringify({ postId }),
+      headers: { authorization: token },
     });
 
     return request;

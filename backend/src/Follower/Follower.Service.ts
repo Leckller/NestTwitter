@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import FollowerEntity from "./Follower.Entity";
 import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
+import ResponseDto from "src/Utils/Response.Dto";
 
 @Injectable()
 export default class FollowerService {
@@ -16,7 +17,7 @@ export default class FollowerService {
 
         if(followedId === followingId) {
 
-            throw new BadRequestException("Você não pode seguir a si mesmo.");
+            throw new BadRequestException(new ResponseDto("Você não pode seguir a si mesmo.", false, {}));
 
         }
 
@@ -24,7 +25,7 @@ export default class FollowerService {
         
         if(!followedUser) {
 
-            throw new NotFoundException("Usuário não encontrado");
+            throw new NotFoundException(new ResponseDto("Usuário não encontrado", false, {}));
 
         }
 
@@ -32,7 +33,7 @@ export default class FollowerService {
 
         if(!followingUser) {
 
-            throw new NotFoundException("Usuário não encontrado");
+            throw new NotFoundException(new ResponseDto("Usuário não encontrado", false, {}));
 
         }
 
@@ -42,7 +43,7 @@ export default class FollowerService {
 
             await this.followerRepository.remove(findFollow);
 
-            return {ok: true, message: `${followingUser.name} deixou de seguir ${followedUser.name}`};
+            return new ResponseDto(`${followingUser.name} deixou de seguir ${followedUser.name}`, true, {});
 
         }
 
@@ -50,7 +51,7 @@ export default class FollowerService {
 
         await this.followerRepository.save(follow);
 
-        return {ok: true, message: `${followingUser.name + "-" + followingUser.address} agora está seguindo ${followedUser.name + "-" + followedUser.address}`, follow};
+        return new ResponseDto(`${followingUser.name + "-" + followingUser.address} agora está seguindo ${followedUser.name + "-" + followedUser.address}`, true, {});
 
     }
 
@@ -60,7 +61,7 @@ export default class FollowerService {
         
         if(!user) {
 
-            throw new NotFoundException("Usuário não encontrado");
+            throw new NotFoundException(new ResponseDto("Usuário não encontrado", false, {}));
 
         }
 
@@ -74,13 +75,15 @@ export default class FollowerService {
                     id: true, name: true, photo: true, address: true, posts: {
                         id: true,
                         text: true,
+                        bgColor: true,
+                        textColor: true,
                         likes: {id: true, user: {photo: true, name: true, address: true, id: true}}
                     }
                 }
             }
         });
 
-        return {posts}
+        return new ResponseDto('Buble posts', true, {posts});
 
     }
 

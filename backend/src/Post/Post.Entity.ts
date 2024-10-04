@@ -11,10 +11,16 @@ export default class PostEntity {
     @ManyToOne(() => UserEntity, (userEntity) => userEntity.posts)
     user: UserEntity;
 
-    @OneToMany(() => LikeEntity, (likeEntity) => likeEntity.post)
+    @OneToMany(() => LikeEntity, (likeEntity) => likeEntity.post, {cascade: true})
     likes: LikeEntity[]
 
     @Column()
     text: string;
+
+    @Column({default: "#0F0F0F", length: "16"})
+    textColor: string;
+
+    @Column({default: "#001848", length: "16"})
+    bgColor: string;
 
 }

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserConnect from '../service/User-Connection.Service';
 import { useAppSelector } from '../hooks/reduxHooks';
+import Post from '../components/Post/Post';
+import GetUserByAddressDto from '../service/Get-User-By-Address.Dto';
 
 function Profile() {
   const navigate = useNavigate();
@@ -10,20 +12,22 @@ function Profile() {
 
   const { token } = useAppSelector((s) => s.User);
 
-  const [user, setUser] = useState({
-    address: 'teste', banner: '', name: 'teste', photo: '', posts: [],
+  const [user, setUser] = useState<GetUserByAddressDto>({
+    address: '',
+    banner: '',
+    name: '',
+    photo: '',
+    posts: [],
   });
 
   useEffect(() => {
     UserConnect.getUserByAddress(address || '', token).then((resp) => {
-      if (!('address' in resp)) {
+      if (!resp.ok) {
         navigate('notFound');
         alert('Usuário não encontado');
         return;
       }
-      console.log(resp);
-
-      setUser(resp as any);
+      setUser(resp.result);
     });
   }, []);
 
@@ -40,6 +44,25 @@ function Profile() {
         </strong>
         {user.address}
       </p>
+
+      {user.posts.map((post) => (
+        <Post
+          post={ {
+            user: {
+              address: user.address,
+              id: 1,
+              name: user.name,
+              photo: user.photo,
+            },
+            likes: [],
+            id: post.id,
+            text: post.text,
+            bgColor: post.bgColor,
+            textColor: post.textColor,
+          } }
+          key={ post.id }
+        />
+      ))}
 
     </div>
   );
