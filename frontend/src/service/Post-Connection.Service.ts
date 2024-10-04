@@ -24,12 +24,12 @@ export class PostConnection {
     return response;
   }
 
-  public async postCreate(text: string, token: string): Promise<ResponseType<any>> {
+  public async postCreate(post: {text: string, bgColor: string, textColor: string}, token: string): Promise<ResponseType<any>> {
     const request = await this.Request<ResponseType<any>>({
       method: 'POST',
       url: baseUrl,
       headers: { authorization: token },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify(post),
     });
 
     return request;

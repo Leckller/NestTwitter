@@ -13,6 +13,8 @@ export type LikeType = {
 type PostType = {
   id: number;
   text: string;
+  bgColor: string;
+  textColor: string;
   user: User;
   likes: LikeType[];
 };

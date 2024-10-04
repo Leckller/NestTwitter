@@ -16,6 +16,7 @@ function Main() {
         alert('Ops... parece que tivemos um problema com as postagens');
         return;
       }
+      console.log(resp);
       dispatch(setPosts(resp.result.posts));
     });
   }, []);
