@@ -10,8 +10,10 @@ function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const localToken = localStorage.getItem('nToken')!;
+    const localUser = JSON.parse(localStorage.getItem('nUser')!);
+
     if (localToken !== '') {
-      dispatch(setToken(localToken));
+      dispatch(setToken({token: localToken, user: localUser}));
     }
   }, []);
 

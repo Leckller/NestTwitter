@@ -1,4 +1,4 @@
-import { ResponseType, UserType } from '../types';
+import { ResponseType, UserType, UserTypeToken } from '../types';
 import GetUserByAddressDto from './Get-User-By-Address.Dto';
 import PostUserCreateDto from './Post-User-Create.Dto';
 
@@ -26,10 +26,10 @@ export class UserConnection {
   }
 
   async createUser(newUser: PostUserCreateDto)
-    : Promise<ResponseType<{ token: string }>> {
+    : Promise<ResponseType<{ token: string, user: UserTypeToken }>> {
     const { address, email, name, password } = newUser;
 
-    const request = await this.Request<ResponseType<{ token: string }> >({
+    const request = await this.Request<ResponseType<{ token: string, user: UserTypeToken }> >({
       body: JSON.stringify({
         banner: '',
         photo: '',
@@ -57,8 +57,8 @@ export class UserConnection {
   }
 
   async loginUser(email: string, password: string)
-    : Promise<ResponseType<{ token: string }>> {
-    const request = await this.Request<ResponseType<{ token: string }>>(
+    : Promise<ResponseType<{ token: string, user: UserTypeToken }>> {
+    const request = await this.Request<ResponseType<{ token: string, user: UserTypeToken }>>(
       {
         url: `${baseUrl}/login`,
         method: 'POST',

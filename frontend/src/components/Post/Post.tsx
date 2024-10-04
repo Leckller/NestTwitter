@@ -10,13 +10,18 @@ function Post({ post }: { post: PostType }) {
 
   const handleClick = async () => {
     const likePost = await LikeConnect.likePost(post.id, token);
+
     if (!likePost.ok) {
       alert('Ops... parece que ocorreu algum erro durante o like');
     }
+    
   };
 
   return (
-    <article className="flex flex-col border-t w-full p-4">
+    <article 
+      className={`flex flex-col border-t w-full p-4 post-${post.id}`} 
+      style={{backgroundColor: post.bgColor, color: post.textColor}}
+    >
 
       <button
         onClick={ () => navigate(`/profile/${post.user.address}`) }

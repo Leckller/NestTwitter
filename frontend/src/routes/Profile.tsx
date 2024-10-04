@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import UserConnect from '../service/User-Connection.Service';
 import { useAppSelector } from '../hooks/reduxHooks';
 import Post from '../components/Post/Post';
+import GetUserByAddressDto from '../service/Get-User-By-Address.Dto';
 
 function Profile() {
   const navigate = useNavigate();
@@ -11,12 +12,12 @@ function Profile() {
 
   const { token } = useAppSelector((s) => s.User);
 
-  const [user, setUser] = useState({
-    address: 'teste',
+  const [user, setUser] = useState<GetUserByAddressDto>({
+    address: '',
     banner: '',
-    name: 'teste',
+    name: '',
     photo: '',
-    posts: [] as { id: number, text: string }[],
+    posts: []
   });
 
   useEffect(() => {
@@ -56,6 +57,8 @@ function Profile() {
             likes: [],
             id: post.id,
             text: post.text,
+            bgColor: post.bgColor,
+            textColor: post.text,
           } }
           key={ post.id }
         />

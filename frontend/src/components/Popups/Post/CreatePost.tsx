@@ -27,7 +27,7 @@ function CreatePost() {
           setDisableButton(true);
 
           const createPost = await PostConnect.postCreate({text, ...colors}, token);
-
+          console.log(createPost.result)
           if (!createPost.ok) {
 
             alert('Ops... não foi possível enviar o seu post');

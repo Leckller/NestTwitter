@@ -1,21 +1,31 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { UserType } from '../../types';
+import { UserTypeToken } from '../../types';
 
-interface UserState extends Omit<Partial<UserType>, 'password'> {
+interface UserState {
   token: string;
+  user: UserTypeToken,
 }
 
 const initialState: UserState = {
   token: '',
+  user: {
+    id: 0,
+    name: '',
+    address: '',
+    banner: '',
+    photo: '',
+  }
 };
 
 export const UserSlice = createSlice({
   name: 'User',
   initialState,
   reducers: {
-    setToken(state, action: PayloadAction<string>) {
-      state.token = action.payload;
-      localStorage.setItem('nToken', action.payload);
+    setToken(state, action: PayloadAction<{token: string, user: UserTypeToken}>) {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+      localStorage.setItem('nUser', JSON.stringify(action.payload.user));
+      localStorage.setItem('nToken', action.payload.token);
     },
   },
 });
