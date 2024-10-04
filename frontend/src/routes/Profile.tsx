@@ -17,7 +17,7 @@ function Profile() {
     banner: '',
     name: '',
     photo: '',
-    posts: []
+    posts: [],
   });
 
   useEffect(() => {
@@ -58,7 +58,7 @@ function Profile() {
             id: post.id,
             text: post.text,
             bgColor: post.bgColor,
-            textColor: post.text,
+            textColor: post.textColor,
           } }
           key={ post.id }
         />

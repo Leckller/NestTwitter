@@ -1,9 +1,10 @@
 import { FaHome, FaSearch, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/reduxHooks';
 
 function Footer() {
   const navigate = useNavigate();
-  const { address } = { address: 'teste' };
+  const { address } = useAppSelector((s) => s.User.user);
 
   return (
     <footer className="flex w-full items-center justify-center">

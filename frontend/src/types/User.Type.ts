@@ -17,5 +17,7 @@ export interface UserTypeToken {
   address: string;
   photo: string;
   banner: string;
+  bgColor: string;
+  textColor: string;
 
 }

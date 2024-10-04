@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { MdAddCircle } from 'react-icons/md';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { toggleVisible } from '../../redux/Reducers/Popup';
 import PostConnect from '../../service/Post-Connection.Service';
@@ -30,12 +31,12 @@ function Main() {
 
         <button
           className="size-12 rounded-full flex items-center justify-center
-        absolute bg-green-500 bottom-5 right-5"
+          fixed bg-green-500 bottom-14 right-5"
           onClick={ () => {
             dispatch(toggleVisible());
           } }
         >
-          +
+          <MdAddCircle />
         </button>
       </section>
     </main>

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Home, Login, NotFound, Profile, Register, Search } from './routes';
 import { useAppDispatch, useAppSelector } from './hooks/reduxHooks';
 import { setToken } from './redux/Reducers/User';
+import Layout from './components/Layout/Layout';
 
 function App() {
   const { User: { token } } = useAppSelector((s) => s);
@@ -13,7 +14,7 @@ function App() {
     const localUser = JSON.parse(localStorage.getItem('nUser')!);
 
     if (localToken !== '') {
-      dispatch(setToken({token: localToken, user: localUser}));
+      dispatch(setToken({ token: localToken, user: localUser }));
     }
   }, []);
 
@@ -29,9 +30,11 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={ <Home /> } />
-      <Route path="/search" element={ <Search /> } />
-      <Route path="/profile/:address" element={ <Profile /> } />
+      <Route element={ <Layout /> }>
+        <Route path="/" element={ <Home /> } />
+        <Route path="/search" element={ <Search /> } />
+        <Route path="/profile/:address" element={ <Profile /> } />
+      </Route>
       <Route path="*" element={ <NotFound /> } />
     </Routes>
   );
