@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, UseGuards } from "@nestjs/common";
 import AuthGuard from "../Guard/Auth.Guard";
 import PostService from "./Post.Service";
 import PostRequestDto from "./DTOs/Post.Request.dto";
@@ -20,13 +20,17 @@ export default class PostController {
 
     }
 
-    @Get("circle")
-    public async getCircleUserPosts(){}
-
     @Post()
     public async createPost(@GetUser() userInfo: TokenType, @Body() {text}: PostRequestDto) {
 
         return await this.postService.createPost(text, userInfo.id)
+
+    }
+
+    @Delete()
+    public async deletePost(@GetUser() userInfo: TokenType, @Body() {postId}) {
+
+        return await this.postService.deletePost(userInfo, postId)
 
     }
 

@@ -53,4 +53,28 @@ export default class LikeService {
 
     }
 
+    public async getLikesByPost(postId: number) {
+
+        const likes = await this.likeRepository.find({
+            where: {post: {id: postId}}, relations: {user: true},
+            select: {
+                user: {
+                    id: true,
+                    photo: true,
+                    name: true,
+                    address: true,
+                }
+            }
+        });
+
+        if(!likes) {
+
+            throw new NotFoundException(new ResponseDto("Post não encontrado.", false, {}));
+        
+        }
+
+        return new ResponseDto("Likes", true, {likes});
+
+    }
+
 };
