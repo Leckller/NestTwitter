@@ -13,7 +13,9 @@ function Layout() {
   return (
     <div className="flex flex-col justify-between h-screen w-screen">
       {isValidRouteForHeader() && (<Header />)}
-      <Outlet />
+      <main className="overflow-y-scroll w-full">
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );

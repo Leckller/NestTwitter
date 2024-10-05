@@ -13,7 +13,7 @@ function App() {
     const localToken = localStorage.getItem('nToken')!;
     const localUser = JSON.parse(localStorage.getItem('nUser')!);
 
-    if (localToken !== '') {
+    if (localToken.length > 30) {
       dispatch(setToken({ token: localToken, user: localUser }));
     }
   }, []);

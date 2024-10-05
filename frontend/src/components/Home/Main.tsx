@@ -23,7 +23,8 @@ function Main() {
   }, []);
 
   return (
-    <main className="relative h-[80%] w-full flex items-center justify-center">
+    <main className="relative w-full flex items-center justify-center">
+
       <section className="flex flex-col w-full max-w-[440px] items-start">
         {posts.map((post) => (
           <Post post={ post } key={ post.id } />
@@ -38,6 +39,7 @@ function Main() {
         >
           <MdAddCircle />
         </button>
+
       </section>
     </main>
   );

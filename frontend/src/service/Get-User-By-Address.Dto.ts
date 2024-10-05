@@ -7,6 +7,8 @@ export default class GetUserByAddressDto {
     public name: string,
     public photo: string,
     public address: string,
+    public bgColor: string,
+    public textColor: string,
     public posts: PostType[],
   ) {}
 }

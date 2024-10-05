@@ -11,7 +11,7 @@ function Post({ post }: { post: PostType }) {
 
       <HeaderPost post={ post } />
 
-      <p>
+      <p className="break-words">
         {post.text}
       </p>
 
