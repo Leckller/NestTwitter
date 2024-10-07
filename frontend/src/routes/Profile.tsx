@@ -6,6 +6,7 @@ import GetUserByAddressDto from '../service/Get-User-By-Address.Dto';
 import { Header, Main } from '../components/Profile';
 import EditProfile from '../components/Popups/Profile/EditProfile';
 import Popup from '../components/Popups/Popup';
+import Footer from '../components/Layout/Footer';
 
 function Profile() {
   const navigate = useNavigate();
@@ -26,22 +27,21 @@ function Profile() {
 
   useEffect(() => {
     UserConnect.getUserByAddress(address || '', token).then((resp) => {
-      console.log(resp);
       if (!resp.ok) {
         navigate('notFound');
         alert('Usuário não encontado');
         return;
       }
-      const body = document.querySelector('body')!;
-      body.style.backgroundColor = resp.result.bgColor;
+
       setUser(resp.result);
     });
-  }, []);
+  }, [address]);
 
   return (
     <div
-      className="flex flex-col justify-center items-center w-full
+      className="flex flex-col justify-between h-screen items-center w-full
     "
+      style={ { color: user.textColor, backgroundColor: user.bgColor } }
     >
       {visible && (
         <Popup>
@@ -53,6 +53,7 @@ function Profile() {
 
       <Main user={ user } />
 
+      <Footer />
     </div>
   );
 }

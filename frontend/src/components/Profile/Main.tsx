@@ -3,7 +3,7 @@ import Post from '../Post/Post';
 
 function Main({ user }: { user: GetUserByAddressDto }) {
   return (
-    <main className="max-w-[440px] flex flex-col w-full">
+    <main className="max-w-[440px] flex flex-col h-full w-full">
       {user.posts.map((post) => (
         <Post
           post={ {

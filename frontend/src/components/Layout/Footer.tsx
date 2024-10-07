@@ -4,10 +4,15 @@ import { useAppSelector } from '../../hooks/reduxHooks';
 
 function Footer() {
   const navigate = useNavigate();
-  const { address } = useAppSelector((s) => s.User.user);
+  const { user: { address, textColor }, customColors } = useAppSelector((s) => s.User);
+
+  const color = customColors ? textColor : '';
 
   return (
-    <footer className="flex w-full items-center justify-center">
+    <footer
+      className="flex w-full items-center justify-center fixed bottom-0"
+      style={ { color, backdropFilter: 'blur(2px)' } }
+    >
       <nav className="w-full max-w-[440px] p-3 flex justify-around items-center">
         <button onClick={ () => navigate('/') }>
           <FaHome />

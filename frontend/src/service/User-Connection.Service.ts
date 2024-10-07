@@ -5,7 +5,7 @@ import PostUserCreateDto from './Post-User-Create.Dto';
 const baseUrl = 'http://localhost:3000/user';
 
 type FetchConfig = {
-  url:string, body?: any, method: 'POST' | 'GET',
+  url: string, body?: any, method: 'POST' | 'GET',
   headers?: object
 };
 
@@ -29,7 +29,8 @@ export class UserConnection {
     : Promise<ResponseType<{ token: string, user: UserTypeToken }>> {
     const { address, email, name, password } = newUser;
 
-    const request = await this.Request<ResponseType<{ token: string, user: UserTypeToken }> >({
+    const request = await this
+      .Request<ResponseType<{ token: string, user: UserTypeToken }>>({
       body: JSON.stringify({
         banner: '',
         photo: '',
@@ -58,13 +59,29 @@ export class UserConnection {
 
   async loginUser(email: string, password: string)
     : Promise<ResponseType<{ token: string, user: UserTypeToken }>> {
-    const request = await this.Request<ResponseType<{ token: string, user: UserTypeToken }>>(
+    const request = await this
+      .Request<ResponseType<{ token: string, user: UserTypeToken }>>(
       {
         url: `${baseUrl}/login`,
         method: 'POST',
         body: JSON.stringify({ email, password }),
       },
     );
+    return request;
+  }
+
+  async editColors(bgColor: string, textColor: string, token: string)
+    : Promise<ResponseType<{ user: { bgColor: string, textColor: string } }>> {
+    const request = await this
+      .Request<ResponseType<{ user: { bgColor: string, textColor: string } }>>(
+      {
+        url: `${baseUrl}/EditColors`,
+        method: 'POST',
+        headers: { authorization: token },
+        body: JSON.stringify({ bgColor, textColor }),
+      },
+    );
+
     return request;
   }
 }

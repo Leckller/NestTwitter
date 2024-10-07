@@ -39,9 +39,15 @@ export const UserSlice = createSlice({
     toggleCustomColors(state) {
       state.customColors = !state.customColors;
     },
+    setUserColors(state, action: PayloadAction<{ bgColor: string, textColor: string }>) {
+      const { bgColor, textColor } = action.payload;
+      state.user.textColor = textColor;
+      state.user.bgColor = bgColor;
+      localStorage.setItem('nUser', JSON.stringify(state.user));
+    },
   },
 });
 
-export const { setToken, toggleCustomColors } = UserSlice.actions;
+export const { setToken, toggleCustomColors, setUserColors } = UserSlice.actions;
 
 export default UserSlice.reducer;
