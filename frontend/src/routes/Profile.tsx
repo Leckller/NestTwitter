@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import UserConnect from '../service/User-Connection.Service';
 import { useAppSelector } from '../hooks/reduxHooks';
-import Post from '../components/Post/Post';
+import UserConnect from '../service/User-Connection.Service';
 import GetUserByAddressDto from '../service/Get-User-By-Address.Dto';
-import Header from '../components/Profile/Header';
+import { Header, Main } from '../components/Profile';
+import EditProfile from '../components/Popups/Profile/EditProfile';
+import Popup from '../components/Popups/Popup';
 
 function Profile() {
   const navigate = useNavigate();
 
   const { address } = useParams();
 
-  const { token } = useAppSelector((s) => s.User);
+  const { User: { token }, PopUp: { visible } } = useAppSelector((s) => s);
 
   const [user, setUser] = useState<GetUserByAddressDto>({
     address: '',
@@ -42,30 +43,16 @@ function Profile() {
       className="flex flex-col justify-center items-center w-full
     "
     >
+      {visible && (
+        <Popup>
+          <EditProfile />
+        </Popup>
+      )}
 
       <Header user={ user } />
 
-      <main className="max-w-[440px] flex flex-col w-full">
-        {user.posts.map((post) => (
-          <Post
-            post={ {
-              user: {
-                address: user.address,
-                id: 1,
-                name: user.name,
-                photo: user.photo,
-              },
-              likes: [],
-              id: post.id,
-              text: post.text,
-              bgColor: post.bgColor,
-              textColor: post.textColor,
-            } }
-            key={ post.id }
-          />
-        ))}
+      <Main user={ user } />
 
-      </main>
     </div>
   );
 }

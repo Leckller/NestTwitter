@@ -1,9 +1,15 @@
+/* eslint-disable react/jsx-max-depth */
 import { useNavigate } from 'react-router-dom';
 import GetUserByAddressDto from '../../service/Get-User-By-Address.Dto';
 import { banner, Jake } from '../../assets/index';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { toggleVisible } from '../../redux/Reducers/Popup';
+import Popup from '../Popups/Popup';
+import EditProfile from '../Popups/Profile/EditProfile';
 
 function Header({ user }: { user: GetUserByAddressDto }) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   return (
     <header
@@ -31,12 +37,22 @@ function Header({ user }: { user: GetUserByAddressDto }) {
             alt={ user.name }
           />
 
-          <p className="flex gap-2 items-center">
-            <strong className="text-lg">
-              {user.name}
-            </strong>
-            {user.address}
-          </p>
+          <section className="flex gap-2 items-center justify-between">
+
+            <p className="flex gap-2 items-center">
+              <strong className="text-lg">
+                {user.name}
+              </strong>
+              {`@${user.address}`}
+            </p>
+
+            <button
+              onClick={ () => dispatch(toggleVisible()) }
+              className="border rounded-2xl pl-2 pr-2 font-semibold"
+            >
+              Editar
+            </button>
+          </section>
 
         </section>
       </section>
