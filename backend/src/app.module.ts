@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {entities} from '.';
+import { entities } from '.';
 import GuardModule from './Guard/Guard.Module';
 import UserModule from './User/User.Module';
 import AuthModule from './Auth/Auth.Module';
 import PostModule from './Post/Post.Module';
 import LikeModule from './Like/Like.Module';
 import FollowerModule from './Follower/Follower.Module';
+import { SearchModule } from './Search/Search.Module';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
@@ -16,6 +17,7 @@ import FollowerModule from './Follower/Follower.Module';
     AuthModule,
     PostModule,
     LikeModule,
+    SearchModule,
     FollowerModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -28,4 +30,4 @@ import FollowerModule from './Follower/Follower.Module';
     })
   ],
 })
-export class AppModule {}
+export class AppModule { }
