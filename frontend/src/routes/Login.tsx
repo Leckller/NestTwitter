@@ -28,15 +28,14 @@ function Login() {
           className="flex flex-col gap-5"
           onSubmit={ async (e) => {
             e.preventDefault();
-            const {ok, message, result: {token, user}} = await UserConnect
+            const { ok, message, result: { token, user } } = await UserConnect
               .loginUser(register.email!, register.password!);
 
             if (!ok) {
               alert(message);
               return;
             }
-
-            dispatch(setToken({token, user}));
+            dispatch(setToken({ token, user }));
           } }
         >
 

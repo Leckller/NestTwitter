@@ -9,7 +9,7 @@ import PostConnect from '../../../service/Post-Connection.Service';
 function CreatePost() {
   const dispatch = useAppDispatch();
 
-  const { User: { token } } = useAppSelector((s) => s);
+  const { User: { token, user } } = useAppSelector((s) => s);
 
   const [colors, setColors] = useState({ bgColor: '', textColor: '' });
 
@@ -27,8 +27,12 @@ function CreatePost() {
         try {
           setDisableButton(true);
 
-          const createPost = await PostConnect.postCreate({ text, ...colors }, token);
-          console.log(createPost.result);
+          const createPost = await PostConnect.postCreate({
+            text,
+            bgColor: colors.bgColor || user.bgColor,
+            textColor: colors.textColor || user.textColor,
+          }, token);
+
           if (!createPost.ok) {
             alert('Ops... não foi possível enviar o seu post');
             return;
@@ -47,6 +51,7 @@ function CreatePost() {
       <textarea
         className="outline-none resize-none bg-transparent w-full h-full p-4
         textAreaBgColor rounded-lg textColor transition-all-3"
+        style={ { color: user.textColor, backgroundColor: user.bgColor } }
         placeholder="O que está acontecendo?"
         onChange={ ({ target: { value } }) => setText(value) }
       />
@@ -72,8 +77,12 @@ function CreatePost() {
           />
         </label>
 
-        <label className="flex items-center ">
-          <MdOutlineBorderColor className="textColor" />
+        <label className="flex items-center">
+          <MdOutlineBorderColor
+            className="textColor"
+            style={ { color: user.textColor } }
+          />
+
           <input
             type="color"
             onChange={ ({ target: { value } }) => {

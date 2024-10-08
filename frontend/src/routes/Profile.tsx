@@ -1,22 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import UserConnect from '../service/User-Connection.Service';
 import { useAppSelector } from '../hooks/reduxHooks';
-import Post from '../components/Post/Post';
+import UserConnect from '../service/User-Connection.Service';
 import GetUserByAddressDto from '../service/Get-User-By-Address.Dto';
+import { Header, Main } from '../components/Profile';
+import EditProfile from '../components/Popups/Profile/EditProfile';
+import Popup from '../components/Popups/Popup';
+import Footer from '../components/Layout/Footer';
 
 function Profile() {
   const navigate = useNavigate();
 
   const { address } = useParams();
 
-  const { token } = useAppSelector((s) => s.User);
+  const { User: { token }, PopUp: { visible } } = useAppSelector((s) => s);
 
   const [user, setUser] = useState<GetUserByAddressDto>({
     address: '',
     banner: '',
     name: '',
     photo: '',
+    bgColor: '',
+    textColor: '',
     posts: [],
   });
 
@@ -27,43 +32,28 @@ function Profile() {
         alert('Usuário não encontado');
         return;
       }
+
       setUser(resp.result);
     });
-  }, []);
+  }, [address]);
 
   return (
-    <div>
+    <div
+      className="flex flex-col justify-between h-screen items-center w-full
+    "
+      style={ { color: user.textColor, backgroundColor: user.bgColor } }
+    >
+      {visible && (
+        <Popup>
+          <EditProfile />
+        </Popup>
+      )}
 
-      <header>
-        <button onClick={ () => navigate(-1) }>voltar</button>
-      </header>
+      <Header user={ user } />
 
-      <p className="flex gap-2 items-center">
-        <strong className="text-lg">
-          {user.name}
-        </strong>
-        {user.address}
-      </p>
+      <Main user={ user } />
 
-      {user.posts.map((post) => (
-        <Post
-          post={ {
-            user: {
-              address: user.address,
-              id: 1,
-              name: user.name,
-              photo: user.photo,
-            },
-            likes: [],
-            id: post.id,
-            text: post.text,
-            bgColor: post.bgColor,
-            textColor: post.textColor,
-          } }
-          key={ post.id }
-        />
-      ))}
-
+      <Footer />
     </div>
   );
 }

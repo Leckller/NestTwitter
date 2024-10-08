@@ -8,38 +8,38 @@ import ResponseDto from "src/Utils/Response.Dto";
 @Injectable()
 export default class FollowerService {
 
-    constructor (
+    constructor(
         @InjectRepository(FollowerEntity) private readonly followerRepository: Repository<FollowerEntity>,
         @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>
-    ) {}
+    ) { }
 
     public async createFollower(followedId: number, followingId: number) {
 
-        if(followedId === followingId) {
+        if (followedId === followingId) {
 
             throw new BadRequestException(new ResponseDto("Você não pode seguir a si mesmo.", false, {}));
 
         }
 
-        const followedUser = await this.userRepository.findOne({where: {id: followedId}});
-        
-        if(!followedUser) {
+        const followedUser = await this.userRepository.findOne({ where: { id: followedId } });
+
+        if (!followedUser) {
 
             throw new NotFoundException(new ResponseDto("Usuário não encontrado", false, {}));
 
         }
 
-        const followingUser = await this.userRepository.findOne({where: {id: followingId}});
+        const followingUser = await this.userRepository.findOne({ where: { id: followingId } });
 
-        if(!followingUser) {
+        if (!followingUser) {
 
             throw new NotFoundException(new ResponseDto("Usuário não encontrado", false, {}));
 
         }
 
-        const findFollow = await this.followerRepository.findOne({where: {followed: followedUser, following: followingUser}});
+        const findFollow = await this.followerRepository.findOne({ where: { followed: followedUser, following: followingUser } });
 
-        if(findFollow) {
+        if (findFollow) {
 
             await this.followerRepository.remove(findFollow);
 
@@ -47,7 +47,7 @@ export default class FollowerService {
 
         }
 
-        const follow = this.followerRepository.create({followed: followedUser, following: followingUser});
+        const follow = this.followerRepository.create({ followed: followedUser, following: followingUser });
 
         await this.followerRepository.save(follow);
 
@@ -57,18 +57,18 @@ export default class FollowerService {
 
     public async getPostsByFollows(userId: number) {
 
-        const user = await this.userRepository.findOne({where: {id: userId}});
-        
-        if(!user) {
+        const user = await this.userRepository.findOne({ where: { id: userId } });
+
+        if (!user) {
 
             throw new NotFoundException(new ResponseDto("Usuário não encontrado", false, {}));
 
         }
 
         const posts = await this.followerRepository.find({
-            where: {following: user},
-            relations: {followed: {posts: {likes: {user: true}}}},
-            order: {id: "DESC"},
+            where: { following: user },
+            relations: { followed: { posts: { likes: { user: true } } } },
+            order: { id: "DESC" },
             take: 10,
             select: {
                 followed: {
@@ -77,13 +77,13 @@ export default class FollowerService {
                         text: true,
                         bgColor: true,
                         textColor: true,
-                        likes: {id: true, user: {photo: true, name: true, address: true, id: true}}
+                        likes: { id: true, user: { photo: true, name: true, address: true, id: true } }
                     }
                 }
             }
         });
 
-        return new ResponseDto('Buble posts', true, {posts});
+        return new ResponseDto('Buble posts', true, { posts });
 
     }
 

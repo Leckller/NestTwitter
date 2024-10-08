@@ -13,7 +13,7 @@ function App() {
     const localToken = localStorage.getItem('nToken')!;
     const localUser = JSON.parse(localStorage.getItem('nUser')!);
 
-    if (localToken !== '') {
+    if (localToken.length > 30) {
       dispatch(setToken({ token: localToken, user: localUser }));
     }
   }, []);
@@ -33,8 +33,8 @@ function App() {
       <Route element={ <Layout /> }>
         <Route path="/" element={ <Home /> } />
         <Route path="/search" element={ <Search /> } />
-        <Route path="/profile/:address" element={ <Profile /> } />
       </Route>
+      <Route path="/profile/:address" element={ <Profile /> } />
       <Route path="*" element={ <NotFound /> } />
     </Routes>
   );
