@@ -8,6 +8,7 @@ import PostModule from './Post/Post.Module';
 import LikeModule from './Like/Like.Module';
 import FollowerModule from './Follower/Follower.Module';
 import { SearchModule } from './Search/Search.Module';
+import CommentModule from './Comment/Comment.Module';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
@@ -18,6 +19,7 @@ import { SearchModule } from './Search/Search.Module';
     PostModule,
     LikeModule,
     SearchModule,
+    CommentModule,
     FollowerModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -26,7 +28,7 @@ import { SearchModule } from './Search/Search.Module';
       username: process.env.DB_USERNAME || "root",
       password: process.env.DB_PASSWORD || "root",
       database: process.env.DB_DATABASE || "nestwitter",
-      entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity, entities.FollowerEntity],
+      entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity, entities.FollowerEntity, entities.CommentEntity],
     })
   ],
 })
