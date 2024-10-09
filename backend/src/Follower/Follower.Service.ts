@@ -55,7 +55,7 @@ export default class FollowerService {
 
     }
 
-    public async getPostsByFollows(userId: number) {
+    public async getPostsByFollows(userId: number, page = 0) {
 
         const user = await this.userRepository.findOne({ where: { id: userId } });
 
@@ -65,6 +65,7 @@ export default class FollowerService {
 
         }
 
+        // essa aq vai ser chata de fazer tbm
         const posts = await this.followerRepository.find({
             where: { following: user },
             relations: { followed: { posts: { likes: { user: true } } } },

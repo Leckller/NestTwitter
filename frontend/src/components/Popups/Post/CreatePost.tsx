@@ -16,7 +16,13 @@ function CreatePost() {
   const [text, setText] = useState('');
 
   const [disableButton, setDisableButton] = useState(false);
-
+  const inputStyle = {
+    padding: '10px',
+    fontSize: '16px',
+    '::placeholder': {
+      color: 'red', // Altere a cor aqui
+    },
+  };
   return (
     <form
       onKeyDown={ (e) => { if (e.key === 'Escape') { dispatch(toggleVisible()); } } }
@@ -51,7 +57,11 @@ function CreatePost() {
       <textarea
         className="outline-none resize-none bg-transparent w-full h-full p-4
         textAreaBgColor rounded-lg textColor transition-all-3"
-        style={ { color: user.textColor, backgroundColor: user.bgColor } }
+        style={ {
+          color: user.textColor,
+          backgroundColor: user.bgColor,
+          ...inputStyle,
+        } }
         placeholder="O que está acontecendo?"
         onChange={ ({ target: { value } }) => setText(value) }
       />

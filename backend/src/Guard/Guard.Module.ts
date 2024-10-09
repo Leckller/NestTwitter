@@ -16,4 +16,4 @@ import UserEntity from "../User/User.entity";
         ])
     ]
 })
-export default class GuardModule {};
+export default class GuardModule { };

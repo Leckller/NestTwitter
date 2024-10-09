@@ -1,3 +1,4 @@
+import { FaRegHeart } from 'react-icons/fa';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import LikeConnect from '../../service/Like-Connection.Service';
 import { PostType } from '../../types';
@@ -18,18 +19,22 @@ function FooterPost({ post }: { post: PostType }) {
   };
 
   return (
-    <article>
+    <article className="flex justify-around">
 
       <p className="flex gap-2">
 
         <button
           onClick={ handleClick }
         >
-          Like
+          <FaRegHeart />
         </button>
         {post.likes.length}
 
       </p>
+
+      <button>
+        ...
+      </button>
 
     </article>
   );

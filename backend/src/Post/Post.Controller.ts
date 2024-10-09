@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import AuthGuard from "../Guard/Auth.Guard";
 import PostService from "./Post.Service";
 import PostRequestDto from "./DTOs/Post.Request.dto";
@@ -11,24 +11,24 @@ export default class PostController {
 
     constructor(
         private readonly postService: PostService
-    ) {}
+    ) { }
 
-    @Get("global")
-    public async getGlobalPosts() {
+    @Get("global/:page")
+    public async getGlobalPosts(@Param('page') page) {
 
-        return await this.postService.getGlobalPosts();
+        return await this.postService.getGlobalPosts(+page);
 
     }
 
     @Post()
-    public async createPost(@GetUser() userInfo: TokenType, @Body() {text,bgColor,textColor}: PostRequestDto) {
+    public async createPost(@GetUser() userInfo: TokenType, @Body() { text, bgColor, textColor }: PostRequestDto) {
 
-        return await this.postService.createPost({text,bgColor,textColor}, userInfo.id)
+        return await this.postService.createPost({ text, bgColor, textColor }, userInfo.id)
 
     }
 
     @Delete()
-    public async deletePost(@GetUser() userInfo: TokenType, @Body() {postId}) {
+    public async deletePost(@GetUser() userInfo: TokenType, @Body() { postId }) {
 
         return await this.postService.deletePost(userInfo, postId)
 

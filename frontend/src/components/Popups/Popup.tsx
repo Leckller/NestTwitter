@@ -24,6 +24,7 @@ function Popup({ children }: { children: ReactNode }) {
       w-screen h-screen "
         style={ {
           backdropFilter: 'blur(3px)',
+          background: 'rgba(0,0,0,0.25)',
           color: textColor } }
         onMouseDownCapture={ () => dispatch(toggleVisible()) }
       />

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '../../types';
+import { Jake } from '../../assets/index';
 
 function HeaderPost({ post }: { post: PostType }) {
   const navigate = useNavigate();
@@ -10,8 +11,8 @@ function HeaderPost({ post }: { post: PostType }) {
       className="flex items-center justify-start gap-2"
     >
       <img
-        className="size-12 rounded-full border object-contain"
-        src={ post.user.photo }
+        className="size-12 rounded-full border object-cover"
+        src={ post.user.photo || Jake }
         alt="profile"
       />
 
