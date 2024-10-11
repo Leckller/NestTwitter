@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {entities} from '.';
+import { entities } from '.';
 import GuardModule from './Guard/Guard.Module';
 import UserModule from './User/User.Module';
 import AuthModule from './Auth/Auth.Module';
 import PostModule from './Post/Post.Module';
 import LikeModule from './Like/Like.Module';
 import FollowerModule from './Follower/Follower.Module';
+import { SearchModule } from './Search/Search.Module';
+import CommentModule from './Comment/Comment.Module';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
@@ -16,6 +18,8 @@ import FollowerModule from './Follower/Follower.Module';
     AuthModule,
     PostModule,
     LikeModule,
+    SearchModule,
+    CommentModule,
     FollowerModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -24,8 +28,8 @@ import FollowerModule from './Follower/Follower.Module';
       username: process.env.DB_USERNAME || "root",
       password: process.env.DB_PASSWORD || "root",
       database: process.env.DB_DATABASE || "nestwitter",
-      entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity, entities.FollowerEntity],
+      entities: [entities.LikeEntity, entities.PostEntity, entities.UserEntity, entities.FollowerEntity, entities.CommentEntity],
     })
   ],
 })
-export class AppModule {}
+export class AppModule { }

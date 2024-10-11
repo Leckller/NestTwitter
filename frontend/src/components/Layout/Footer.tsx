@@ -11,16 +11,26 @@ function Footer() {
   return (
     <footer
       className="flex w-full items-center justify-center fixed bottom-0"
-      style={ { color, backdropFilter: 'blur(2px)' } }
+      style={ {
+        color,
+        backdropFilter: 'blur(2px)',
+        maskImage: 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))',
+      } }
     >
       <nav className="w-full max-w-[440px] p-3 flex justify-around items-center">
-        <button onClick={ () => navigate('/') }>
+        <button
+          onClick={ () => navigate('/') }
+        >
           <FaHome />
         </button>
-        <button onClick={ () => navigate('/search') }>
+        <button
+          onClick={ () => navigate('/search') }
+        >
           <FaSearch />
         </button>
-        <button onClick={ () => navigate(`/profile/${address}`) }>
+        <button
+          onClick={ () => navigate(`/profile/${address}`) }
+        >
           <FaUser />
         </button>
       </nav>

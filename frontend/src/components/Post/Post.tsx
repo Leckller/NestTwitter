@@ -15,7 +15,8 @@ function Post({ post }: { post: PostType }) {
 
   return (
     <article
-      className={ `flex flex-col border-t w-full p-4 post-${post.id} transition-all` }
+      className={ `flex flex-col border-t w-full gap-2
+                  p-4 post-${post.id} transition-all` }
       style={ { backgroundColor, color } }
     >
 
