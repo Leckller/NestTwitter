@@ -1,15 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import UserReducer from './Reducers/User';
-import PopupReducer from './Reducers/Popup';
-import PostsReducer from './Reducers/Posts';
+// Essa aqui é aquela exportação default do reducer
+import ClickerReducer from './Reducers/User';
 
+// Para adicionar novos reducers basta adicionar uma chave com o nome e o reducer como valor. Siga o exemplo abaixo!
 export const store = configureStore({
   reducer: {
-    User: UserReducer,
-    PopUp: PopupReducer,
-    Posts: PostsReducer,
+    Clicker: ClickerReducer,
   },
 });
 
+// Esses tipos servem para criar os hooks do redux
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
