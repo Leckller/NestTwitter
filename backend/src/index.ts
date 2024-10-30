@@ -11,6 +11,15 @@ import LikeModule from './Like/Like.Module';
 import { SearchModule } from './Search/Search.Module';
 import CommentModule from './Comment/Comment.Module';
 import FollowerModule from './Follower/Follower.Module';
+import SeedModule from './DB/Seeds/Seed.Module';
 
-export const entities = [LikeEntity, PostEntity, UserEntity, FollowerEntity, CommentEntity];
-export const modules = [GuardModule, UserModule, AuthModule, PostModule, LikeModule, SearchModule, CommentModule, FollowerModule]
+export const entities = [
+  LikeEntity, PostEntity, UserEntity,
+  FollowerEntity, CommentEntity
+];
+
+export const modules = [
+  GuardModule, UserModule, AuthModule,
+  PostModule, LikeModule, SearchModule,
+  CommentModule, FollowerModule, SeedModule
+]

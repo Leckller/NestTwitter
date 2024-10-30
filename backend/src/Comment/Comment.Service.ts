@@ -22,33 +22,44 @@ export default class CommentService {
 
     public async createComment({ postId, text }: CreateCommentRequestDto, userId: number) {
 
-        const post = await this.postRepo.findOne({ where: { id: postId } })
+        try {
 
-        if (!post) {
+            const post = await this.postRepo.findOne({ where: { id: postId } })
 
-            throw new NotFoundException(new ResponseDto('Post não encontrado', false, {}));
+            if (!post) {
+
+                throw new NotFoundException(new ResponseDto('Post não encontrado', false, {}));
+
+            }
+
+            const user = await this.userRepo.findOne({ where: { id: userId } });
+
+            if (!user) {
+
+                throw new NotFoundException(new ResponseDto('User não encontrado', false, {}));
+
+            }
+
+
+            const newPost = this.postRepo.create({
+                text, user, isComment: true
+            })
+
+            await this.postRepo.save(newPost);
+
+            const comment = this.commentRepo.create({
+                post, user, comment: newPost
+            });
+
+            await this.commentRepo.save(comment);
+
+            return new ResponseDto("Comentário adicionado!", true, { comment });
+
+        } catch (err) {
+
+            return new ResponseDto("Erro durante a criação do comentário!", false, { err });
 
         }
-
-        const user = await this.userRepo.findOne({ where: { id: userId } });
-
-        if (!user) {
-
-            throw new NotFoundException(new ResponseDto('User não encontrado', false, {}));
-
-        }
-
-
-        const newPost = this.postRepo.create({
-            text, user
-        })
-
-        const comment = this.commentRepo.create({
-            post, user, comment: newPost
-        });
-
-        return new ResponseDto("Comentário adicionado!", true, { comment });
-
     }
 
     public async getCommentsByUser(userId: number, page = 0) {
@@ -66,10 +77,10 @@ export default class CommentService {
                 where: { user },
                 skip: page * 10,
                 take: 10,
-                relations: { comment: { user: true, likes: true }, post: true },
+                relations: { comment: { user: true }, post: { user: true } },
                 select: {
                     post: { id: true, user: { address: true } },
-                    comment: { id: true, user: { photo: true, address: true, name: true } }
+                    comment: { id: true, user: { photo: true, address: true, name: true }, text: true },
                 }
             });
 

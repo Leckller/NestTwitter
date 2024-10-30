@@ -25,7 +25,15 @@ export default class SeedService {
     private readonly authService: AuthService
   ) { }
 
-  public async Seeds() {
+  public async seeds() {
+
+    const isSpread = await this.postRepo.findOne({ where: { id: 1 } });
+
+    if (isSpread) {
+      return;
+    }
+
+    console.log('Seeding');
 
     // Users
 
@@ -34,6 +42,8 @@ export default class SeedService {
       email: 'kayo@gmail.com',
       address: 'kay',
       name: 'kay',
+      banner: '',
+      photo: '',
     });
 
     const ruyUser = this.userRepo.create({
@@ -41,6 +51,8 @@ export default class SeedService {
       email: 'ruy@gmail.com',
       address: 'leckller',
       name: 'ruy',
+      banner: '',
+      photo: '',
     });
 
     const morghUser = this.userRepo.create({
@@ -48,6 +60,8 @@ export default class SeedService {
       email: 'morgh@gmail.com',
       address: 'morgh',
       name: 'morgh',
+      banner: '',
+      photo: '',
     });
 
     await this.userRepo.save([kayoUser, ruyUser, morghUser]);
@@ -73,6 +87,29 @@ export default class SeedService {
     ]);
 
     // Comentarios
+
+    const kayPostComment = this.postRepo.create({
+      text: 'qria mt um futzada dos cria',
+      user: kayoUser,
+      isComment: true,
+    });
+
+    await this.postRepo.save(kayPostComment);
+
+    const kayComment1 = this.commentRepo.create({
+      post: ruyPost3,
+      comment: kayPostComment,
+      user: kayoUser,
+    });
+
+    await this.commentRepo.save(kayComment1);
+
+    // Likes
+
+    const morghLike1 = this.likeRepo.create({ post: ruyPost3, user: morghUser });
+    const kayoLike1 = this.likeRepo.create({ post: ruyPost3, user: kayoUser });
+
+    await this.likeRepo.save([morghLike1, kayoLike1]);
 
   }
 

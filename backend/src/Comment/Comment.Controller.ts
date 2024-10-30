@@ -4,7 +4,6 @@ import CommentService from "./Comment.Service";
 import CreateCommentRequestDto from "./DTOs/CreateComment.Request.Dto";
 import { GetUser } from "src/decorators/User.Decorator";
 import { TokenType } from "src/types";
-import GetCommentsByUserDto from "./DTOs/GetCommentsByUser.Dto";
 
 @Controller('comment')
 @UseGuards(AuthGuard)

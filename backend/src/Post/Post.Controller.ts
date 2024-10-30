@@ -20,6 +20,13 @@ export default class PostController {
 
     }
 
+    @Get("details/:postId/:page")
+    public async getPostsDetails(@Param() { postId, page }) {
+
+        return await this.postService.postDetails(+postId, +page);
+
+    }
+
     @Post()
     public async createPost(@GetUser() userInfo: TokenType, @Body() { text, bgColor, textColor }: PostRequestDto) {
 

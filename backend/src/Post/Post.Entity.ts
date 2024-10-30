@@ -18,6 +18,9 @@ export default class PostEntity {
     @OneToMany(() => CommentEntity, (commentEntity) => commentEntity.post)
     comments: CommentEntity[];
 
+    @Column({ default: false })
+    isComment: boolean;
+
     @Column()
     text: string;
 
