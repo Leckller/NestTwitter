@@ -13,14 +13,27 @@ export class SearchService {
         @InjectRepository(UserEntity) private readonly UserRepository: Repository<UserEntity>
     ) { }
 
-    public async search(text: string) {
+    public async search(text: string, page = 0) {
 
-        const findUserByName = await this.UserRepository.find({ where: { name: Like(text), address: Like(text) }, take: 10 });
-        // const findUserByAddress = await this.UserRepository.find({ where: { address: Like(text) } });
+        const findUserByName = await this.UserRepository.find({
+            where: { name: Like(`%${text}%`) },
+            take: 3,
+            skip: page * 3
+        });
 
-        const findPost = await this.PostRepository.find({ where: { text: Like(text) }, take: 10 });
+        const findUserByAddress = await this.UserRepository.find({
+            where: { address: Like(`%${text}%`) },
+            take: 3,
+            skip: page * 3
+        });
 
-        return new ResponseDto('Resultados da pesquisa', true, [...findUserByName, ...findPost]);
+        const findPost = await this.PostRepository.find({
+            where: { text: Like(`%${text}%`) },
+            take: 3,
+            skip: page * 3
+        });
+
+        return new ResponseDto('Resultados da pesquisa', true, [...findUserByAddress, ...findUserByName, ...findPost]);
 
     }
 

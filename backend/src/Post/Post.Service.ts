@@ -4,7 +4,6 @@ import PostEntity from "./Post.entity";
 import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
-import { TokenType } from "src/types";
 import PostRequestDto from "./DTOs/Post.Request.dto";
 import LikeEntity from "src/Like/Like.entity";
 
@@ -62,6 +61,7 @@ export default class PostService {
             .createQueryBuilder("post")
             .leftJoinAndSelect("post.user", "user")
             .leftJoinAndSelect("post.likes", "like")
+            // Conta quantos likes tem
             .loadRelationCountAndMap("post.likes", "post.likes")
             .select([
                 "post",
@@ -71,13 +71,11 @@ export default class PostService {
             .skip(page * 10)
             .getMany();
 
-        // não da p saber se o usuário curtiu ou não sem fazer uma gambiarra maluca...
-
         return new ResponseDto("Global posts", true, { posts });
 
     }
 
-    public async deletePost(userInfo: TokenType, postId: number) {
+    public async deletePost(userId: number, postId: number) {
 
         try {
             const post = await this.postRepository.findOne({ where: { id: postId }, relations: { user: true } });
@@ -88,7 +86,7 @@ export default class PostService {
 
             }
 
-            if (post.user.id !== userInfo.id) {
+            if (post.user.id !== userId) {
 
                 throw new BadRequestException(new ResponseDto("Você não tem permissão para fazer isso", false, {}));
 

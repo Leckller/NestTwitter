@@ -1,4 +1,4 @@
-import { Body, Controller, Get, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { SearchService } from "./Search.Service";
 import { SearchRequestDto } from "./DTOs/Search.Request.Dto";
 import AuthGuard from "src/Guard/Auth.Guard";
@@ -11,10 +11,10 @@ export class SearchController {
         private readonly searchService: SearchService
     ) { }
 
-    @Get()
-    public async search(@Body() { text }: SearchRequestDto) {
+    @Get(':page')
+    public async search(@Body() { text }: SearchRequestDto, @Param('page') page: string) {
 
-        return await this.searchService.search(text);
+        return await this.searchService.search(text, +page);
 
     }
 

@@ -30,7 +30,7 @@ export default class PostController {
     @Delete()
     public async deletePost(@GetUser() userInfo: TokenType, @Body() { postId }) {
 
-        return await this.postService.deletePost(userInfo, postId)
+        return await this.postService.deletePost(+userInfo.id, postId)
 
     }
 

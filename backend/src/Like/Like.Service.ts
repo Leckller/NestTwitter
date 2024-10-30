@@ -9,34 +9,36 @@ import ResponseDto from "src/Utils/Response.Dto";
 @Injectable()
 export default class LikeService {
 
-    constructor (
+    constructor(
         @InjectRepository(LikeEntity) private readonly likeRepository: Repository<LikeEntity>,
         @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
         @InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>
-    ) {}
+    ) { }
 
-    public async like (UserId: number, PostId: number) {
+    public async like(UserId: number, PostId: number) {
 
         const user = await this.userRepository.findOne({
-            where: {id: UserId}, 
-            select: {address: true, name: true, id: true, photo: true}});
+            where: { id: UserId },
+            select: { address: true, name: true, id: true, photo: true }
+        });
 
-        if(!user) {
+        if (!user) {
 
             throw new NotFoundException(new ResponseDto("Usuário não encontrado.", false, {}));
 
         }
 
-        const post = await this.postRepository.findOne({where: {id: PostId}});
+        const post = await this.postRepository.findOne({ where: { id: PostId } });
 
-        if(!post) {
+        if (!post) {
 
             throw new NotFoundException(new ResponseDto("Post não encontrado.", false, {}));
-        
+
         }
 
-        const findLike = await this.likeRepository.findOne({where: {user, post}});
+        const findLike = await this.likeRepository.findOne({ where: { user, post } });
 
+        // Caso o like exista ele é removido.
         if (findLike) {
 
             await this.likeRepository.remove(findLike);
@@ -44,8 +46,8 @@ export default class LikeService {
             return new ResponseDto("Like removido", true, {})
 
         }
-
-        const like = this.likeRepository.create({user, post});
+        // Caso o like não exista ele é criado.
+        const like = this.likeRepository.create({ user, post });
 
         await this.likeRepository.save(like);
 
@@ -53,10 +55,10 @@ export default class LikeService {
 
     }
 
-    public async getLikesByPost(postId: number) {
+    public async getLikesByPost(postId: number, page = 0) {
 
         const likes = await this.likeRepository.find({
-            where: {post: {id: postId}}, relations: {user: true},
+            where: { post: { id: postId } }, relations: { user: true },
             select: {
                 user: {
                     id: true,
@@ -67,13 +69,13 @@ export default class LikeService {
             }
         });
 
-        if(!likes) {
+        if (!likes) {
 
             throw new NotFoundException(new ResponseDto("Post não encontrado.", false, {}));
-        
+
         }
 
-        return new ResponseDto("Likes", true, {likes});
+        return new ResponseDto("Likes", true, { likes });
 
     }
 

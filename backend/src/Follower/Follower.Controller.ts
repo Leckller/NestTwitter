@@ -14,7 +14,7 @@ export default class FollowerController {
     ) { }
 
     @Post()
-    public async createFollower(@GetUser() { id }: UserTypeToken, @Body() { followedId }: FollowerRequestDto) {
+    public async follow(@GetUser() { id }: UserTypeToken, @Body() { followedId }: FollowerRequestDto) {
 
         return await this.followerService.createFollower(+followedId, +id);
 
