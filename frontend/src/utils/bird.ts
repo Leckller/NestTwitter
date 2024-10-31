@@ -3,7 +3,7 @@
 export const bird = async <T>(
   url: string,
   method: 'POST' | 'PATCH' | 'GET' | 'DELETE ' = 'GET',
-  body: any,
+  body: object = {},
   headers: object = {},
 ): Promise<T> => {
   const request = await fetch(url, {
