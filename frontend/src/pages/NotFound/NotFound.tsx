@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { StyledNotFound } from './StyledNotFound';
 
 function NotFound() {
   const navigate = useNavigate();
   return (
-    <section>
-      <p className="text-2xl text-left">
+    <StyledNotFound>
+      <p>
         Tudo vazio por aqui...
       </p>
       <button onClick={ () => navigate('/') }>
@@ -13,7 +14,7 @@ function NotFound() {
           <strong>/</strong>
         </p>
       </button>
-    </section>
+    </StyledNotFound>
   );
 }
 
