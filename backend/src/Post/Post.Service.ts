@@ -77,14 +77,12 @@ export default class PostService {
                 "user.address",
                 "user.photo",
                 "user.name",
-                "user.bgColor",
-                "user.textColor",
             ])
             .take(10)
             .skip(page * 10)
             .getMany();
 
-        return new ResponseDto("Global posts", true, { posts });
+        return new ResponseDto("Global posts", true, posts );
 
     }
 

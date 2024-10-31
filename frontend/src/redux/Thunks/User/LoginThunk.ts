@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { login } from '../../services/User/login';
+import { login } from '../../../services/User/login';
 
 export const fetchLogin = createAsyncThunk(
   'fetchLogin',
   async ({ email, password }: { email: string, password: string }) => {
-    const response = await login(email, password);
+    const response = await login({ email, password });
     return response;
   },
 );
