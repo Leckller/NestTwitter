@@ -24,10 +24,4 @@ export default class PostEntity {
     @Column()
     text: string;
 
-    @Column({ default: "#0F0F0F", length: "16" })
-    textColor: string;
-
-    @Column({ default: "#001848", length: "16" })
-    bgColor: string;
-
 }

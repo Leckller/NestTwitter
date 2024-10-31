@@ -28,9 +28,9 @@ export default class PostController {
     }
 
     @Post()
-    public async createPost(@GetUser() userInfo: TokenType, @Body() { text, bgColor, textColor }: PostRequestDto) {
+    public async createPost(@GetUser() userInfo: TokenType, @Body() { text }: PostRequestDto) {
 
-        return await this.postService.createPost({ text, bgColor, textColor }, userInfo.id)
+        return await this.postService.createPost({ text }, userInfo.id)
 
     }
 

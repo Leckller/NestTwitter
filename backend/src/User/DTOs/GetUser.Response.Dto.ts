@@ -9,8 +9,6 @@ export default class GetUserResponseDto implements Partial<UserType> {
     public photo: string,
     public address: string,
     public posts: PostEntity[],
-    public bgColor: string,
-    public textColor: string,    
     ) {}
     
 }
