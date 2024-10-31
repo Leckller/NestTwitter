@@ -1,11 +1,11 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
 import AuthGuard from "src/Guard/Auth.Guard";
 import CommentService from "./Comment.Service";
 import CreateCommentRequestDto from "./DTOs/CreateComment.Request.Dto";
 import { GetUser } from "src/decorators/User.Decorator";
 import { TokenType } from "src/types";
 
-@Controller('Comment')
+@Controller('comment')
 @UseGuards(AuthGuard)
 export default class CommentControler {
 
@@ -13,6 +13,7 @@ export default class CommentControler {
         private readonly CommentService: CommentService
     ) { }
 
+    @UseGuards(AuthGuard)
     @Post()
     public async createComment(@GetUser() { id }: TokenType, @Body() { postId, text }: CreateCommentRequestDto) {
 
@@ -20,4 +21,11 @@ export default class CommentControler {
 
     }
 
+    @UseGuards(AuthGuard)
+    @Get(':page/:userId')
+    public async getCommentsByUser(@Param() { page, userId }) {
+
+        return await this.CommentService.getCommentsByUser(+userId, +page);
+
+    }
 }

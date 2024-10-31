@@ -5,21 +5,18 @@ import FollowerController from "./Follower.Controller";
 import FollowerService from "./Follower.Service";
 import UserEntity from "../User/User.entity";
 import AuthModule from "../Auth/Auth.Module";
+import LikeEntity from "src/Like/Like.entity";
 
 @Module({
     controllers: [FollowerController],
     providers: [FollowerService],
-    exports: [
-        TypeOrmModule.forFeature([
-            FollowerEntity
-        ])
-    ],
     imports: [
         AuthModule,
         TypeOrmModule.forFeature([
             FollowerEntity,
-            UserEntity
+            UserEntity,
+            LikeEntity
         ])
     ]
 })
-export default class FollowerModule {}
+export default class FollowerModule { }

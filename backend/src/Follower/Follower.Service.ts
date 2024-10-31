@@ -4,13 +4,18 @@ import FollowerEntity from "./Follower.Entity";
 import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
+import LikeEntity from "src/Like/Like.entity";
 
 @Injectable()
 export default class FollowerService {
 
     constructor(
-        @InjectRepository(FollowerEntity) private readonly followerRepository: Repository<FollowerEntity>,
-        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>
+        @InjectRepository(FollowerEntity)
+        private readonly followerRepo: Repository<FollowerEntity>,
+        @InjectRepository(UserEntity)
+        private readonly userRepo: Repository<UserEntity>,
+        @InjectRepository(LikeEntity)
+        private readonly likeRepo: Repository<LikeEntity>,
     ) { }
 
     public async createFollower(followedId: number, followingId: number) {
@@ -21,7 +26,7 @@ export default class FollowerService {
 
         }
 
-        const followedUser = await this.userRepository.findOne({ where: { id: followedId } });
+        const followedUser = await this.userRepo.findOne({ where: { id: followedId } });
 
         if (!followedUser) {
 
@@ -29,7 +34,7 @@ export default class FollowerService {
 
         }
 
-        const followingUser = await this.userRepository.findOne({ where: { id: followingId } });
+        const followingUser = await this.userRepo.findOne({ where: { id: followingId } });
 
         if (!followingUser) {
 
@@ -37,19 +42,20 @@ export default class FollowerService {
 
         }
 
-        const findFollow = await this.followerRepository.findOne({ where: { followed: followedUser, following: followingUser } });
+        const findFollow = await this.followerRepo.findOne({ where: { followed: followedUser, following: followingUser } });
 
+        // Caso encontre o vinculo entre os usuários, ele é removido.
         if (findFollow) {
 
-            await this.followerRepository.remove(findFollow);
+            await this.followerRepo.remove(findFollow);
 
             return new ResponseDto(`${followingUser.name} deixou de seguir ${followedUser.name}`, true, {});
 
         }
+        // Caso não encontre o vinculo entre os usuários, ele é criado.
+        const follow = this.followerRepo.create({ followed: followedUser, following: followingUser });
 
-        const follow = this.followerRepository.create({ followed: followedUser, following: followingUser });
-
-        await this.followerRepository.save(follow);
+        await this.followerRepo.save(follow);
 
         return new ResponseDto(`${followingUser.name + "-" + followingUser.address} agora está seguindo ${followedUser.name + "-" + followedUser.address}`, true, {});
 
@@ -57,7 +63,7 @@ export default class FollowerService {
 
     public async getPostsByFollows(userId: number, page = 0) {
 
-        const user = await this.userRepository.findOne({ where: { id: userId } });
+        const user = await this.userRepo.findOne({ where: { id: userId } });
 
         if (!user) {
 
@@ -66,10 +72,11 @@ export default class FollowerService {
         }
 
         // essa aq vai ser chata de fazer tbm
-        const posts = await this.followerRepository.find({
+        const posts = await this.followerRepo.find({
             where: { following: user },
             relations: { followed: { posts: { likes: { user: true } } } },
             order: { id: "DESC" },
+            skip: page * 8,
             take: 10,
             select: {
                 followed: {

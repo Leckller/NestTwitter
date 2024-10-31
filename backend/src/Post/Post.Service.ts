@@ -4,22 +4,27 @@ import PostEntity from "./Post.entity";
 import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
-import { TokenType } from "src/types";
 import PostRequestDto from "./DTOs/Post.Request.dto";
 import LikeEntity from "src/Like/Like.entity";
+import CommentEntity from "src/Comment/Comment.Entity";
 
 @Injectable()
 export default class PostService {
 
     constructor(
-        @InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>,
-        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
-        @InjectRepository(LikeEntity) private readonly likeRepository: Repository<LikeEntity>,
+        @InjectRepository(PostEntity)
+        private readonly postRepo: Repository<PostEntity>,
+        @InjectRepository(UserEntity)
+        private readonly userRepo: Repository<UserEntity>,
+        @InjectRepository(LikeEntity)
+        private readonly likeRepo: Repository<LikeEntity>,
+        @InjectRepository(CommentEntity)
+        private readonly commentRepo: Repository<CommentEntity>,
     ) { }
 
     private async findUser(userId: number) {
 
-        const user = await this.userRepository.findOne({ where: { id: userId } });
+        const user = await this.userRepo.findOne({ where: { id: userId } });
 
         if (!user) {
 
@@ -35,9 +40,9 @@ export default class PostService {
 
         const user = await this.findUser(userId);
 
-        const post = this.postRepository.create({ bgColor, text, textColor, user: user, likes: [] });
+        const post = this.postRepo.create({ bgColor, text, textColor, user: user });
 
-        await this.postRepository.save(post);
+        await this.postRepo.save(post);
 
         const responsePost = {
             ...post,
@@ -58,29 +63,37 @@ export default class PostService {
 
     public async getGlobalPosts(page = 0) {
 
-        const posts = await this.postRepository
+        const posts = await this.postRepo
             .createQueryBuilder("post")
             .leftJoinAndSelect("post.user", "user")
             .leftJoinAndSelect("post.likes", "like")
+            // Conta quantos likes tem
             .loadRelationCountAndMap("post.likes", "post.likes")
+            // Conta quantos comentarios tem
+            .loadRelationCountAndMap("post.comments", "post.comments")
+            // Pega apenas postagens q n sejam um comentário
+            .andWhere('post.isComment = false')
             .select([
                 "post",
-                "user.id", "user.address", "user.photo", "user.name", "user.bgColor", "user.textColor",
+                "user.id",
+                "user.address",
+                "user.photo",
+                "user.name",
+                "user.bgColor",
+                "user.textColor",
             ])
             .take(10)
             .skip(page * 10)
             .getMany();
 
-        // não da p saber se o usuário curtiu ou não sem fazer uma gambiarra maluca...
-
         return new ResponseDto("Global posts", true, { posts });
 
     }
 
-    public async deletePost(userInfo: TokenType, postId: number) {
+    public async deletePost(userId: number, postId: number) {
 
         try {
-            const post = await this.postRepository.findOne({ where: { id: postId }, relations: { user: true } });
+            const post = await this.postRepo.findOne({ where: { id: postId }, relations: { user: true } });
 
             if (!post) {
 
@@ -88,14 +101,14 @@ export default class PostService {
 
             }
 
-            if (post.user.id !== userInfo.id) {
+            if (post.user.id !== userId) {
 
                 throw new BadRequestException(new ResponseDto("Você não tem permissão para fazer isso", false, {}));
 
             }
 
 
-            await this.postRepository.delete(post);
+            await this.postRepo.delete(post);
 
             return new ResponseDto("Post deletado", true, {});
 
@@ -104,6 +117,45 @@ export default class PostService {
             throw new BadRequestException(new ResponseDto("Erro no servidor.", false, {}));
 
         }
+
+    }
+
+    public async postDetails(postId: number, page = 0) {
+
+        const post = await this.postRepo.findOne({
+            where: { id: postId },
+            relations: {
+                comments: { user: true, comment: true },
+                user: true,
+            },
+            select: {
+                id: true,
+                text: true,
+                user: { id: true, address: true, photo: true, name: true },
+            }
+        });
+
+        const comments = await this.commentRepo.find({
+            where: { post },
+            relations: { post: true, user: true },
+            select: {
+                id: true,
+                post: { id: true, text: true },
+                user: { id: true, address: true, photo: true, name: true },
+            },
+            skip: page * 8,
+            take: 8,
+        })
+
+        if (!post) {
+
+            throw new NotFoundException(new ResponseDto("Post não encontrado", false, {}));
+
+        }
+
+        const countLikes = await this.likeRepo.count({ where: { post } });
+
+        return new ResponseDto('Post details', true, { ...post, comments, countLikes });
 
     }
 

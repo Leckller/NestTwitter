@@ -6,18 +6,19 @@ import PostService from "./Post.Service";
 import AuthModule from "../Auth/Auth.Module";
 import UserEntity from "../User/User.entity";
 import LikeEntity from "src/Like/Like.entity";
+import CommentEntity from "src/Comment/Comment.Entity";
 
 @Module({
     providers: [PostService],
     imports: [
-        TypeOrmModule.forFeature([PostEntity]),
-        TypeOrmModule.forFeature([UserEntity]),
-        TypeOrmModule.forFeature([LikeEntity]),
-        AuthModule
-    ],
-    exports: [
-        TypeOrmModule.forFeature([PostEntity])
+        AuthModule,
+        TypeOrmModule.forFeature([
+            LikeEntity,
+            UserEntity,
+            PostEntity,
+            CommentEntity
+        ]),
     ],
     controllers: [PostController],
 })
-export default class PostModule {}
+export default class PostModule { }

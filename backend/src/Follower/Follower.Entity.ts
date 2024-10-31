@@ -3,16 +3,16 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export default class FollowerEntity {
- 
-    @PrimaryGeneratedColumn({unsigned: true})
+
+    @PrimaryGeneratedColumn({ unsigned: true })
     id: number;
 
-    // essa relação tá errada fi
-
-    @ManyToOne(()=> UserEntity, (userEntity) => userEntity.followers)
+    // Seguido
+    @ManyToOne(() => UserEntity, (userEntity) => userEntity.followers)
     followed: UserEntity;
-    
-    @ManyToOne(()=> UserEntity, (userEntity) => userEntity.following)
+
+    // Seguindo
+    @ManyToOne(() => UserEntity, (userEntity) => userEntity.following)
     following: UserEntity;
 
 } 
