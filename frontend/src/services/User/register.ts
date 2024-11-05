@@ -4,6 +4,7 @@ import { RegisterResponse } from '../../types/User/Register.Response';
 import { bird } from '../../utils/bird';
 import { baseUrl } from '../baseUrl';
 
+// Função para envio de cadastro de novo usuário
 export const register = async ({
   email, password, address, banner, name, photo,
 }: RegisterRequest) => {

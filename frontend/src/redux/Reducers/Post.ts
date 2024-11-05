@@ -22,6 +22,7 @@ export const PostSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // BUILDER DO THUNK PARA CRIAR UM NOVO POST
     builder
       .addCase(fetchCreatePost.pending, (state) => {
         state.loading = true;
@@ -31,6 +32,7 @@ export const PostSlice = createSlice({
         state.posts.unshift({ ...action.payload.result, comments: 0, likes: 0 });
       });
 
+    // BUILDER DO THUNK PARA REQUISITAR OS POSTS GLOBAIS
     builder
       .addCase(fetchGlobalPosts.pending, (state) => {
         state.loading = true;
@@ -40,6 +42,7 @@ export const PostSlice = createSlice({
         state.posts = [...state.posts, ...action.payload.result];
       });
 
+    // BUILDER DO THUNK QUE REQUISITA OS DETALHES DE UM POST
     builder
       .addCase(fetchPostDetails.pending, (state) => {
         state.loading = true;

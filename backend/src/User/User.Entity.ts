@@ -31,15 +31,19 @@ export default class UserEntity implements UserType {
     @Column()
     banner: string;
 
+    // Posts da pessoa
     @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
     posts: PostEntity[];
 
+    // Comentários da pessoa
     @OneToMany(() => CommentEntity, (commentEntity) => commentEntity.user)
     comments: CommentEntity[];
 
+    // Seguidores da pessoa
     @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.following)
     followers: FollowerEntity;
 
+    // Pessoas que o usuário segue
     @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
     following: FollowerEntity;
 
