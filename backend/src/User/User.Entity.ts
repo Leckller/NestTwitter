@@ -43,12 +43,6 @@ export default class UserEntity implements UserType {
     @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
     following: FollowerEntity;
 
-    @Column({ default: "#0F0F0F", length: "16" })
-    textColor: string;
-
-    @Column({ default: "#001848", length: "16" })
-    bgColor: string;
-
     constructor(user?: Partial<UserEntity>) {
         this.id = user?.id;
         this.address = user?.address;

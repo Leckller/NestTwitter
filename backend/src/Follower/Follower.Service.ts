@@ -83,8 +83,6 @@ export default class FollowerService {
                     id: true, name: true, photo: true, address: true, posts: {
                         id: true,
                         text: true,
-                        bgColor: true,
-                        textColor: true,
                         likes: { id: true, user: { photo: true, name: true, address: true, id: true } }
                     }
                 }

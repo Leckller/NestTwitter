@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import UserEntity from "./User.entity";
 import AuthService from "../Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
@@ -35,23 +35,19 @@ export default class UserService {
 
         newUser.password = await this.AuthService.encrypt(user.password);
 
-        const { address, name, photo, banner, id, bgColor, textColor } = newUser;
+        const { address, name, photo, banner } = newUser;
 
         await this.userRepository.save(newUser);
 
         const token = this.AuthService.createToken({ address, banner, id: newUser.id, name, photo } as UserTypeToken);
 
-        return new ResponseDto('Usuário criado com sucesso', true, {
-            token, user: {
-                id, name, photo, address, banner, bgColor, textColor
-            }
-        });
+        return new ResponseDto('Usuário criado com sucesso', true, { token });
 
     }
 
     public async getUserByAddress(address: string) {
 
-        const user = await this.userRepository.findOne({ where: { address }, relations: { posts: true } });
+        const user = await this.userRepository.findOne({ where: { address: Like(`%${address}%`) }, relations: { posts: true } });
 
         if (!user) {
 
@@ -59,10 +55,11 @@ export default class UserService {
 
         }
 
-        const { banner, name, posts, photo, textColor, bgColor } = user;
+        const { banner, name, posts, photo } = user;
 
         return new ResponseDto("Usuário encontrado", true, new GetUserResponseDto(
-            banner, name, photo, address, posts, bgColor, textColor));
+            banner, name, photo, address, posts
+        ));
 
     }
 
@@ -76,39 +73,13 @@ export default class UserService {
 
         }
 
-        const { address, name, photo, banner, id, bgColor, textColor } = findUser;
+        const { address, name, photo, banner, id } = findUser;
 
         await this.AuthService.compare(user.password, findUser.password);
 
         const token = this.AuthService.createToken({ address, banner, id, name, photo } as UserTypeToken);
 
-        return new ResponseDto('Bem vindo de volta!', true, {
-            token, user: {
-                id, name, photo, address, banner, bgColor, textColor
-            }
-        });
-
-    }
-
-    public async editColors({ bgColor, textColor, user }: { user: TokenType, bgColor: string, textColor: string }) {
-
-        const findUser = await this.userRepository.findOne({
-            where: { id: user.id },
-            select: { id: true, bgColor: true, textColor: true, }
-        });
-
-        if (!findUser) {
-
-            return new NotFoundException(new ResponseDto('Usuário não encontrado', false, {}));
-
-        }
-
-        findUser.bgColor = bgColor;
-        findUser.textColor = textColor;
-
-        await this.userRepository.save(findUser);
-
-        return new ResponseDto("Alterações realizadas com sucesso", true, { user: findUser });
+        return new ResponseDto('Bem vindo de volta!', true, { token });
 
     }
 

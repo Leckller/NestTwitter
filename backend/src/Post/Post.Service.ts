@@ -36,11 +36,11 @@ export default class PostService {
 
     }
 
-    public async createPost({ bgColor, text, textColor }: PostRequestDto, userId: number) {
+    public async createPost({ text }: PostRequestDto, userId: number) {
 
         const user = await this.findUser(userId);
 
-        const post = this.postRepo.create({ bgColor, text, textColor, user: user });
+        const post = this.postRepo.create({ user, text });
 
         await this.postRepo.save(post);
 
@@ -51,8 +51,6 @@ export default class PostService {
                 address: post.user.address,
                 photo: post.user.photo,
                 name: post.user.name,
-                bgColor: post.user.bgColor,
-                textColor: post.user.textColor,
             },
             // likes: 0 as any usar isso aqui mais tarde
         } as PostEntity
@@ -79,14 +77,12 @@ export default class PostService {
                 "user.address",
                 "user.photo",
                 "user.name",
-                "user.bgColor",
-                "user.textColor",
             ])
             .take(10)
             .skip(page * 10)
             .getMany();
 
-        return new ResponseDto("Global posts", true, { posts });
+        return new ResponseDto("Global posts", true, posts );
 
     }
 
