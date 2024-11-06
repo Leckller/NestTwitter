@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { StyledRegister } from './StyledRegister';
-import { RegisterRequest } from '../../types/User/Register.Request';
 import { useAppDispatch } from '../../hooks/reduxHooks';
-import { fetchRegister } from '../../redux/Thunks/User/RegisterThunk';
+import { StyledLogin } from './StyledLogin';
+import { LoginRequest } from '../../types/User/Login.Request';
+import { fetchLogin } from '../../redux/Thunks/User/LoginThunk';
 
-type FieldTypes = 'email' | 'address' | 'password' | 'name' | 'photo';
+type FieldTypes = 'email' | 'password';
 
-function Register() {
+function Login() {
   const [viewPassword, setViewPassword] = useState(false);
 
-  const [fields, setFields] = useState<RegisterRequest>({
-    address: '', banner: '', email: '', name: '', password: '', photo: '',
-  });
+  const [fields, setFields] = useState<LoginRequest>({ email: '', password: '' });
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -22,11 +20,11 @@ function Register() {
   };
 
   const handleSubmit = () => {
-    dispatch(fetchRegister(fields));
+    dispatch(fetchLogin(fields));
   };
 
   return (
-    <StyledRegister>
+    <StyledLogin>
       <form
         onSubmit={ (e) => e.preventDefault() }
       >
@@ -36,22 +34,6 @@ function Register() {
           <input
             onChange={ ({ target: { value } }) => handleSetField('email', value) }
             type="email"
-          />
-        </label>
-
-        <label>
-          <h2>Name</h2>
-          <input
-            onChange={ ({ target: { value } }) => handleSetField('name', value) }
-            type="text"
-          />
-        </label>
-
-        <label>
-          <h2>Unique Name</h2>
-          <input
-            onChange={ ({ target: { value } }) => handleSetField('address', value) }
-            type="text"
           />
         </label>
 
@@ -68,17 +50,17 @@ function Register() {
         </button>
 
         <section>
-          <button onClick={ () => navigate('/login') }>
-            Já possui uma conta? Faça o login!
+          <button onClick={ () => navigate('/register') }>
+            Ainda não possui uma conta? cadastre-se!
           </button>
           <button type="submit" onClick={ () => handleSubmit() }>
-            Cadastrar
+            Logar
           </button>
         </section>
 
       </form>
-    </StyledRegister>
+    </StyledLogin>
   );
 }
 
-export default Register;
+export default Login;

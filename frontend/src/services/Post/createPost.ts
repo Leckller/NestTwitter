@@ -7,10 +7,12 @@ import { baseUrl } from '../baseUrl';
 // Função para fazer envio de um novo post para o banco de dados
 export const createPost = async ({ text, authorization }: CreatePostRequest) => {
   const request = await bird<Request<CreatePostResponse>>(
-    `${baseUrl}/post`,
-    'POST',
-    { text },
-    { authorization },
+    {
+      url: `${baseUrl}/post`,
+      headers: { authorization },
+      body: { text },
+      method: 'POST',
+    },
   );
 
   console.log(request);

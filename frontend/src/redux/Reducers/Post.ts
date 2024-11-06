@@ -40,6 +40,10 @@ export const PostSlice = createSlice({
       .addCase(fetchGlobalPosts.fulfilled, (state, action) => {
         state.loading = false;
         state.posts = [...state.posts, ...action.payload.result];
+      })
+      .addCase(fetchGlobalPosts.rejected, (state, action) => {
+        state.loading = false;
+        console.log(action);
       });
 
     // BUILDER DO THUNK QUE REQUISITA OS DETALHES DE UM POST

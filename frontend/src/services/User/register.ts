@@ -8,10 +8,15 @@ import { baseUrl } from '../baseUrl';
 export const register = async ({
   email, password, address, banner, name, photo,
 }: RegisterRequest) => {
-  const request = await bird<Request<RegisterResponse>>(`${baseUrl}`, 'POST', {
-    email, password, address, banner, name, photo,
-  });
+  const request = await bird<Request<RegisterResponse>>(
+    {
+      url: `${baseUrl}/user`,
+      method: 'POST',
+      body: {
+        email, password, address, banner, name, photo,
+      },
+    },
+  );
 
-  console.log(request);
   return request;
 };

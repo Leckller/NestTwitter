@@ -6,6 +6,9 @@ export const fetchGlobalPosts = createAsyncThunk(
   'fetchGlobalPosts',
   async (fields: GlobalPostRequest) => {
     const response = await globalPosts(fields);
+
+    console.log(response);
+
     return response;
   },
 );

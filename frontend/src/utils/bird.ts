@@ -1,18 +1,24 @@
 // meu fetch customizado
 
 export const bird = async <T>(
-  url: string,
-  method: 'POST' | 'PATCH' | 'GET' | 'DELETE ' = 'GET',
-  body: object = {},
-  headers: object = {},
+  { body, headers = {}, method = 'GET', url }: { url: string,
+    method?: 'POST' | 'PATCH' | 'GET' | 'DELETE ',
+    body?: object,
+    headers?: object, },
 ): Promise<T> => {
-  const request = await fetch(url, {
+  const request = body ? await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
       ...headers,
     },
     method,
     body: JSON.stringify(body),
+  }) : await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    method,
   });
 
   const response = await request.json() as T;
