@@ -17,6 +17,7 @@ export const UserSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // BUILDER DO THUNK PARA O LOGIN DE USUÁRIO
     builder
       .addCase(fetchLogin.pending, (state) => {
         state.loading = true;
@@ -26,6 +27,7 @@ export const UserSlice = createSlice({
         state.token = action.payload.result.token;
       });
 
+    // BUILDER DO THUNK PARA REGISTRAR UM NOVO USUÁRIO
     builder
       .addCase(fetchRegister.pending, (state) => {
         state.loading = true;

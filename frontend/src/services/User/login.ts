@@ -4,6 +4,7 @@ import { LoginResponse } from '../../types/User/Login.Response';
 import { bird } from '../../utils/bird';
 import { baseUrl } from '../baseUrl';
 
+// Função para iniciar uma nova sessão para o usuário
 export const login = async ({ email, password }: LoginRequest) => {
   const request = await bird<Request<LoginResponse>>(`${baseUrl}/login`, 'POST', {
     email, password,

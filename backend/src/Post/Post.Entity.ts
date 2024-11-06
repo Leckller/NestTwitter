@@ -9,12 +9,15 @@ export default class PostEntity {
     @PrimaryGeneratedColumn({ unsigned: true })
     id: number;
 
+    // Usuário que fez o post
     @ManyToOne(() => UserEntity, (userEntity) => userEntity.posts)
     user: UserEntity;
 
+    // Likes do post
     @OneToMany(() => LikeEntity, (likeEntity) => likeEntity.post, { cascade: true })
     likes: LikeEntity[];
 
+    // Comentários do post
     @OneToMany(() => CommentEntity, (commentEntity) => commentEntity.post)
     comments: CommentEntity[];
 
@@ -24,4 +27,4 @@ export default class PostEntity {
     @Column()
     text: string;
 
-}
+} 
