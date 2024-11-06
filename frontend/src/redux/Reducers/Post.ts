@@ -11,14 +11,16 @@ interface PostState {
   postDetails: PostDetailsResponse | undefined;
   globalPage: number,
   isMaxPage: boolean,
+  newPost: boolean,
 }
 
 const initialState: PostState = {
   postDetails: undefined,
-  loading: false,
-  posts: [],
-  globalPage: 0,
   isMaxPage: false,
+  loading: false,
+  newPost: false,
+  globalPage: 0,
+  posts: [],
 };
 
 export const PostSlice = createSlice({
@@ -27,6 +29,9 @@ export const PostSlice = createSlice({
   reducers: {
     setPage(state, action: PayloadAction<number>) {
       state.globalPage = action.payload;
+    },
+    setNewPost(state, action: PayloadAction<boolean>) {
+      state.newPost = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -76,6 +81,6 @@ export const PostSlice = createSlice({
   },
 });
 
-export const { setPage } = PostSlice.actions;
+export const { setPage, setNewPost } = PostSlice.actions;
 
 export default PostSlice.reducer;
