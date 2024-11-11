@@ -77,6 +77,10 @@ export const PostSlice = createSlice({
       .addCase(fetchPostDetails.fulfilled, (state, action) => {
         state.loading = false;
         state.postDetails = action.payload.result;
+      })
+      .addCase(fetchPostDetails.rejected, (state, action) => {
+        state.loading = false;
+        console.log(action);
       });
   },
 });

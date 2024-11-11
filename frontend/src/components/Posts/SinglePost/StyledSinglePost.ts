@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledPost = styled.article`
+export const StyledSinglePost = styled.article`
 
   display: flex;
   flex-direction: row;
@@ -29,7 +29,7 @@ export const StyledPost = styled.article`
   section:nth-child(2) {
     
     // Nome do usuário
-    article:nth-child(1) {
+    button article:nth-child(1) {
 
       display: flex;
       gap: 8px;
@@ -37,14 +37,14 @@ export const StyledPost = styled.article`
     }
 
     // Texto do post
-    article:nth-child(2) {
+    button article:nth-child(2) {
 
 
 
     }
     
     // Parte dos comentários e likes
-    article:nth-child(3) {
+    article {
 
       display: flex;
       gap: 8px;

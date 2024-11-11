@@ -11,7 +11,7 @@ import { baseUrl } from '../baseUrl';
 export const postDetails = async ({ id, page, authorization }: PostDetailsRequest) => {
   const request = await bird<Request<PostDetailsResponse>>(
     {
-      url: `${baseUrl}/details/${id}/${page}`,
+      url: `${baseUrl}/post/details/${id}/${page}`,
       headers: { authorization },
     },
   );

@@ -1,4 +1,4 @@
-import { GlobalPostResponse } from '../../../types/Post/GlobalPost.Response';
+import { GlobalPostResponse } from '../../types/Post/GlobalPost.Response';
 import { StyledPost } from './StyledPost';
 import DefaultImg from '../../../assets/ProfilePictures/iconFace.png';
 
@@ -7,7 +7,7 @@ function Post({ post }: { post: GlobalPostResponse }) {
   return (
     <StyledPost>
       <section>
-        <img src={ user.photo || DefaultImg } alt={ user.name } />
+        <img src={user.photo || DefaultImg} alt={user.name} />
       </section>
       <section>
         <article>

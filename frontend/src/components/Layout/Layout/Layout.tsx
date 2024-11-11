@@ -3,11 +3,13 @@ import { StyledLayout } from './StyledLayout';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import { StyledNewPost } from './StyledNewPost';
-import { useAppDispatch } from '../../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { setNewPost } from '../../../redux/Reducers/Post';
+import CreatePost from '../CreatePost/CreatePost';
 
 function Layout() {
   const dispatch = useAppDispatch();
+  const { newPost } = useAppSelector((s) => s.Post);
 
   return (
     <>
@@ -15,8 +17,9 @@ function Layout() {
       <StyledLayout>
         <Outlet />
       </StyledLayout>
+      {newPost && <CreatePost />}
       <StyledNewPost
-        onClick={ () => dispatch(setNewPost(true)) }
+        onClick={ () => dispatch(setNewPost(!newPost)) }
       >
         +
       </StyledNewPost>
