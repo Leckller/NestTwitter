@@ -82,7 +82,7 @@ export default class PostService {
             .skip(page * 10)
             .getMany();
 
-        return new ResponseDto("Global posts", true, posts );
+        return new ResponseDto("Global posts", true, posts);
 
     }
 
@@ -133,10 +133,11 @@ export default class PostService {
 
         const comments = await this.commentRepo.find({
             where: { post },
-            relations: { post: true, user: true },
+            relations: { user: true, comment: true },
             select: {
                 id: true,
-                post: { id: true, text: true },
+                // Tem q adicionar coisa aqui.
+                comment: { id: true, text: true },
                 user: { id: true, address: true, photo: true, name: true },
             },
             skip: page * 8,

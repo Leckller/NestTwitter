@@ -8,11 +8,12 @@ interface User {
 interface CommentPost {
   id: number;
   text: string;
+  isComment: boolean,
 }
 
 interface Comment {
   id: number;
-  post: CommentPost;
+  comment: CommentPost;
   user: User;
 }
 

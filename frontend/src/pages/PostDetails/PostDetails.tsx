@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchPostDetails } from '../../redux/Thunks/Post/PostDetailsThunk';
+import SinglePost from '../../components/Posts/SinglePost/SinglePost';
 
 function PostDetails() {
   const { id } = useParams();
@@ -14,7 +15,35 @@ function PostDetails() {
   }, []);
 
   return (
-    <div>PostDetails</div>
+    <section>
+      {postDetails && (
+        <>
+          <SinglePost
+            post={ {
+              comments: 0,
+              id: postDetails?.id,
+              likes: postDetails?.countLikes,
+              text: postDetails?.text,
+              isComment: false,
+              user: postDetails?.user,
+            } }
+          />
+          {postDetails?.comments.map((comment) => (
+            <SinglePost
+              post={ {
+                comments: 0,
+                id: comment.comment.id,
+                isComment: true,
+                likes: 0,
+                text: comment.comment.text,
+                user: comment.user,
+              } }
+              key={ comment.id }
+            />
+          ))}
+        </>
+      )}
+    </section>
   );
 }
 
