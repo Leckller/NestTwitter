@@ -7,12 +7,13 @@ import { baseUrl } from '../baseUrl';
 // Função para requisitar todos os últimos 8 posts (usa o formato de paginação)
 export const globalPosts = async ({ page = 0, authorization }: GlobalPostRequest) => {
   const request = await bird<Request<GlobalPostResponse[]>>(
-    `${baseUrl}/global/${page}`,
-    'GET',
-    {},
-    { authorization },
+    {
+      url: `${baseUrl}/post/global/${page}`,
+      headers: { authorization },
+    },
   );
 
   console.log(request);
+
   return request;
 };

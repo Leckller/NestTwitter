@@ -9,6 +9,9 @@ function Footer() {
       <button onClick={ () => navigate('/Home') }>
         Home
       </button>
+      <button onClick={ () => navigate('/Global') }>
+        Global
+      </button>
       <button onClick={ () => navigate('/Search') }>
         Search
       </button>

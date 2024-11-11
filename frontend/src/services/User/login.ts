@@ -6,10 +6,11 @@ import { baseUrl } from '../baseUrl';
 
 // Função para iniciar uma nova sessão para o usuário
 export const login = async ({ email, password }: LoginRequest) => {
-  const request = await bird<Request<LoginResponse>>(`${baseUrl}/login`, 'POST', {
-    email, password,
-  });
+  const request = await bird<Request<LoginResponse>>(
+    {
+      url: `${baseUrl}/user/login`, method: 'POST', body: { email, password },
+    },
+  );
 
-  console.log(request);
   return request;
 };

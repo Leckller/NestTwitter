@@ -10,10 +10,10 @@ import { baseUrl } from '../baseUrl';
 // ou vai ficar sendo enviado dados repetidos (o post que está sendo detalhado e quantidade de curtidas)
 export const postDetails = async ({ id, page, authorization }: PostDetailsRequest) => {
   const request = await bird<Request<PostDetailsResponse>>(
-    `${baseUrl}/details/${id}/${page}`,
-    'GET',
-    {},
-    { authorization },
+    {
+      url: `${baseUrl}/post/details/${id}/${page}`,
+      headers: { authorization },
+    },
   );
 
   console.log(request);

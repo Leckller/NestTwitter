@@ -8,4 +8,7 @@ export const StyledFooter = styled.footer`
   display: flex;
   padding: 8px;
   bottom: 0;
+
+  backdrop-filter: blur(2px);
+  background-color: rgba(0,0,0,0.2);
 `;

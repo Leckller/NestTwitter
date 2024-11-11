@@ -5,11 +5,13 @@ import { fetchRegister } from '../Thunks/User/RegisterThunk';
 interface UserState {
   token: string,
   loading: boolean,
+  error: any
 }
 
 const initialState: UserState = {
-  token: '',
+  token: JSON.parse(localStorage.getItem('nesTwitterToken')!) || '',
   loading: false,
+  error: undefined,
 };
 
 export const UserSlice = createSlice({
@@ -24,6 +26,18 @@ export const UserSlice = createSlice({
       })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.loading = false;
+        if ('error' in action.payload) {
+          state.error = action.payload.message;
+          return;
+        }
+        if (!action.payload.ok) {
+          state.error = action.payload.message;
+          return;
+        }
+        localStorage.setItem(
+          'nesTwitterToken',
+          JSON.stringify(action.payload.result.token),
+        );
         state.token = action.payload.result.token;
       });
 
@@ -34,6 +48,18 @@ export const UserSlice = createSlice({
       })
       .addCase(fetchRegister.fulfilled, (state, action) => {
         state.loading = false;
+        if ('error' in action.payload) {
+          state.error = action.payload.message;
+          return;
+        }
+        if (!action.payload.ok) {
+          state.error = action.payload.message;
+          return;
+        }
+        localStorage.setItem(
+          'nesTwitterToken',
+          JSON.stringify(action.payload.result.token),
+        );
         state.token = action.payload.result.token;
       });
   },
