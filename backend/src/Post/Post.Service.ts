@@ -133,13 +133,34 @@ export default class PostService {
             }
         });
 
+        // pega 5 comentários
+        const comments = await this.commentRepo.find({
+            where: { post: { id: postId } },
+            relations: {
+                comment: true,
+            },
+            select: {
+                comment: {
+                    id: true,
+                    text: true,
+                    user: {
+                        id: true,
+                        address: true,
+                        name: true,
+                        photo: true,
+                    }
+                }
+            },
+            take: 5,
+        });
+
         // Faz a contagem dos comentários do post
-        const comments = await this.commentRepo.count({
+        const countcomments = await this.commentRepo.count({
             where: { post: { id: postId } }
         });
 
         // Faz a contagem de likes do post
-        const likes = await this.likeRepo.count({ where: { post } });
+        const countlikes = await this.likeRepo.count({ where: { post } });
 
         if (!post) {
 
@@ -147,7 +168,7 @@ export default class PostService {
 
         };
 
-        return new ResponseDto('Post details', true, { ...post, comments, likes });
+        return new ResponseDto('Post details', true, { ...post, comments, countcomments, countlikes });
 
     }
 
