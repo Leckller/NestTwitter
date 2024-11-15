@@ -79,6 +79,7 @@ export default class PostService {
                 "user.name",
             ])
             .take(10)
+            .orderBy('', 'ASC')
             .skip(page * 10)
             .getMany();
 
@@ -118,6 +119,7 @@ export default class PostService {
 
     public async postDetails(postId: number, page = 0) {
 
+        // Procura por um post e seleciona seus elementos
         const post = await this.postRepo.findOne({
             where: { id: postId },
             relations: {
@@ -131,28 +133,51 @@ export default class PostService {
             }
         });
 
-        const comments = await this.commentRepo.find({
-            where: { post },
-            relations: { user: true, comment: true },
-            select: {
-                id: true,
-                // Tem q adicionar coisa aqui.
-                comment: { id: true, text: true },
-                user: { id: true, address: true, photo: true, name: true },
-            },
-            skip: page * 8,
-            take: 8,
-        })
+        // Faz a contagem dos comentários do post
+        const comments = await this.commentRepo.count({
+            where: { post: { id: postId } }
+        });
+
+        // Faz a contagem de likes do post
+        const likes = await this.likeRepo.count({ where: { post } });
 
         if (!post) {
 
             throw new NotFoundException(new ResponseDto("Post não encontrado", false, {}));
 
-        }
+        };
 
-        const countLikes = await this.likeRepo.count({ where: { post } });
+        return new ResponseDto('Post details', true, { ...post, comments, likes });
 
-        return new ResponseDto('Post details', true, { ...post, comments, countLikes });
+    }
+
+    // Pega os comentários de um post usando paginação
+    public async getPostComments(postId: number, page: number) {
+
+        const comments = await this.commentRepo.find({
+            where: { post: { id: postId } },
+            skip: page * 10,
+            take: 10,
+            relations: {
+                comment: {
+                    user: true,
+                }
+            },
+            select: {
+                comment: {
+                    id: true,
+                    text: true,
+                    user: {
+                        id: true,
+                        name: true,
+                        address: true,
+                        photo: true,
+                    }
+                }
+            }
+        });
+
+        return new ResponseDto('Post Comments', true, { comments });
 
     }
 

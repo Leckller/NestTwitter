@@ -13,6 +13,7 @@ export default class PostController {
         private readonly postService: PostService
     ) { }
 
+    // Últimos 10 posts publicados
     @Get("global/:page")
     public async getGlobalPosts(@Param('page') page) {
 
@@ -20,13 +21,23 @@ export default class PostController {
 
     }
 
-    @Get("details/:postId/:page")
-    public async getPostsDetails(@Param() { postId, page }) {
+    // Detalhes de um post por ID
+    @Get("details/:postId")
+    public async getPostsDetails(@Param() { postId }) {
 
-        return await this.postService.postDetails(+postId, +page);
+        return await this.postService.postDetails(+postId);
 
     }
 
+    // Pega os comentários de um post
+    @Get("comments/:postId/:page")
+    public async getPostComments(@Param() { postId, page }: { postId: string, page: string }) {
+
+        return await this.postService.getPostComments(+postId, +page);
+
+    }
+
+    // Criação de um post
     @Post()
     public async createPost(@GetUser() userInfo: TokenType, @Body() { text }: PostRequestDto) {
 
@@ -34,6 +45,7 @@ export default class PostController {
 
     }
 
+    // Apaga de um post
     @Delete()
     public async deletePost(@GetUser() userInfo: TokenType, @Body() { postId }) {
 
