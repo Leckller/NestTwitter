@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchPostDetails } from '../../redux/Thunks/Post/PostDetailsThunk';
 import SinglePost from '../../components/Posts/SinglePost/SinglePost';
+import { StyledPostDetails } from './StyledPostDetails';
 
 function PostDetails() {
   const { id } = useParams();
@@ -12,10 +13,10 @@ function PostDetails() {
 
   useEffect(() => {
     dispatch(fetchPostDetails({ id: +id!, authorization: token }));
-  }, []);
+  }, [id]);
 
   return (
-    <section>
+    <StyledPostDetails>
       {postDetails && (
         <>
           <SinglePost
@@ -43,7 +44,7 @@ function PostDetails() {
           ))}
         </>
       )}
-    </section>
+    </StyledPostDetails>
   );
 }
 

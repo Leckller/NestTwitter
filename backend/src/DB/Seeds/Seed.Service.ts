@@ -44,6 +44,15 @@ export default class SeedService {
       photo: "",
     });
 
+    const LeckllerUser = this.userRepo.create({
+      password: await this.authService.encrypt("Flamengo123!"),
+      email: "Leckller@gmail.com",
+      address: "Leckller",
+      name: "Leckller",
+      banner: "",
+      photo: "",
+    });
+
     const ruyUser = this.userRepo.create({
       password: await this.authService.encrypt("Vasco123!"),
       email: "ruy@gmail.com",
@@ -62,7 +71,7 @@ export default class SeedService {
       photo: "",
     });
 
-    await this.userRepo.save([kayoUser, ruyUser, morghUser]);
+    await this.userRepo.save([kayoUser, ruyUser, morghUser, LeckllerUser]);
 
     // Posts
 
@@ -102,6 +111,20 @@ export default class SeedService {
       user: morghUser,
     });
 
+    const leckllerPost1 = this.postRepo.create({
+      text: "jogar aquele lolzinho",
+      user: LeckllerUser,
+    });
+    const leckllerPost2 = this.postRepo.create({
+      text: "dale no osu filhote",
+      user: LeckllerUser,
+    });
+    const leckllerPost3 = this.postRepo.create({
+      text: "pensando em aprender R ou C",
+      user: LeckllerUser,
+    });
+
+
     await this.postRepo.save([
       morghPost1,
       morghPost2,
@@ -112,6 +135,9 @@ export default class SeedService {
       ruyPost1,
       ruyPost2,
       ruyPost3,
+      leckllerPost1,
+      leckllerPost2,
+      leckllerPost3
     ]);
 
     // Comentarios
@@ -143,5 +169,19 @@ export default class SeedService {
     const kayoLike1 = this.likeRepo.create({ post: ruyPost3, user: kayoUser });
 
     await this.likeRepo.save([morghLike1, kayoLike1]);
+
+    // Followes
+
+    const users = [morghUser, ruyUser, kayoUser];
+
+    users.forEach((user) => {
+      users.filter(u => u.id !== user.id).forEach(async innerUser => {
+        const follow = this.followRepo.create({
+          followed: user, following: innerUser
+        })
+        await this.followRepo.save(follow);
+      })
+    })
+
   }
 }

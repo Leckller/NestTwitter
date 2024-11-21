@@ -66,6 +66,7 @@ export const PostSlice = createSlice({
       })
       .addCase(fetchGlobalPosts.rejected, (state, action) => {
         state.loading = false;
+        state.isMaxPage = true;
         console.log(action);
       });
 

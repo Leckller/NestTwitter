@@ -1,9 +1,10 @@
+import GroupPost from '../../components/Posts/GroupPost/GroupPost';
 import { StyledHome } from './StyledHome';
 
 function Home() {
   return (
     <StyledHome>
-      Home
+      <GroupPost typePosts="a" />
     </StyledHome>
   );
 }
