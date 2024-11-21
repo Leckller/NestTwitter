@@ -175,38 +175,16 @@ export default class PostService {
     // Pega os comentários de um post usando paginação
     public async getPostComments(postId: number, page: number) {
 
-        const teste = await this.commentRepo
+        const comments = await this.commentRepo
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.comment', 'fields')
             .loadRelationCountAndMap('fields.comments', 'fields.comments')
             .where(`comment.post.id = ${postId}`)
+            .skip(page * 10)
             .take(10)
             .getMany();
 
-        // const comments = await this.commentRepo.find({
-        //     where: { post: { id: postId } },
-        //     skip: page * 10,
-        //     take: 10,
-        //     relations: {
-        //         comment: {
-        //             user: true,
-        //         }
-        //     },
-        //     select: {
-        //         comment: {
-        //             id: true,
-        //             text: true,
-        //             user: {
-        //                 id: true,
-        //                 name: true,
-        //                 address: true,
-        //                 photo: true,
-        //             }
-        //         }
-        //     }
-        // });
-
-        return new ResponseDto('Post Comments', true, { teste });
+        return new ResponseDto('Post Comments', true, { comments });
 
     }
 
