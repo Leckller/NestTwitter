@@ -11,7 +11,7 @@ function PostDetails() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchPostDetails({ id: +id!, authorization: token, page: 0 }));
+    dispatch(fetchPostDetails({ id: +id!, authorization: token }));
   }, []);
 
   return (
@@ -19,26 +19,26 @@ function PostDetails() {
       {postDetails && (
         <>
           <SinglePost
-            post={ {
-              comments: 0,
-              id: postDetails?.id,
-              likes: postDetails?.countLikes,
-              text: postDetails?.text,
+            post={{
+              comments: postDetails.comments,
+              id: postDetails.id,
+              likes: postDetails.likes,
+              text: postDetails.text,
               isComment: false,
-              user: postDetails?.user,
-            } }
+              user: postDetails.user,
+            }}
           />
-          {postDetails?.comments.map((comment) => (
+          {postDetails.postComments.map(({ comment, user }) => (
             <SinglePost
-              post={ {
-                comments: 0,
-                id: comment.comment.id,
+              post={{
+                comments: comment.comments,
+                id: comment.id,
                 isComment: true,
-                likes: 0,
-                text: comment.comment.text,
-                user: comment.user,
-              } }
-              key={ comment.id }
+                likes: comment.likes,
+                text: comment.text,
+                user,
+              }}
+              key={comment.id}
             />
           ))}
         </>

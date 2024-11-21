@@ -22,7 +22,7 @@ export default class SeedService {
     @InjectRepository(FollowerEntity)
     private readonly followRepo: Repository<FollowerEntity>,
     private readonly authService: AuthService,
-  ) {}
+  ) { }
 
   public async seeds() {
     const isSpread = await this.postRepo.findOne({ where: { id: 1 } });
@@ -116,21 +116,23 @@ export default class SeedService {
 
     // Comentarios
 
-    const kayPostComment = this.postRepo.create({
-      text: "qria mt um futzada dos cria",
-      user: kayoUser,
-      isComment: true,
-    });
+    for (let i = 0; i < 5; i++) {
+      const kayPostComment = this.postRepo.create({
+        text: "qria mt um futzada dos cria",
+        user: kayoUser,
+        isComment: true,
+      });
 
-    await this.postRepo.save(kayPostComment);
+      await this.postRepo.save(kayPostComment);
 
-    const kayComment1 = this.commentRepo.create({
-      post: ruyPost3,
-      comment: kayPostComment,
-      user: kayoUser,
-    });
+      const kayComment1 = this.commentRepo.create({
+        post: ruyPost3,
+        comment: kayPostComment,
+        user: kayoUser,
+      });
 
-    await this.commentRepo.save(kayComment1);
+      await this.commentRepo.save(kayComment1);
+    }
 
     // Likes
 

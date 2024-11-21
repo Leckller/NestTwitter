@@ -5,13 +5,11 @@ import { bird } from '../../utils/bird';
 import { baseUrl } from '../baseUrl';
 
 // Função para fazer a requisição dos detalhes de um post
-// Vai receber o post em si, e comentários com paginação
-// Quando olhar isso dnv é importante criar uma nova rota para a api para pegar apenas comentários com paginação ->
-// ou vai ficar sendo enviado dados repetidos (o post que está sendo detalhado e quantidade de curtidas)
-export const postDetails = async ({ id, page, authorization }: PostDetailsRequest) => {
+// Vai receber o post em si, e 5 comentários 
+export const postDetails = async ({ id, authorization }: PostDetailsRequest) => {
   const request = await bird<Request<PostDetailsResponse>>(
     {
-      url: `${baseUrl}/post/details/${id}/${page}`,
+      url: `${baseUrl}/post/details/${id}`,
       headers: { authorization },
     },
   );

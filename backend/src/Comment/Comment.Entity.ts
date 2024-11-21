@@ -23,10 +23,4 @@ export default class CommentEntity {
     @ManyToOne(() => PostEntity, (postEntity) => postEntity.comments)
     comment: PostEntity;
 
-    @Column({ default: "#0F0F0F", length: "16" })
-    textColor: string;
-
-    @Column({ default: "#001848", length: "16" })
-    bgColor: string;
-
 }

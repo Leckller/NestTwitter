@@ -1,26 +1,28 @@
-interface User {
-  id: number;
-  address: string;
-  name: string;
-  photo: string;
-}
+import { User } from "./GlobalPost.Response";
 
-interface CommentPost {
+interface PostComment {
   id: number;
-  text: string;
-  isComment: boolean,
-}
-
-interface Comment {
-  id: number;
-  comment: CommentPost;
-  user: User;
+  comment: {
+    id: number;
+    isComment: boolean;
+    text: string;
+    likes: number;
+    comments: number;
+  };
+  user: {
+    id: number;
+    address: string;
+    name: string;
+    photo: string;
+  };
 }
 
 export interface PostDetailsResponse {
   id: number;
+  isComment: boolean;
   text: string;
-  comments: Comment[];
+  comments: number;
+  likes: number;
   user: User;
-  countLikes: number;
+  postComments: PostComment[];
 }
