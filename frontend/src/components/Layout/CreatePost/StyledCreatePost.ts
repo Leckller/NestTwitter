@@ -28,19 +28,18 @@ export const StyledCreatePost = styled.section`
     z-index: 999;
     top: 10%;
     gap: 8px;
-    padding: 8px;
     border-radius: 16px;
+    padding: 8px;
 
     section {
       display: flex;
       justify-content: end;
 
-      button:nth-child(2) {
-        padding: 8px;
-        border: black;
+      button {
+        padding: 4px;
+        border: solid black 1px;
         border-radius: 8px;
       }
-
     }
 
     textarea {
