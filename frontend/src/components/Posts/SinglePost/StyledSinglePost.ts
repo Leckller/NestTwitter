@@ -7,7 +7,7 @@ export const StyledSinglePost = styled.article`
   gap: 8px;
   padding: 8px;
   border-bottom: 1px solid black;
-  
+
   section:nth-child(1) {
     
     // Imagem do usuário
@@ -46,14 +46,11 @@ export const StyledSinglePost = styled.article`
     article {
 
       display: flex;
-      gap: 24px;
-      justify-content: center;
-      align-items: center;
-
-      label {
-        cursor: pointer;
+      gap: 8px;
+      button {
         display: flex;
-        gap: 8px;
+        align-items: center;
+        justify-content: start;
       }
 
     }

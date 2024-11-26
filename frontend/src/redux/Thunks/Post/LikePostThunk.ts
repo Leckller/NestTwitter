@@ -18,6 +18,11 @@ export function fetchLikePostBuilder(builder: ActionReducerMapBuilder<PostState>
     .addCase(fetchLikePost.fulfilled, (state, action) => {
       state.loading = false;
       console.log(action);
+      if (action.payload.result.removed) {
+        state.posts.find(p => p.id === action.payload.result.postId)!.likes -= 1;
+        return;
+      }
+      state.posts.find(p => p.id === action.payload.result.postId)!.likes += 1;
     })
     .addCase(fetchLikePost.rejected, (state, action) => {
       state.loading = false;

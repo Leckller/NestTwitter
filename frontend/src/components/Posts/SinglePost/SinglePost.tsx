@@ -4,13 +4,18 @@ import { GlobalPostResponse } from '../../../types/Post/GlobalPost.Response';
 import GoToPostDetails from './GoToPostDetails';
 import { StyledSinglePost } from './StyledSinglePost';
 import { LiaCommentSolid } from 'react-icons/lia';
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
+import { fetchLikePost } from '../../../redux/Thunks/Post/LikePostThunk';
 
 function SinglePost({ post }: { post: GlobalPostResponse }) {
   const { comments, id, isComment, likes, text, user } = post;
+  const dispatch = useAppDispatch();
+  const { token } = useAppSelector(s => s.User);
+
   return (
     <StyledSinglePost>
       <section>
-        <GoToPostDetails id={id}>
+        <GoToPostDetails route='profile' id={id}>
           <img src={user.photo || DefaultImg} alt={user.name} />
         </GoToPostDetails>
       </section>
@@ -29,14 +34,14 @@ function SinglePost({ post }: { post: GlobalPostResponse }) {
           </article>
         </GoToPostDetails>
         <article>
-          <label>
+          <button>
             <LiaCommentSolid />
             {comments}
-          </label>
-          <label>
+          </button>
+          <button onClick={() => dispatch(fetchLikePost({ authorization: token, postId: id }))}>
             <AiOutlineLike />
             {likes}
-          </label>
+          </button>
         </article>
       </section>
     </StyledSinglePost>

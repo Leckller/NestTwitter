@@ -3,6 +3,7 @@ import FollowerEntity from "../Follower/Follower.Entity";
 import PostEntity from "../Post/Post.entity";
 import { UserType } from "../types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import LikeEntity from "src/Like/Like.entity";
 
 @Entity({ name: "User" })
 export default class UserEntity implements UserType {
@@ -46,6 +47,9 @@ export default class UserEntity implements UserType {
     // Pessoas que o usuário segue
     @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
     following: FollowerEntity;
+
+    @OneToMany(() => LikeEntity, (likeEntity) => likeEntity.user)
+    likes: LikeEntity[];
 
     constructor(user?: Partial<UserEntity>) {
         this.id = user?.id;

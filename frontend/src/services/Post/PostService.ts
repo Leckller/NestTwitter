@@ -79,7 +79,7 @@ class PostService {
     };
 
     async likePost({ postId, authorization }: { postId: number, authorization: string }) {
-        const request = await bird<Request<{}>>(
+        const request = await bird<Request<{ postId: number, removed: boolean }>>(
             {
                 url: `${baseUrl}/like`,
                 headers: { authorization },
