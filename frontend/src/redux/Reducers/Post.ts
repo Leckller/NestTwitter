@@ -13,7 +13,11 @@ export interface PostState {
   postDetails: PostDetailsResponse | undefined;
   globalPage: number,
   isMaxPage: boolean,
+
+  // Para criaçao de post/comentário
   newPost: boolean,
+  isComment: boolean,
+  postId: number
 }
 
 const initialState: PostState = {
@@ -23,12 +27,18 @@ const initialState: PostState = {
   newPost: false,
   globalPage: 0,
   posts: [],
+  isComment: false,
+  postId: 0
 };
 
 export const PostSlice = createSlice({
   name: 'Post',
   initialState,
   reducers: {
+    setComment(state, action: PayloadAction<{ postId: number, isComment: boolean }>) {
+      state.isComment = action.payload.isComment;
+      state.postId = action.payload.postId;
+    },
     setPage(state, action: PayloadAction<number>) {
       state.globalPage = action.payload;
     },
@@ -47,6 +57,6 @@ export const PostSlice = createSlice({
   },
 });
 
-export const { setPage, setNewPost } = PostSlice.actions;
+export const { setPage, setNewPost, setComment } = PostSlice.actions;
 
 export default PostSlice.reducer;

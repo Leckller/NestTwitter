@@ -6,6 +6,7 @@ import { StyledSinglePost } from './StyledSinglePost';
 import { LiaCommentSolid } from 'react-icons/lia';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { fetchLikePost } from '../../../redux/Thunks/Post/LikePostThunk';
+import { setComment, setNewPost } from '../../../redux/Reducers/Post';
 
 function SinglePost({ post }: { post: GlobalPostResponse }) {
   const { comments, id, isComment, likes, text, user } = post;
@@ -34,7 +35,10 @@ function SinglePost({ post }: { post: GlobalPostResponse }) {
           </article>
         </GoToPostDetails>
         <article>
-          <button>
+          <button onClick={() => {
+            dispatch(setComment({ isComment: true, postId: id }));
+            dispatch(setNewPost(true));
+          }}>
             <LiaCommentSolid />
             {comments}
           </button>
