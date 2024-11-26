@@ -52,7 +52,7 @@ class UserService {
     };
 
     async profile({ authorization, userId, page }: { page: number, userId: number, authorization: string }) {
-        const request = await bird<Request<{ user: ProfileType, posts: PostType[] }>>(
+        const request = await bird<Request<{ user: ProfileType, posts: Omit<PostType, 'user'>[] }>>(
             {
                 url: `${baseUrl}/user/id/${userId}/${page}`,
                 method: 'GET',

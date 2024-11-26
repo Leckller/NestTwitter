@@ -5,6 +5,7 @@ import { fetchProfile } from "../../redux/Thunks/User/ProfileThunk";
 import { StyledProfile } from "./StyledProfile";
 import DefaultBanner from '../../assets/ProfilePictures/banner.png';
 import DefaultIcon from '../../assets/ProfilePictures/iconFace.png';
+import GroupPost from "../../components/Posts/GroupPost/GroupPost";
 
 function Profile() {
   const { id } = useParams();
@@ -39,6 +40,9 @@ function Profile() {
               <p>{`${profile.user.following} Seguindo`}</p>
               <p>{`${profile.user.followers} Seguidores`}</p>
             </article>
+          </section>
+          <section>
+            <GroupPost posts={profile.posts.map(p => ({ ...p, user: profile.user }))} />
           </section>
         </StyledProfile>
       ) : (

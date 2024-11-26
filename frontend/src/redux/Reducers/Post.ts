@@ -27,7 +27,7 @@ export interface PostState {
   postId: number
 
   // Profile
-  profile: { user: ProfileType, posts: PostType[] } | undefined
+  profile: { user: ProfileType, posts: Omit<PostType, 'user'>[] } | undefined
 }
 
 const initialState: PostState = {

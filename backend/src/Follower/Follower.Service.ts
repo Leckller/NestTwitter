@@ -88,6 +88,7 @@ export default class FollowerService {
             .innerJoinAndSelect("post.user", "author")
             .where("post.userId = followedUser.id")
             .where("post.isComment = false")
+            .orderBy('post.created_at', 'DESC')
             .select([
                 'post',
                 "author.id",

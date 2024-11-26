@@ -98,6 +98,7 @@ export default class UserService {
             .loadRelationCountAndMap('post.comments', 'post.comments')
             .loadRelationCountAndMap('post.likes', 'post.likes')
             .where(`post.user.id = ${userId} AND post.isComment = false`)
+            .orderBy('post.created_at', 'DESC')
             .take(10)
             .skip(10 & page)
             .getMany();
