@@ -3,7 +3,7 @@ import { CreatePostResponse } from "../../types/Post/CreatePost.Response";
 import { GlobalPostRequest } from "../../types/Post/GlobalPost.Request";
 import { GlobalPostResponse } from "../../types/Post/GlobalPost.Response";
 import { PostDetailsRequest } from "../../types/Post/PostDetails.Request";
-import { PostDetailsResponse } from "../../types/Post/PostDetails.Response";
+import { PostCommentType, PostDetailsResponse } from "../../types/Post/PostDetails.Response";
 import { PostType } from "../../types/Post/PostType";
 import { Request } from "../../types/Request";
 import { bird } from "../../utils/bird";
@@ -65,7 +65,7 @@ class PostService {
 
 
     async createComment({ text, postId, authorization }: { text: string, postId: number, authorization: string }) {
-        const request = await bird<Request<{ postId: number }>>(
+        const request = await bird<Request<{ postId: number, comment: PostCommentType }>>(
             {
                 url: `${baseUrl}/comment`,
                 headers: { authorization },

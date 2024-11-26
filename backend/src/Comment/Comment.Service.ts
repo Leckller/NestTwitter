@@ -32,7 +32,12 @@ export default class CommentService {
 
             }
 
-            const user = await this.userRepo.findOne({ where: { id: userId } });
+            const user = await this.userRepo.findOne({
+                where: { id: userId },
+                select: {
+                    id: true, address: true, name: true, photo: true
+                }
+            });
 
             if (!user) {
 
@@ -53,7 +58,19 @@ export default class CommentService {
 
             await this.commentRepo.save(comment);
 
-            return new ResponseDto("Comentário adicionado!", true, { postId });
+            return new ResponseDto("Comentário adicionado!", true, {
+                postId, comment: {
+                    id: comment.id,
+                    comment: {
+                        id: newPost.id,
+                        isComment: true,
+                        text,
+                        likes: 0,
+                        comments: 0,
+                    },
+                    user: user
+                }
+            });
 
         } catch (err) {
 

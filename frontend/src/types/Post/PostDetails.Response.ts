@@ -1,6 +1,6 @@
 import { User } from "./GlobalPost.Response";
 
-interface PostComment {
+export interface PostCommentType {
   id: number;
   comment: {
     id: number;
@@ -24,5 +24,5 @@ export interface PostDetailsResponse {
   comments: number;
   likes: number;
   user: User;
-  postComments: PostComment[];
+  postComments: PostCommentType[];
 }
