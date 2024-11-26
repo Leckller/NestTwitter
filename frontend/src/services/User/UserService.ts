@@ -1,3 +1,4 @@
+import { PostType, ProfileType } from "../../types/Post/PostType";
 import { Request } from "../../types/Request";
 import { LoginRequest } from "../../types/User/Login.Request";
 import { LoginResponse } from "../../types/User/Login.Response";
@@ -49,6 +50,18 @@ class UserService {
 
         return request;
     };
+
+    async profile({ authorization, userId, page }: { page: number, userId: number, authorization: string }) {
+        const request = await bird<Request<{ user: ProfileType, posts: Omit<PostType, 'user'>[] }>>(
+            {
+                url: `${baseUrl}/user/id/${userId}/${page}`,
+                method: 'GET',
+                headers: { authorization },
+            },
+        );
+
+        return request;
+    }
 
 }
 

@@ -15,17 +15,17 @@ export default class PostController {
 
     // Últimos 10 posts publicados
     @Get("global/:page")
-    public async getGlobalPosts(@Param('page') page) {
+    public async getGlobalPosts(@GetUser() userInfo: TokenType, @Param('page') page: string) {
 
-        return await this.postService.getGlobalPosts(+page);
+        return await this.postService.getGlobalPosts(+userInfo.id, +page);
 
     }
 
     // Detalhes de um post por ID
     @Get("details/:postId")
-    public async getPostsDetails(@Param() { postId }) {
+    public async getPostsDetails(@GetUser() userInfo: TokenType, @Param() { postId }) {
 
-        return await this.postService.postDetails(+postId);
+        return await this.postService.postDetails(+userInfo.id, +postId);
 
     }
 

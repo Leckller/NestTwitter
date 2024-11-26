@@ -16,7 +16,8 @@ import CommentEntity from "src/Comment/Comment.Entity";
             LikeEntity,
             UserEntity,
             PostEntity,
-            CommentEntity
+            CommentEntity,
+            LikeEntity
         ]),
     ],
     controllers: [PostController],

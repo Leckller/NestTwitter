@@ -1,28 +1,11 @@
-import { User } from "./GlobalPost.Response";
+import { PostType, UserType } from "./PostType";
 
-interface PostComment {
+export interface PostCommentType {
   id: number;
-  comment: {
-    id: number;
-    isComment: boolean;
-    text: string;
-    likes: number;
-    comments: number;
-  };
-  user: {
-    id: number;
-    address: string;
-    name: string;
-    photo: string;
-  };
+  comment: PostType
+  user: UserType
 }
 
-export interface PostDetailsResponse {
-  id: number;
-  isComment: boolean;
-  text: string;
-  comments: number;
-  likes: number;
-  user: User;
-  postComments: PostComment[];
+export interface PostDetailsResponse extends PostType {
+  postComments: PostCommentType[];
 }

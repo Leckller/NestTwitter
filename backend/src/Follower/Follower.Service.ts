@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import FollowerEntity from "./Follower.Entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
 import LikeEntity from "src/Like/Like.entity";
@@ -88,6 +88,7 @@ export default class FollowerService {
             .innerJoinAndSelect("post.user", "author")
             .where("post.userId = followedUser.id")
             .where("post.isComment = false")
+            .orderBy('post.created_at', 'DESC')
             .select([
                 'post',
                 "author.id",
@@ -99,7 +100,25 @@ export default class FollowerService {
             .take(10)
             .getMany();
 
-        return new ResponseDto('Buble posts', true, { posts });
+        // Verifica quais dos posts foi curtido pelo usuário
+        const userLiked = await this.likeRepo.find({
+            where: {
+                user: { id: userId },
+                post: { id: In([...posts.map(p => p.id)]) },
+            },
+            relations: { post: true, user: true, },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        })
+
+        const postsWithLikes = posts.map(p => {
+            const isLiked = userLiked.some(pl => pl.post.id === p.id);
+            return { ...p, isLiked }
+        })
+
+        return new ResponseDto('Buble posts', true, postsWithLikes);
 
     }
 

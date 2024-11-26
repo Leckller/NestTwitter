@@ -1,8 +1,14 @@
-export interface User {
+export interface UserType {
   id: number;
   address: string;
   photo: string;
   name: string;
+}
+
+export interface ProfileType extends UserType {
+  banner: string,
+  followers: number,
+  following: number,
 }
 
 export interface PostType {
@@ -10,7 +16,8 @@ export interface PostType {
   isComment: boolean;
   text: string;
   created_at: Date;
-  user: User;
+  user: UserType;
   likes: number;
   comments: number;
+  isLiked: boolean;
 }

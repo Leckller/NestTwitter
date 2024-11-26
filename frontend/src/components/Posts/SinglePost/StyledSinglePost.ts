@@ -38,7 +38,8 @@ export const StyledSinglePost = styled.article`
     // Texto do post
     button article:nth-child(2) {
 
-
+      word-break: keep-all;
+      text-align: start;
 
     }
     

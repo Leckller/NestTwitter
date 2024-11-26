@@ -37,7 +37,6 @@ export default class LikeService {
         }
 
         const findLike = await this.likeRepository.findOne({ where: { user: { id: userId }, post: { id: postId } } });
-        console.log(findLike, user, post)
 
         // Caso o like exista ele é removido.
         if (findLike) {
