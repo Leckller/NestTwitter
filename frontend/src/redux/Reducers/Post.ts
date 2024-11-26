@@ -5,8 +5,9 @@ import { fetchPostDetailsBuilder } from '../Thunks/Post/PostDetailsThunk';
 import { PostDetailsResponse } from '../../types/Post/PostDetails.Response';
 import { fetchLikePostBuilder } from '../Thunks/Post/LikePostThunk';
 import { fetchCreateCommentBuilder } from '../Thunks/Post/CreateCommentThunk';
-import { PostType } from '../../types/Post/PostType';
+import { PostType, ProfileType } from '../../types/Post/PostType';
 import { fetchBubblePostsBuilder } from '../Thunks/Post/BubblePostsThunk';
+import { fetchProfileBuilder } from '../Thunks/User/ProfileThunk';
 
 export type LocalPostType = 'details' | 'global' | 'bubble'
 
@@ -24,6 +25,9 @@ export interface PostState {
   newPost: boolean,
   isComment: boolean,
   postId: number
+
+  // Profile
+  profile: { user: ProfileType, posts: PostType[] } | undefined
 }
 
 const initialState: PostState = {
@@ -37,6 +41,7 @@ const initialState: PostState = {
   isComment: false,
   postId: 0,
   localPost: 'bubble',
+  profile: undefined
 };
 
 export const PostSlice = createSlice({
@@ -65,6 +70,7 @@ export const PostSlice = createSlice({
     fetchLikePostBuilder(builder);
     fetchCreateCommentBuilder(builder);
     fetchBubblePostsBuilder(builder);
+    fetchProfileBuilder(builder);
 
   },
 });

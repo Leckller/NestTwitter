@@ -5,6 +5,12 @@ export interface UserType {
   name: string;
 }
 
+export interface ProfileType extends UserType {
+  banner: string,
+  followers: number,
+  following: number,
+}
+
 export interface PostType {
   id: number;
   isComment: boolean;
