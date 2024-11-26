@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
 import LikeEntity from "src/Like/Like.entity";
+import PostEntity from "src/Post/Post.entity";
 
 @Injectable()
 export default class FollowerService {
@@ -14,6 +15,8 @@ export default class FollowerService {
         private readonly followerRepo: Repository<FollowerEntity>,
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
+        @InjectRepository(PostEntity)
+        private readonly postRepo: Repository<PostEntity>,
         @InjectRepository(LikeEntity)
         private readonly likeRepo: Repository<LikeEntity>,
     ) { }
@@ -71,23 +74,30 @@ export default class FollowerService {
 
         }
 
-        // essa aq vai ser chata de fazer tbm
-        const posts = await this.followerRepo.find({
-            where: { following: user },
-            relations: { followed: { posts: { likes: { user: true } } } },
-            order: { id: "DESC" },
-            skip: page * 8,
-            take: 10,
-            select: {
-                followed: {
-                    id: true, name: true, photo: true, address: true, posts: {
-                        id: true,
-                        text: true,
-                        likes: { id: true, user: { photo: true, name: true, address: true, id: true } }
-                    }
-                }
-            }
-        });
+        const posts = await this.postRepo
+            .createQueryBuilder("post")
+            // Faz o join para encontrar os seguidores 
+            .innerJoin(FollowerEntity, "follower", "follower.followingId = :userId", { userId })
+            // Faz o join com os usuários seguidos
+            .innerJoin(UserEntity, "followedUser", "followedUser.id = follower.followedId")
+            // Carrega a relação e conta os likes
+            .loadRelationCountAndMap('post.likes', 'post.likes', 'likes')
+            // Carrega a relação e conta os comentários
+            .loadRelationCountAndMap('post.comments', 'post.comments', 'comments')
+            // Faz o join para obter informações do autor do post
+            .innerJoinAndSelect("post.user", "author")
+            .where("post.userId = followedUser.id")
+            .where("post.isComment = false")
+            .select([
+                'post',
+                "author.id",
+                "author.address",
+                "author.photo",
+                "author.name",
+            ])
+            .skip(page * 10)
+            .take(10)
+            .getMany();
 
         return new ResponseDto('Buble posts', true, { posts });
 

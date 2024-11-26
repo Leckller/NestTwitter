@@ -5,7 +5,6 @@ import { Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
 import PostRequestDto from "./DTOs/Post.Request.dto";
-import LikeEntity from "src/Like/Like.entity";
 import CommentEntity from "src/Comment/Comment.Entity";
 
 @Injectable()
@@ -16,8 +15,6 @@ export default class PostService {
         private readonly postRepo: Repository<PostEntity>,
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
-        @InjectRepository(LikeEntity)
-        private readonly likeRepo: Repository<LikeEntity>,
         @InjectRepository(CommentEntity)
         private readonly commentRepo: Repository<CommentEntity>,
     ) { }
@@ -61,16 +58,15 @@ export default class PostService {
 
     public async getGlobalPosts(page = 0) {
 
+        // Pega as info do post e conta quantos likes e comentários tem
         const posts = await this.postRepo
             .createQueryBuilder("post")
             .leftJoinAndSelect("post.user", "user")
             .leftJoinAndSelect("post.likes", "like")
-            // Conta quantos likes tem
             .loadRelationCountAndMap("post.likes", "post.likes")
-            // Conta quantos comentarios tem
             .loadRelationCountAndMap("post.comments", "post.comments")
-            // Pega apenas postagens q n sejam um comentário
             .andWhere('post.isComment = false')
+            .orderBy('post.created_at', 'DESC')
             .select([
                 "post",
                 "user.id",
@@ -82,7 +78,7 @@ export default class PostService {
             .skip(page * 10)
             .getMany();
 
-        return new ResponseDto("Global posts", true, posts );
+        return new ResponseDto("Global posts", true, posts);
 
     }
 
@@ -116,42 +112,78 @@ export default class PostService {
 
     }
 
-    public async postDetails(postId: number, page = 0) {
+    public async postDetails(postId: number) {
 
-        const post = await this.postRepo.findOne({
-            where: { id: postId },
-            relations: {
-                comments: { user: true, comment: true },
-                user: true,
-            },
-            select: {
-                id: true,
-                text: true,
-                user: { id: true, address: true, photo: true, name: true },
-            }
-        });
+        // Pega o post e conta os likes e comentários
+        const post = await this.postRepo
+            .createQueryBuilder('post')
+            .leftJoinAndSelect('post.user', 'user')
+            .loadRelationCountAndMap('post.likes', 'post.likes')
+            .loadRelationCountAndMap('post.comments', 'post.comments')
+            .select([
+                'post',
+                'user.id',
+                'user.photo',
+                'user.name',
+                'user.address',
+            ])
+            .where(`post.id = ${postId}`)
+            .getOne()
 
-        const comments = await this.commentRepo.find({
-            where: { post },
-            relations: { post: true, user: true },
-            select: {
-                id: true,
-                post: { id: true, text: true },
-                user: { id: true, address: true, photo: true, name: true },
-            },
-            skip: page * 8,
-            take: 8,
-        })
+        // Pega as info do comentário e conta quantos comentarios e likes tem
+        const postComments = await this.commentRepo
+            .createQueryBuilder('comment')
+            .leftJoinAndSelect('comment.comment', 'fields')
+            .leftJoinAndSelect('comment.user', 'user')
+            .loadRelationCountAndMap('fields.likes', 'fields.likes')
+            .loadRelationCountAndMap('fields.comments', 'fields.comments')
+            .where(`comment.post.id = ${postId}`)
+            .select([
+                'comment',
+                'fields',
+                'user.id',
+                'user.photo',
+                'user.name',
+                'user.address',
+            ])
+            .take(5)
+            .getMany();
+
 
         if (!post) {
 
             throw new NotFoundException(new ResponseDto("Post não encontrado", false, {}));
 
-        }
+        };
 
-        const countLikes = await this.likeRepo.count({ where: { post } });
+        return new ResponseDto('Post details', true, { ...post, postComments });
 
-        return new ResponseDto('Post details', true, { ...post, comments, countLikes });
+    }
+
+    // Pega os comentários de um post usando paginação
+    public async getPostComments(postId: number, page: number) {
+
+        // Pega as info do comentário e conta quantos comentarios e likes tem
+        const postComments = await this.commentRepo
+            .createQueryBuilder('comment')
+            .leftJoinAndSelect('comment.comment', 'fields')
+            .leftJoinAndSelect('comment.user', 'user')
+            .loadRelationCountAndMap('fields.likes', 'fields.likes')
+            .loadRelationCountAndMap('fields.comments', 'fields.comments')
+            .where(`comment.post.id = ${postId}`)
+            .select([
+                'comment',
+                'fields',
+                'user.id',
+                'user.photo',
+                'user.name',
+                'user.address',
+            ])
+            .skip(page * 10)
+            .take(10)
+            .getMany();
+
+        return new ResponseDto('Post Comments', true, { postComments });
 
     }
 

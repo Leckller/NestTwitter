@@ -8,14 +8,11 @@ export default class LikeEntity {
     @PrimaryGeneratedColumn({ unsigned: true })
     id: number;
 
-    // Não tenho certeza se isso deveria ser assim mas tá funcionando
-    // Usuário que curtiu
-    @OneToOne(() => UserEntity)
-    @JoinColumn()
+    @ManyToOne(() => UserEntity, (userEntity) => userEntity.likes)
     user: UserEntity;
 
     // Muitos likes para um post
-    @ManyToOne(() => PostEntity, (postEntity) => postEntity)
+    @ManyToOne(() => PostEntity, (postEntity) => postEntity.likes)
     post: PostEntity;
 
 }

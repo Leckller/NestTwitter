@@ -41,7 +41,7 @@ function GroupPost({ typePosts }: { typePosts: string }) {
     <StyledGroupPost>
       <section>
         {posts.map((post) => (
-          <SinglePost post={ post } key={ post.id } />
+          <SinglePost post={post} key={post.id} />
         ))}
         <StyledSentinel id="sentinel" />
       </section>

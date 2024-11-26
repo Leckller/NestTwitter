@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchPostDetails } from '../../redux/Thunks/Post/PostDetailsThunk';
+import SinglePost from '../../components/Posts/SinglePost/SinglePost';
+import { StyledPostDetails } from './StyledPostDetails';
 
 function PostDetails() {
   const { id } = useParams();
@@ -10,11 +12,39 @@ function PostDetails() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchPostDetails({ id: +id!, authorization: token, page: 0 }));
-  }, []);
+    dispatch(fetchPostDetails({ id: +id!, authorization: token }));
+  }, [id]);
 
   return (
-    <div>PostDetails</div>
+    <StyledPostDetails>
+      {postDetails && (
+        <>
+          <SinglePost
+            post={{
+              comments: postDetails.comments,
+              id: postDetails.id,
+              likes: postDetails.likes,
+              text: postDetails.text,
+              isComment: false,
+              user: postDetails.user,
+            }}
+          />
+          {postDetails.postComments.map(({ comment, user }) => (
+            <SinglePost
+              post={{
+                comments: comment.comments,
+                id: comment.id,
+                isComment: true,
+                likes: comment.likes,
+                text: comment.text,
+                user,
+              }}
+              key={comment.id}
+            />
+          ))}
+        </>
+      )}
+    </StyledPostDetails>
   );
 }
 

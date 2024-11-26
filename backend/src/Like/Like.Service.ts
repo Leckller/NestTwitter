@@ -15,10 +15,10 @@ export default class LikeService {
         @InjectRepository(PostEntity) private readonly postRepository: Repository<PostEntity>
     ) { }
 
-    public async like(UserId: number, PostId: number) {
+    public async like(userId: number, postId: number) {
 
         const user = await this.userRepository.findOne({
-            where: { id: UserId },
+            where: { id: userId },
             select: { address: true, name: true, id: true, photo: true }
         });
 
@@ -28,7 +28,7 @@ export default class LikeService {
 
         }
 
-        const post = await this.postRepository.findOne({ where: { id: PostId } });
+        const post = await this.postRepository.findOne({ where: { id: postId } });
 
         if (!post) {
 
@@ -36,22 +36,24 @@ export default class LikeService {
 
         }
 
-        const findLike = await this.likeRepository.findOne({ where: { user, post } });
+        const findLike = await this.likeRepository.findOne({ where: { user: { id: userId }, post: { id: postId } } });
+        console.log(findLike, user, post)
 
         // Caso o like exista ele é removido.
         if (findLike) {
 
             await this.likeRepository.remove(findLike);
 
-            return new ResponseDto("Like removido", true, {})
+            return new ResponseDto("Like removido", true, { postId, removed: true })
 
         }
+
         // Caso o like não exista ele é criado.
         const like = this.likeRepository.create({ user, post });
 
         await this.likeRepository.save(like);
 
-        return new ResponseDto("Liked", true, {})
+        return new ResponseDto("Liked", true, { postId, removed: false })
 
     }
 

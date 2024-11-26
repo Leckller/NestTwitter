@@ -53,7 +53,7 @@ export default class CommentService {
 
             await this.commentRepo.save(comment);
 
-            return new ResponseDto("Comentário adicionado!", true, { comment });
+            return new ResponseDto("Comentário adicionado!", true, { postId });
 
         } catch (err) {
 
