@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./dist/main.js",
   "scripts": {
-    "start": "node .",
+    "start": "vite",
     "vite": "vite",
     "dev": "vite --open",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

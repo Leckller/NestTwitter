@@ -1,0 +1,17 @@
+{
+  "name": "nestwitter",
+  "version": "1.0.0",
+  "description": "Olá, Programador aleatório da internet! esse projeto é feito (obviamente) com base no twitter, mas adicionando umas funções divertidas.",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run start:backend & npm run start:frontend",
+    "start:backend": "cd backend && npm install && npm start",
+    "start:frontend": "cd frontend && npm install && npm start",
+    "dev": "npm run dev:backend & npm run dev:frontend",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

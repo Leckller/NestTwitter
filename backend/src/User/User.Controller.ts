@@ -3,6 +3,8 @@ import CreateUserDto from "./DTOs/CreateUser.Dto";
 import AuthGuard from "../Guard/Auth.Guard";
 import UserService from "./User.Service";
 import LoginUserDto from "./DTOs/LoginUser.Dto";
+import { TokenType } from "src/types";
+import { GetUser } from "src/decorators/User.Decorator";
 
 @Controller('user')
 export default class UserController {
@@ -28,9 +30,9 @@ export default class UserController {
 
     @Get("id/:id/:page")
     @UseGuards(AuthGuard)
-    public async getUserById(@Param() { id, page }: { id: string, page: string }) {
+    public async getUserById(@GetUser() userInfo: TokenType, @Param() { id, page }: { id: string, page: string }) {
 
-        return await this.userService.getUserById(+id, +page);
+        return await this.userService.getUserById(+userInfo.id, +id, +page);
 
     }
 

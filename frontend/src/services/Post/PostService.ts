@@ -1,7 +1,6 @@
 import { CreatePostRequest } from "../../types/Post/CreatePost.Request";
 import { CreatePostResponse } from "../../types/Post/CreatePost.Response";
 import { GlobalPostRequest } from "../../types/Post/GlobalPost.Request";
-import { GlobalPostResponse } from "../../types/Post/GlobalPost.Response";
 import { PostDetailsRequest } from "../../types/Post/PostDetails.Request";
 import { PostCommentType, PostDetailsResponse } from "../../types/Post/PostDetails.Response";
 import { PostType } from "../../types/Post/PostType";
@@ -12,7 +11,7 @@ import { baseUrl } from "../baseUrl";
 class PostService {
 
     async getGlobalPosts({ page = 0, authorization }: GlobalPostRequest) {
-        const request = await bird<Request<GlobalPostResponse[]>>(
+        const request = await bird<Request<PostType[]>>(
             {
                 url: `${baseUrl}/post/global/${page}`,
                 headers: { authorization },
@@ -24,8 +23,8 @@ class PostService {
         return request;
     };
 
-    async getBublePosts({ page, authorization }: GlobalPostRequest) {
-        const request = await bird<Request<PostType>>(
+    async getBubblePosts({ page, authorization }: GlobalPostRequest) {
+        const request = await bird<Request<PostType[]>>(
             {
                 url: `${baseUrl}/follow/circle/${page}`,
                 headers: { authorization },

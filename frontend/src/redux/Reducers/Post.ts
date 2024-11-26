@@ -3,16 +3,22 @@ import { fetchCreatePostBuilder } from '../Thunks/Post/CreatePostThunk';
 import { fetchGlobalPostsBuilder } from '../Thunks/Post/GlobalPostsThunk';
 import { fetchPostDetailsBuilder } from '../Thunks/Post/PostDetailsThunk';
 import { PostDetailsResponse } from '../../types/Post/PostDetails.Response';
-import { GlobalPostResponse } from '../../types/Post/GlobalPost.Response';
 import { fetchLikePostBuilder } from '../Thunks/Post/LikePostThunk';
 import { fetchCreateCommentBuilder } from '../Thunks/Post/CreateCommentThunk';
+import { PostType } from '../../types/Post/PostType';
+import { fetchBubblePostsBuilder } from '../Thunks/Post/BubblePostsThunk';
+
+export type LocalPostType = 'details' | 'global' | 'bubble'
 
 export interface PostState {
   loading: boolean;
-  posts: GlobalPostResponse[];
+  posts: PostType[];
+  bubblePosts: PostType[];
   postDetails: PostDetailsResponse | undefined;
   globalPage: number,
   isMaxPage: boolean,
+
+  localPost: LocalPostType,
 
   // Para criaçao de post/comentário
   newPost: boolean,
@@ -27,8 +33,10 @@ const initialState: PostState = {
   newPost: false,
   globalPage: 0,
   posts: [],
+  bubblePosts: [],
   isComment: false,
-  postId: 0
+  postId: 0,
+  localPost: 'bubble',
 };
 
 export const PostSlice = createSlice({
@@ -45,6 +53,9 @@ export const PostSlice = createSlice({
     setNewPost(state, action: PayloadAction<boolean>) {
       state.newPost = action.payload;
     },
+    setLocalPosts(state, action: PayloadAction<LocalPostType>) {
+      state.localPost = action.payload;
+    }
   },
   extraReducers: (builder) => {
 
@@ -53,10 +64,11 @@ export const PostSlice = createSlice({
     fetchPostDetailsBuilder(builder);
     fetchLikePostBuilder(builder);
     fetchCreateCommentBuilder(builder);
+    fetchBubblePostsBuilder(builder);
 
   },
 });
 
-export const { setPage, setNewPost, setComment } = PostSlice.actions;
+export const { setPage, setNewPost, setComment, setLocalPosts } = PostSlice.actions;
 
 export default PostSlice.reducer;

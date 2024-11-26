@@ -1,4 +1,4 @@
-export interface User {
+export interface UserType {
   id: number;
   address: string;
   photo: string;
@@ -10,7 +10,8 @@ export interface PostType {
   isComment: boolean;
   text: string;
   created_at: Date;
-  user: User;
+  user: UserType;
   likes: number;
   comments: number;
+  isLiked: boolean;
 }

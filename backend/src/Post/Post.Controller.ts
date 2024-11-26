@@ -23,9 +23,9 @@ export default class PostController {
 
     // Detalhes de um post por ID
     @Get("details/:postId")
-    public async getPostsDetails(@Param() { postId }) {
+    public async getPostsDetails(@GetUser() userInfo: TokenType, @Param() { postId }) {
 
-        return await this.postService.postDetails(+postId);
+        return await this.postService.postDetails(+userInfo.id, +postId);
 
     }
 

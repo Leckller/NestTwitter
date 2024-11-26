@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchPostDetails } from '../../redux/Thunks/Post/PostDetailsThunk';
 import SinglePost from '../../components/Posts/SinglePost/SinglePost';
 import { StyledPostDetails } from './StyledPostDetails';
+import { setLocalPosts } from '../../redux/Reducers/Post';
 
 function PostDetails() {
   const { id } = useParams();
@@ -12,6 +13,7 @@ function PostDetails() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(setLocalPosts('details'));
     dispatch(fetchPostDetails({ id: +id!, authorization: token }));
   }, [id]);
 
@@ -27,8 +29,13 @@ function PostDetails() {
               text: postDetails.text,
               isComment: false,
               user: postDetails.user,
+              created_at: postDetails.created_at,
+              isLiked: postDetails.isLiked
             }}
           />
+          <article>
+            oi
+          </article>
           {postDetails.postComments.map(({ comment, user }) => (
             <SinglePost
               post={{
@@ -38,6 +45,8 @@ function PostDetails() {
                 likes: comment.likes,
                 text: comment.text,
                 user,
+                created_at: comment.created_at,
+                isLiked: comment.isLiked
               }}
               key={comment.id}
             />

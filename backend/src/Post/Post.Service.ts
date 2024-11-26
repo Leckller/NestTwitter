@@ -81,7 +81,7 @@ export default class PostService {
             .skip(page * 10)
             .getMany();
 
-        // Única forma que consegui bolar para verificar se o usuário curtiu
+        // Única forma que consegui bolar para verificar se o usuário curtiu -
         // o post ou n
         const userLiked = await this.likeRepo.find({
             where: {
@@ -134,7 +134,7 @@ export default class PostService {
 
     }
 
-    public async postDetails(postId: number) {
+    public async postDetails(userId: number, postId: number) {
 
         // Pega o post e conta os likes e comentários
         const post = await this.postRepo
@@ -151,6 +151,12 @@ export default class PostService {
             ])
             .where(`post.id = ${postId}`)
             .getOne()
+
+        if (!post) {
+
+            throw new NotFoundException(new ResponseDto("Post não encontrado", false, {}));
+
+        };
 
         // Pega as info do comentário e conta quantos comentarios e likes tem
         const postComments = await this.commentRepo
@@ -171,14 +177,24 @@ export default class PostService {
             .take(5)
             .getMany();
 
+        const userLiked = await this.likeRepo.find({
+            where: {
+                user: { id: userId },
+                post: { id: In([...postComments.map(p => p.id)]) },
+            },
+            relations: { post: true, user: true, },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        });
 
-        if (!post) {
+        const postsWithLikes = postComments.map(p => {
+            const isLiked = userLiked.some(pl => pl.post.id === p.id);
+            return { ...p, comment: { ...p.comment, isLiked } }
+        });
 
-            throw new NotFoundException(new ResponseDto("Post não encontrado", false, {}));
-
-        };
-
-        return new ResponseDto('Post details', true, { ...post, postComments });
+        return new ResponseDto('Post details', true, { ...post, postComments: postsWithLikes });
 
     }
 
