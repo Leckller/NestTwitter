@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import PostEntity from "./Post.entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import UserEntity from "../User/User.entity";
 import ResponseDto from "src/Utils/Response.Dto";
 import PostRequestDto from "./DTOs/Post.Request.dto";
 import CommentEntity from "src/Comment/Comment.Entity";
+import LikeEntity from "src/Like/Like.entity";
 
 @Injectable()
 export default class PostService {
@@ -15,6 +16,8 @@ export default class PostService {
         private readonly postRepo: Repository<PostEntity>,
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
+        @InjectRepository(LikeEntity)
+        private readonly likeRepo: Repository<LikeEntity>,
         @InjectRepository(CommentEntity)
         private readonly commentRepo: Repository<CommentEntity>,
     ) { }
@@ -56,7 +59,7 @@ export default class PostService {
 
     }
 
-    public async getGlobalPosts(page = 0) {
+    public async getGlobalPosts(userId: number, page = 0) {
 
         // Pega as info do post e conta quantos likes e comentários tem
         const posts = await this.postRepo
@@ -78,7 +81,26 @@ export default class PostService {
             .skip(page * 10)
             .getMany();
 
-        return new ResponseDto("Global posts", true, posts);
+        // Única forma que consegui bolar para verificar se o usuário curtiu
+        // o post ou n
+        const userLiked = await this.likeRepo.find({
+            where: {
+                user: { id: userId },
+                post: { id: In([...posts.map(p => p.id)]) },
+            },
+            relations: { post: true, user: true, },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        })
+
+        const postsWithLikes = posts.map(p => {
+            const isLiked = userLiked.some(pl => pl.post.id === p.id);
+            return { ...p, isLiked }
+        })
+
+        return new ResponseDto("Global posts", true, postsWithLikes);
 
     }
 

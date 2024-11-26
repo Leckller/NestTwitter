@@ -16,7 +16,7 @@ function SinglePost({ post }: { post: GlobalPostResponse }) {
   return (
     <StyledSinglePost>
       <section>
-        <GoToPostDetails route='profile' id={id}>
+        <GoToPostDetails route='profile' id={user.id}>
           <img src={user.photo || DefaultImg} alt={user.name} />
         </GoToPostDetails>
       </section>

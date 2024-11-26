@@ -6,8 +6,8 @@ import Layout from './components/Layout/Layout/Layout';
 import { useAppSelector } from './hooks/reduxHooks';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
-import Global from './pages/Global/Global';
 import PostDetails from './pages/PostDetails/PostDetails';
+import Profile from './pages/Profile/Profile';
 
 function App() {
   const { token } = useAppSelector((s) => s.User);
@@ -20,25 +20,25 @@ function App() {
   if (token === '') {
     return (
       <Routes>
-        <Route path="/register" element={ <Register /> } />
-        <Route path="/" element={ <Register /> } />
-        <Route path="/login" element={ <Login /> } />
-        <Route path="*" element={ <NotFound route="Register" /> } />
+        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<NotFound route="Register" />} />
       </Routes>
     );
   }
 
   return (
     <Routes>
-      <Route element={ <Layout /> }>
-        <Route path="/" element={ <Home /> } />
-        <Route path="/postDetails/:id" element={ <PostDetails /> } />
-        <Route path="/home" element={ <Home /> } />
-        <Route path="/global" element={ <Global /> } />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/postDetails/:id" element={<PostDetails />} />
       </Route>
-      <Route path="/register" element={ <Register /> } />
-      <Route path="/login" element={ <Login /> } />
-      <Route path="*" element={ <NotFound route="Home" /> } />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="*" element={<NotFound route="Home" />} />
     </Routes>
   );
 }

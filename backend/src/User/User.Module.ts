@@ -4,6 +4,7 @@ import UserController from "./User.Controller";
 import AuthModule from "../Auth/Auth.Module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import UserEntity from "./User.entity";
+import PostEntity from "src/Post/Post.entity";
 
 @Module({
     providers: [UserService],
@@ -14,7 +15,7 @@ import UserEntity from "./User.entity";
     ],
     imports: [
         AuthModule,
-        TypeOrmModule.forFeature([UserEntity])
+        TypeOrmModule.forFeature([UserEntity, PostEntity])
     ]
 })
-export default class UserModule {}
+export default class UserModule { }

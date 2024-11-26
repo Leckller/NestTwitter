@@ -18,11 +18,19 @@ export default class UserController {
 
     }
 
-    @Get("/:address")
+    @Get("address/:address")
     @UseGuards(AuthGuard)
     public async getUserByAddress(@Param('address') address) {
 
         return await this.userService.getUserByAddress(address);
+
+    }
+
+    @Get("id/:id/:page")
+    @UseGuards(AuthGuard)
+    public async getUserById(@Param() { id, page }: { id: string, page: string }) {
+
+        return await this.userService.getUserById(+id, +page);
 
     }
 
