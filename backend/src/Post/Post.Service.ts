@@ -66,6 +66,7 @@ export default class PostService {
             .loadRelationCountAndMap("post.likes", "post.likes")
             .loadRelationCountAndMap("post.comments", "post.comments")
             .andWhere('post.isComment = false')
+            .orderBy('post.created_at', 'DESC')
             .select([
                 "post",
                 "user.id",
@@ -74,7 +75,6 @@ export default class PostService {
                 "user.name",
             ])
             .take(10)
-            .orderBy('', 'ASC')
             .skip(page * 10)
             .getMany();
 

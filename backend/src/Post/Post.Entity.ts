@@ -1,7 +1,7 @@
 import CommentEntity from "src/Comment/Comment.Entity";
 import LikeEntity from "../Like/Like.entity";
 import UserEntity from "../User/User.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "Post" })
 export default class PostEntity {
@@ -26,5 +26,8 @@ export default class PostEntity {
 
     @Column()
     text: string;
+
+    @CreateDateColumn()
+    created_at: Date;
 
 } 

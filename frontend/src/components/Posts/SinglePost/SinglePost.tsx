@@ -8,12 +8,12 @@ function SinglePost({ post }: { post: GlobalPostResponse }) {
   return (
     <StyledSinglePost>
       <section>
-        <GoToPostDetails id={ id }>
-          <img src={ user.photo || DefaultImg } alt={ user.name } />
+        <GoToPostDetails id={id}>
+          <img src={user.photo || DefaultImg} alt={user.name} />
         </GoToPostDetails>
       </section>
       <section>
-        <GoToPostDetails id={ id }>
+        <GoToPostDetails id={id}>
           <article>
             <p>
               {user.name}
@@ -27,12 +27,12 @@ function SinglePost({ post }: { post: GlobalPostResponse }) {
           </article>
         </GoToPostDetails>
         <article>
-          <p>
+          <button>
             {`Comments: ${comments}`}
-          </p>
-          <p>
+          </button>
+          <button>
             {`Likes: ${likes}`}
-          </p>
+          </button>
         </article>
       </section>
     </StyledSinglePost>

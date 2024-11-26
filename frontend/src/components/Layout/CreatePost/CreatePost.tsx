@@ -23,6 +23,7 @@ function CreatePost() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          dispatch(setNewPost(false));
           dispatch(fetchCreatePost({ authorization: token, text }));
         }}
       >
