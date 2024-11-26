@@ -36,7 +36,7 @@ export default class LikeService {
 
         }
 
-        const findLike = await this.likeRepository.findOne({ where: { user, post } });
+        const findLike = await this.likeRepository.findOne({ where: { user: { id: UserId }, post: { id: PostId } } });
 
         // Caso o like exista ele é removido.
         if (findLike) {
@@ -46,6 +46,7 @@ export default class LikeService {
             return new ResponseDto("Like removido", true, {})
 
         }
+
         // Caso o like não exista ele é criado.
         const like = this.likeRepository.create({ user, post });
 

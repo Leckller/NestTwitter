@@ -14,7 +14,7 @@ export default class LikeController {
     ) { }
 
     @UseGuards(AuthGuard)
-    @Post(':page')
+    @Post()
     public async like(@GetUser() { id }: UserTypeToken, @Body() { postId }: LikeRequestDto) {
 
         return await this.likeService.like(+id, +postId);
