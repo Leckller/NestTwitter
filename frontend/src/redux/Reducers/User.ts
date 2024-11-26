@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchLogin } from '../Thunks/User/LoginThunk';
-import { fetchRegister } from '../Thunks/User/RegisterThunk';
+import { fetchLoginBuilder } from '../Thunks/User/LoginThunk';
+import { fetchRegisterBuilder } from '../Thunks/User/RegisterThunk';
+import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
 
-interface UserState {
+export interface UserState {
   token: string,
   loading: boolean,
   error: any
@@ -19,49 +20,9 @@ export const UserSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // BUILDER DO THUNK PARA O LOGIN DE USUÁRIO
-    builder
-      .addCase(fetchLogin.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchLogin.fulfilled, (state, action) => {
-        state.loading = false;
-        if ('error' in action.payload) {
-          state.error = action.payload.message;
-          return;
-        }
-        if (!action.payload.ok) {
-          state.error = action.payload.message;
-          return;
-        }
-        localStorage.setItem(
-          'nesTwitterToken',
-          JSON.stringify(action.payload.result.token),
-        );
-        state.token = action.payload.result.token;
-      });
-
-    // BUILDER DO THUNK PARA REGISTRAR UM NOVO USUÁRIO
-    builder
-      .addCase(fetchRegister.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchRegister.fulfilled, (state, action) => {
-        state.loading = false;
-        if ('error' in action.payload) {
-          state.error = action.payload.message;
-          return;
-        }
-        if (!action.payload.ok) {
-          state.error = action.payload.message;
-          return;
-        }
-        localStorage.setItem(
-          'nesTwitterToken',
-          JSON.stringify(action.payload.result.token),
-        );
-        state.token = action.payload.result.token;
-      });
+    fetchLoginBuilder(builder);
+    fetchRegisterBuilder(builder);
+    fetchFollowBuilder(builder);
   },
 });
 

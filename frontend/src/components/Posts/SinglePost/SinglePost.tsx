@@ -1,7 +1,9 @@
+import { AiOutlineLike } from 'react-icons/ai';
 import DefaultImg from '../../../assets/ProfilePictures/iconFace.png';
 import { GlobalPostResponse } from '../../../types/Post/GlobalPost.Response';
 import GoToPostDetails from './GoToPostDetails';
 import { StyledSinglePost } from './StyledSinglePost';
+import { LiaCommentSolid } from 'react-icons/lia';
 
 function SinglePost({ post }: { post: GlobalPostResponse }) {
   const { comments, id, isComment, likes, text, user } = post;
@@ -27,12 +29,14 @@ function SinglePost({ post }: { post: GlobalPostResponse }) {
           </article>
         </GoToPostDetails>
         <article>
-          <button>
-            {`Comments: ${comments}`}
-          </button>
-          <button>
-            {`Likes: ${likes}`}
-          </button>
+          <label>
+            <LiaCommentSolid />
+            {comments}
+          </label>
+          <label>
+            <AiOutlineLike />
+            {likes}
+          </label>
         </article>
       </section>
     </StyledSinglePost>
