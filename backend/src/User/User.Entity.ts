@@ -41,11 +41,11 @@ export default class UserEntity implements UserType {
     comments: CommentEntity[];
 
     // Seguidores da pessoa
-    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.following)
+    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
     followers: FollowerEntity;
 
     // Pessoas que o usuário segue
-    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
+    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.following)
     following: FollowerEntity;
 
     @OneToMany(() => LikeEntity, (likeEntity) => likeEntity.user)

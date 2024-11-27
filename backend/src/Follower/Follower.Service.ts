@@ -77,7 +77,8 @@ export default class FollowerService {
         // Não consegui achar um jeito melhor p fazer essa separação de seguidor... perdão deus dos códigos sql.
         const following = await this.followerRepo.find({
             where: { following: { id: userId } },
-            select: { followed: { id: true } }
+            relations: { following: true, followed: true },
+            select: { id: true, following: { id: true }, followed: { id: true } }
         });
 
         const posts = await this.postRepo
@@ -93,7 +94,7 @@ export default class FollowerService {
             // Faz o join para obter informações do autor do post
             .innerJoinAndSelect("post.user", "author")
             .orderBy('post.created_at', 'DESC')
-            .where('author.id IN (:...following) AND post.isComment = false', { following: following.map(f => f.id) })
+            .where('author.id IN (:...following) AND post.isComment = false', { following: following.map(f => f.followed.id) })
             .select([
                 'post',
                 "author.id",
