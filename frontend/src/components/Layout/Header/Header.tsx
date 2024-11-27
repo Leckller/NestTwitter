@@ -8,9 +8,8 @@ import { StyledHeader } from './StyledHeader';
 function Header() {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector(s => s.User);
-  const { globalPage, localPost, bubblePosts, posts } = useAppSelector(s => s.Post);
+  const { pages, localPost, bubblePosts, posts } = useAppSelector(s => s.Post);
   const { pathname } = useLocation();
-  console.log(localPost)
 
   return (
     <>
@@ -21,19 +20,19 @@ function Header() {
           </section>
           <section>
             <button onClick={() => {
-              dispatch(setPage(0));
               dispatch(setLocalPosts('global'));
               if (posts.length <= 0) {
-                dispatch(fetchGlobalPosts({ authorization: token, page: globalPage }))
+                dispatch(setPage({ type: 'global', page: pages['global'] + 1 }))
+                dispatch(fetchGlobalPosts({ authorization: token, page: pages.global }))
               }
             }}>
               Para você
             </button>
             <button onClick={() => {
-              dispatch(setPage(0));
               dispatch(setLocalPosts('bubble'));
               if (bubblePosts.length <= 0) {
-                dispatch(fetchBubblePosts({ authorization: token, page: globalPage }))
+                dispatch(setPage({ type: 'bubble', page: pages['bubble'] + 1 }))
+                dispatch(fetchBubblePosts({ authorization: token, page: pages.bubble }))
               }
             }}>
               Seguindo

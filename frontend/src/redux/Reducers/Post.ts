@@ -10,15 +10,20 @@ import { fetchBubblePostsBuilder } from '../Thunks/Post/BubblePostsThunk';
 import { fetchProfileBuilder } from '../Thunks/User/ProfileThunk';
 import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
 
-export type LocalPostType = 'details' | 'global' | 'bubble'
+export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile'
+export type PagesType = {
+  bubble: number,
+  global: number,
+  profile: number,
+  details: number,
+}
 
 export interface PostState {
   loading: boolean;
   posts: PostType[];
   bubblePosts: PostType[];
   postDetails: PostDetailsResponse | undefined;
-  globalPage: number,
-  isMaxPage: boolean,
+  pages: PagesType,
 
   localPost: LocalPostType,
 
@@ -33,10 +38,9 @@ export interface PostState {
 
 const initialState: PostState = {
   postDetails: undefined,
-  isMaxPage: false,
   loading: false,
   newPost: false,
-  globalPage: 0,
+  pages: { bubble: 0, global: 0, profile: 0, details: 0 },
   posts: [],
   bubblePosts: [],
   isComment: false,
@@ -53,8 +57,8 @@ export const PostSlice = createSlice({
       state.isComment = action.payload.isComment;
       state.postId = action.payload.postId;
     },
-    setPage(state, action: PayloadAction<number>) {
-      state.globalPage = action.payload;
+    setPage(state, { payload: { page, type } }: PayloadAction<{ type: LocalPostType, page: number }>) {
+      state.pages = { ...state.pages, [type]: page };
     },
     setNewPost(state, action: PayloadAction<boolean>) {
       state.newPost = action.payload;

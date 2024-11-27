@@ -10,12 +10,12 @@ import { fetchFollow } from "../../redux/Thunks/User/FollowThunk";
 
 function Profile() {
   const { id } = useParams();
-  const { profile, globalPage } = useAppSelector(s => s.Post);
+  const { profile, pages } = useAppSelector(s => s.Post);
   const { token, userId } = useAppSelector(s => s.User);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchProfile({ authorization: token, page: globalPage, userId: +id! }))
+    dispatch(fetchProfile({ authorization: token, page: pages.profile, userId: +id! }))
   }, [id])
 
   return (
