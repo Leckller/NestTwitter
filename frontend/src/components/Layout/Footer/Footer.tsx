@@ -8,13 +8,13 @@ function Footer() {
 
   return (
     <StyledFooter>
-      <button onClick={() => navigate('/Home')}>
+      <button onClick={() => navigate('/home')}>
         Home
       </button>
-      <button onClick={() => navigate('/Search')}>
+      <button onClick={() => navigate('/search')}>
         Search
       </button>
-      <button onClick={() => navigate(`/Profile/${userId}`)}>
+      <button onClick={() => navigate(`/profile/${userId}`)}>
         Profile
       </button>
     </StyledFooter>

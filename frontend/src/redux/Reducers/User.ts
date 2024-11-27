@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchLoginBuilder } from '../Thunks/User/LoginThunk';
 import { fetchRegisterBuilder } from '../Thunks/User/RegisterThunk';
-import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
 
 export interface UserState {
   token: string,
@@ -24,7 +23,6 @@ export const UserSlice = createSlice({
   extraReducers: (builder) => {
     fetchLoginBuilder(builder);
     fetchRegisterBuilder(builder);
-    fetchFollowBuilder(builder);
   },
 });
 

@@ -9,6 +9,7 @@ export interface ProfileType extends UserType {
   banner: string,
   followers: number,
   following: number,
+  isFollowing: boolean,
 }
 
 export interface PostType {

@@ -6,11 +6,12 @@ import { StyledProfile } from "./StyledProfile";
 import DefaultBanner from '../../assets/ProfilePictures/banner.png';
 import DefaultIcon from '../../assets/ProfilePictures/iconFace.png';
 import GroupPost from "../../components/Posts/GroupPost/GroupPost";
+import { fetchFollow } from "../../redux/Thunks/User/FollowThunk";
 
 function Profile() {
   const { id } = useParams();
   const { profile, globalPage } = useAppSelector(s => s.Post);
-  const { token } = useAppSelector(s => s.User);
+  const { token, userId } = useAppSelector(s => s.User);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -28,7 +29,13 @@ function Profile() {
             </article>
             <article>
               <img src={profile.user.photo || DefaultIcon} alt={`${profile.user.name}-photo`} />
-              {true && <button>Editar Perfil</button>}
+              {userId === +id! ? (
+                <button>Editar Perfil</button>
+              ) : (
+                <button onClick={() => dispatch(fetchFollow({ authorization: token, followedId: +id! }))}>
+                  {profile.user.isFollowing ? 'seguindo' : 'seguir'}
+                </button>
+              )}
             </article>
             <article>
               <h2>{profile.user.name}</h2>

@@ -10,6 +10,7 @@ import LoginUserDto from "./DTOs/LoginUser.Dto";
 import ResponseDto from "src/Utils/Response.Dto";
 import PostEntity from "src/Post/Post.entity";
 import LikeEntity from "src/Like/Like.entity";
+import FollowerEntity from "src/Follower/Follower.Entity";
 
 @Injectable()
 export default class UserService {
@@ -22,6 +23,8 @@ export default class UserService {
         private postRepository: Repository<PostEntity>,
         @InjectRepository(LikeEntity)
         private readonly likeRepo: Repository<LikeEntity>,
+        @InjectRepository(FollowerEntity)
+        private readonly followerRepo: Repository<FollowerEntity>,
     ) { }
 
     public async createUser(user: CreateUserDto) {
@@ -113,14 +116,19 @@ export default class UserService {
                 post: { id: true },
                 user: { id: true }
             }
-        })
+        });
 
         const postsWithLikes = posts.map(p => {
             const isLiked = userLiked.some(pl => pl.post.id === p.id);
             return { ...p, isLiked }
-        })
+        });
 
-        return new ResponseDto(`User: ${user.name}`, true, { user, posts: postsWithLikes });
+        // Verifica se o usuário segue o perfil.
+        const isFollowing = await this.followerRepo.exists({
+            where: { followed: { id: userId }, following: { id: tokenId } }
+        });
+
+        return new ResponseDto(`User: ${user.name}`, true, { user: { ...user, isFollowing }, posts: postsWithLikes });
 
     }
 

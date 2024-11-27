@@ -36,7 +36,7 @@ class UserService {
     };
 
     async followUser({ followedId, authorization }: { followedId: number, authorization: string }) {
-        const request = await bird<Request<{}>>(
+        const request = await bird<Request<{ isFollowing: boolean }>>(
             {
                 url: `${baseUrl}/follow`,
                 method: 'POST',

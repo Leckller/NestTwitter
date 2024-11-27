@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
-import { setPage } from '../../../redux/Reducers/Post';
+import { setLocalPosts, setPage } from '../../../redux/Reducers/Post';
 import { fetchBubblePosts } from '../../../redux/Thunks/Post/BubblePostsThunk';
 import { fetchGlobalPosts } from '../../../redux/Thunks/Post/GlobalPostsThunk';
 import { StyledHeader } from './StyledHeader';
@@ -8,26 +8,33 @@ import { StyledHeader } from './StyledHeader';
 function Header() {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector(s => s.User);
-  const { globalPage } = useAppSelector(s => s.Post);
+  const { globalPage, localPost, bubblePosts, posts } = useAppSelector(s => s.Post);
   const { pathname } = useLocation();
+  console.log(localPost)
 
   return (
     <>
-      {!pathname.includes('profile') &&
-        <StyledHeader>
+      {(pathname.includes('home') || pathname === '/') &&
+        <StyledHeader isBubble={localPost}>
           <section>
             <button>Twitter</button>
           </section>
           <section>
             <button onClick={() => {
               dispatch(setPage(0));
-              dispatch(fetchBubblePosts({ authorization: token, page: globalPage }))
+              dispatch(setLocalPosts('global'));
+              if (posts.length <= 0) {
+                dispatch(fetchGlobalPosts({ authorization: token, page: globalPage }))
+              }
             }}>
               Para você
             </button>
             <button onClick={() => {
               dispatch(setPage(0));
-              dispatch(fetchGlobalPosts({ authorization: token, page: globalPage }))
+              dispatch(setLocalPosts('bubble'));
+              if (bubblePosts.length <= 0) {
+                dispatch(fetchBubblePosts({ authorization: token, page: globalPage }))
+              }
             }}>
               Seguindo
             </button>

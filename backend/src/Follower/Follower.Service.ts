@@ -52,7 +52,7 @@ export default class FollowerService {
 
             await this.followerRepo.remove(findFollow);
 
-            return new ResponseDto(`${followingUser.name} deixou de seguir ${followedUser.name}`, true, {});
+            return new ResponseDto(`${followingUser.name} deixou de seguir ${followedUser.name}`, true, { isFollowing: false });
 
         }
         // Caso não encontre o vinculo entre os usuários, ele é criado.
@@ -60,7 +60,7 @@ export default class FollowerService {
 
         await this.followerRepo.save(follow);
 
-        return new ResponseDto(`${followingUser.name + "-" + followingUser.address} agora está seguindo ${followedUser.name + "-" + followedUser.address}`, true, {});
+        return new ResponseDto(`${followingUser.name + "-" + followingUser.address} agora está seguindo ${followedUser.name + "-" + followedUser.address}`, true, { isFollowing: true });
 
     }
 
@@ -74,6 +74,12 @@ export default class FollowerService {
 
         }
 
+        // Não consegui achar um jeito melhor p fazer essa separação de seguidor... perdão deus dos códigos sql.
+        const following = await this.followerRepo.find({
+            where: { following: { id: userId } },
+            select: { followed: { id: true } }
+        });
+
         const posts = await this.postRepo
             .createQueryBuilder("post")
             // Faz o join para encontrar os seguidores 
@@ -86,9 +92,8 @@ export default class FollowerService {
             .loadRelationCountAndMap('post.comments', 'post.comments', 'comments')
             // Faz o join para obter informações do autor do post
             .innerJoinAndSelect("post.user", "author")
-            .where("post.userId = followedUser.id")
-            .where("post.isComment = false")
             .orderBy('post.created_at', 'DESC')
+            .where('author.id IN (:...following) AND post.isComment = false', { following: following.map(f => f.id) })
             .select([
                 'post',
                 "author.id",
@@ -118,7 +123,7 @@ export default class FollowerService {
             return { ...p, isLiked }
         })
 
-        return new ResponseDto('Buble posts', true, postsWithLikes);
+        return new ResponseDto('Bubble posts', true, postsWithLikes);
 
     }
 

@@ -8,6 +8,7 @@ import { fetchCreateCommentBuilder } from '../Thunks/Post/CreateCommentThunk';
 import { PostType, ProfileType } from '../../types/Post/PostType';
 import { fetchBubblePostsBuilder } from '../Thunks/Post/BubblePostsThunk';
 import { fetchProfileBuilder } from '../Thunks/User/ProfileThunk';
+import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
 
 export type LocalPostType = 'details' | 'global' | 'bubble'
 
@@ -71,6 +72,7 @@ export const PostSlice = createSlice({
     fetchCreateCommentBuilder(builder);
     fetchBubblePostsBuilder(builder);
     fetchProfileBuilder(builder);
+    fetchFollowBuilder(builder);
 
   },
 });

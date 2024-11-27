@@ -21,7 +21,7 @@ export default class FollowerController {
     }
 
     @Get("circle/:page")
-    public async circleFollows(@GetUser() { id }: UserTypeToken, @Param('page') page) {
+    public async circleFollows(@GetUser() { id }: UserTypeToken, @Param('page') page: string) {
 
         return await this.followerService.getPostsByFollows(+id, +page);
 

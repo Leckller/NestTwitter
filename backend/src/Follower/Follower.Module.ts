@@ -17,7 +17,7 @@ import PostEntity from "src/Post/Post.entity";
             FollowerEntity,
             UserEntity,
             LikeEntity,
-            PostEntity
+            PostEntity,
         ])
     ]
 })
