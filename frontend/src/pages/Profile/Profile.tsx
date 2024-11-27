@@ -43,6 +43,18 @@ function Profile() {
             </article>
           </div>
 
+          <nav>
+            <button>
+              Posts
+            </button>
+            <button>
+              Respostas
+            </button>
+            <button>
+              Curtidas
+            </button>
+          </nav>
+
           <section>
             <GroupPost posts={profile.posts.map(p => ({ ...p, user: profile.user }))} />
           </section>

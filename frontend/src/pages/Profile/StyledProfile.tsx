@@ -95,7 +95,28 @@ export const StyledProfile = styled.main`
     }
 
   }
-  
+
+  nav {
+
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+    transform: translateY(-100px);
+    ${media.sm`
+      transform: translateY(-50px);
+    `}
+    border-bottom: black 1px solid;
+  }
+
   // Section dos posts do usuário  
-  section:nth-child(2) {}
+  & > section {
+    transform: translateY(-100px);
+    ${media.sm`
+      transform: translateY(-50px);
+    `}
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 `
