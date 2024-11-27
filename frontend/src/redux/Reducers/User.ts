@@ -6,13 +6,15 @@ import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
 export interface UserState {
   token: string,
   loading: boolean,
-  error: any
+  error: any,
+  userId: number | undefined,
 }
 
 const initialState: UserState = {
-  token: JSON.parse(localStorage.getItem('nesTwitterToken')!) || '',
+  token: JSON.parse(localStorage.getItem('nesTwitterToken')!).token || '',
   loading: false,
   error: undefined,
+  userId: JSON.parse(localStorage.getItem('nesTwitterToken')!).userId || '',
 };
 
 export const UserSlice = createSlice({

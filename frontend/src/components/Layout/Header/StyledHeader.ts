@@ -10,6 +10,7 @@ export const StyledHeader = styled.header`
   top: 0;
   min-height: 5vh;
   padding: 8px;
+  width: 100%;
   
   section:nth-child(2) {
 

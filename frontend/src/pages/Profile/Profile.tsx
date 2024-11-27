@@ -21,7 +21,8 @@ function Profile() {
     <>
       {profile ? (
         <StyledProfile>
-          <section>
+
+          <div>
             <article>
               <img src={profile.user.banner || DefaultBanner} alt={`${profile.user.name}-banner`} />
             </article>
@@ -37,10 +38,11 @@ function Profile() {
               descrição
             </article>
             <article>
-              <p>{`${profile.user.following} Seguindo`}</p>
-              <p>{`${profile.user.followers} Seguidores`}</p>
+              <p><span>{profile.user.following}</span> Seguindo</p>
+              <p><span>{profile.user.followers}</span> Seguidores</p>
             </article>
-          </section>
+          </div>
+
           <section>
             <GroupPost posts={profile.posts.map(p => ({ ...p, user: profile.user }))} />
           </section>

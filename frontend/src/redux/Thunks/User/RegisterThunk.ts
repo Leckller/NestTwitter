@@ -41,8 +41,12 @@ export function fetchRegisterBuilder(builder: ActionReducerMapBuilder<UserState>
       }
       localStorage.setItem(
         'nesTwitterToken',
-        JSON.stringify(action.payload.result.token),
+        JSON.stringify({
+          token: action.payload.result.token,
+          userId: action.payload.result.userId
+        }),
       );
       state.token = action.payload.result.token;
+      state.userId = action.payload.result.userId;
     });
 }

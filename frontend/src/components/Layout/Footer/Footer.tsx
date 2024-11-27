@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { StyledFooter } from './StyledFooter';
+import { useAppSelector } from '../../../hooks/reduxHooks';
 
 function Footer() {
   const navigate = useNavigate();
+  const { userId } = useAppSelector(s => s.User);
 
   return (
     <StyledFooter>
@@ -12,7 +14,7 @@ function Footer() {
       <button onClick={() => navigate('/Search')}>
         Search
       </button>
-      <button onClick={() => navigate('/Profile')}>
+      <button onClick={() => navigate(`/Profile/${userId}`)}>
         Profile
       </button>
     </StyledFooter>

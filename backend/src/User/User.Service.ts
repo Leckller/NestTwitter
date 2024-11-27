@@ -42,13 +42,13 @@ export default class UserService {
 
         newUser.password = await this.AuthService.encrypt(user.password);
 
-        const { address, name, photo, banner } = newUser;
+        const { address, name, photo, banner, id } = newUser;
 
         await this.userRepository.save(newUser);
 
         const token = this.AuthService.createToken({ address, banner, id: newUser.id, name, photo } as UserTypeToken);
 
-        return new ResponseDto('Usuário criado com sucesso', true, { token });
+        return new ResponseDto('Usuário criado com sucesso', true, { token, userId: id });
 
     }
 
@@ -140,7 +140,7 @@ export default class UserService {
 
         const token = this.AuthService.createToken({ address, banner, id, name, photo } as UserTypeToken);
 
-        return new ResponseDto('Bem vindo de volta!', true, { token });
+        return new ResponseDto('Bem vindo de volta!', true, { token, userId: id });
 
     }
 
