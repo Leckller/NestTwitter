@@ -29,9 +29,18 @@ export function fetchFollowBuilder(builder: ActionReducerMapBuilder<PostState>) 
     .addCase(fetchFollow.pending, (state) => {
       state.loading = true;
     })
-    .addCase(fetchFollow.fulfilled, (state, action) => {
+    .addCase(fetchFollow.fulfilled, (state, { payload: { followedId, result: { isFollowing } } }) => {
       state.loading = false;
-      state.profile!.user.isFollowing = action.payload.result.isFollowing;
+
+      if (state.localPost = 'search') {
+        state.search.users.find(u => u.id === +followedId)!.isFollowing = isFollowing;
+        return;
+      }
+
+      state.profile!.user.isFollowing = isFollowing;
+    })
+    .addCase(fetchFollow.rejected, (state, action) => {
+      state.loading = false;
       console.log(action);
     });
 }

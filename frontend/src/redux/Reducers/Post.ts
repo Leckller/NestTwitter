@@ -5,17 +5,19 @@ import { fetchPostDetailsBuilder } from '../Thunks/Post/PostDetailsThunk';
 import { PostDetailsResponse } from '../../types/Post/PostDetails.Response';
 import { fetchLikePostBuilder } from '../Thunks/Post/LikePostThunk';
 import { fetchCreateCommentBuilder } from '../Thunks/Post/CreateCommentThunk';
-import { PostType, ProfileType } from '../../types/Post/PostType';
+import { PostType, ProfileType, UserSearch } from '../../types/Post/PostType';
 import { fetchBubblePostsBuilder } from '../Thunks/Post/BubblePostsThunk';
 import { fetchProfileBuilder } from '../Thunks/User/ProfileThunk';
 import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
+import { fetchSearchBuilder } from '../Thunks/Post/SearchThunk';
 
-export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile'
+export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile' | 'search'
 export type PagesType = {
   bubble: number,
   global: number,
   profile: number,
   details: number,
+  search: number,
 }
 
 export interface PostState {
@@ -23,6 +25,7 @@ export interface PostState {
 
   posts: PostType[];
   bubblePosts: PostType[];
+  search: { posts: PostType[], users: UserSearch[] }
 
   pages: PagesType,
 
@@ -40,16 +43,20 @@ export interface PostState {
 }
 
 const initialState: PostState = {
-  postDetails: undefined,
-  loading: false,
   newPost: false,
-  pages: { bubble: 0, global: 0, profile: 0, details: 0 },
+  loading: false,
+  isComment: false,
+  pages: { bubble: 0, global: 0, profile: 0, details: 0, search: 0 },
+
+  postDetails: undefined,
+  profile: undefined,
+  search: { posts: [], users: [] },
+
   posts: [],
   bubblePosts: [],
-  isComment: false,
+
   postId: 0,
   localPost: 'bubble',
-  profile: undefined
 };
 
 export const PostSlice = createSlice({
@@ -80,6 +87,7 @@ export const PostSlice = createSlice({
     fetchBubblePostsBuilder(builder);
     fetchProfileBuilder(builder);
     fetchFollowBuilder(builder);
+    fetchSearchBuilder(builder);
 
   },
 });

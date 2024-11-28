@@ -4,7 +4,7 @@ import { In, Like, Repository } from "typeorm";
 import UserEntity from "./User.entity";
 import AuthService from "../Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
-import { TokenType, UserTypeToken } from "../types";
+import { UserTypeToken } from "../types";
 import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 import LoginUserDto from "./DTOs/LoginUser.Dto";
 import ResponseDto from "src/Utils/Response.Dto";

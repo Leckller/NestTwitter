@@ -45,7 +45,7 @@ class UserService {
             },
         );
 
-        return request;
+        return { ...request, followedId };
     };
 
     async profile({ authorization, userId, page }: { page: number, userId: number, authorization: string }) {
