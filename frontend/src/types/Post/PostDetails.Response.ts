@@ -1,25 +1,11 @@
-interface User {
+import { PostType, UserType } from "./PostType";
+
+export interface PostCommentType {
   id: number;
-  address: string;
-  name: string;
-  photo: string;
+  comment: PostType
+  user: UserType
 }
 
-interface CommentPost {
-  id: number;
-  text: string;
-}
-
-interface Comment {
-  id: number;
-  post: CommentPost;
-  user: User;
-}
-
-export interface PostDetailsResponse {
-  id: number;
-  text: string;
-  comments: Comment[];
-  user: User;
-  countLikes: number;
+export interface PostDetailsResponse extends PostType {
+  postComments: PostCommentType[];
 }

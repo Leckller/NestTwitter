@@ -1,18 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import { StyledFooter } from './StyledFooter';
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
+import { setLocalPosts } from '../../../redux/Reducers/Post';
 
 function Footer() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { userId } = useAppSelector(s => s.User);
 
   return (
     <StyledFooter>
-      <button onClick={ () => navigate('/Home') }>
+      <button onClick={() => {
+        dispatch(setLocalPosts('bubble'));
+        navigate('/home')
+      }}>
         Home
       </button>
-      <button onClick={ () => navigate('/Search') }>
+      <button onClick={() => {
+        dispatch(setLocalPosts('searchPosts'));
+        navigate('/search')
+      }}>
         Search
       </button>
-      <button onClick={ () => navigate('/Profile') }>
+      <button onClick={() => {
+        dispatch(setLocalPosts('profile'));
+        navigate(`/profile/${userId}`)
+      }}>
         Profile
       </button>
     </StyledFooter>

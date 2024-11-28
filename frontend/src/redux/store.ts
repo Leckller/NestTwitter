@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-// Essa aqui é aquela exportação default do reducer
-import ClickerReducer from './Reducers/User';
+import UserReducer from './Reducers/User';
+import PostReducer from './Reducers/Post';
 
-// Para adicionar novos reducers basta adicionar uma chave com o nome e o reducer como valor. Siga o exemplo abaixo!
 export const store = configureStore({
   reducer: {
-    Clicker: ClickerReducer,
+    User: UserReducer,
+    Post: PostReducer,
   },
 });
 

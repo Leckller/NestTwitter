@@ -2,17 +2,17 @@ import PostEntity from "../Post/Post.entity";
 import UserEntity from "../User/User.entity";
 import { Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({name: "Like"})
+@Entity({ name: "Like" })
 export default class LikeEntity {
-    
-    @PrimaryGeneratedColumn({unsigned: true})
+
+    @PrimaryGeneratedColumn({ unsigned: true })
     id: number;
 
-    @OneToOne(()=> UserEntity)
-    @JoinColumn()
+    @ManyToOne(() => UserEntity, (userEntity) => userEntity.likes)
     user: UserEntity;
 
-    @ManyToOne(() => PostEntity, (postEntity) => postEntity)
+    // Muitos likes para um post
+    @ManyToOne(() => PostEntity, (postEntity) => postEntity.likes)
     post: PostEntity;
 
 }

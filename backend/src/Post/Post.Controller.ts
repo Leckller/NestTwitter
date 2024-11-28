@@ -13,20 +13,31 @@ export default class PostController {
         private readonly postService: PostService
     ) { }
 
+    // Últimos 10 posts publicados
     @Get("global/:page")
-    public async getGlobalPosts(@Param('page') page) {
+    public async getGlobalPosts(@GetUser() userInfo: TokenType, @Param('page') page: string) {
 
-        return await this.postService.getGlobalPosts(+page);
-
-    }
-
-    @Get("details/:postId/:page")
-    public async getPostsDetails(@Param() { postId, page }) {
-
-        return await this.postService.postDetails(+postId, +page);
+        return await this.postService.getGlobalPosts(+userInfo.id, +page);
 
     }
 
+    // Detalhes de um post por ID
+    @Get("details/:postId")
+    public async getPostsDetails(@GetUser() userInfo: TokenType, @Param() { postId }) {
+
+        return await this.postService.postDetails(+userInfo.id, +postId);
+
+    }
+
+    // Pega os comentários de um post
+    @Get("comments/:postId/:page")
+    public async getPostComments(@GetUser() userInfo: TokenType, @Param() { postId, page }: { postId: string, page: string }) {
+
+        return await this.postService.getPostComments(+userInfo.id, +postId, +page);
+
+    }
+
+    // Criação de um post
     @Post()
     public async createPost(@GetUser() userInfo: TokenType, @Body() { text }: PostRequestDto) {
 
@@ -34,6 +45,7 @@ export default class PostController {
 
     }
 
+    // Apaga de um post
     @Delete()
     public async deletePost(@GetUser() userInfo: TokenType, @Body() { postId }) {
 

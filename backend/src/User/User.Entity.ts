@@ -3,6 +3,7 @@ import FollowerEntity from "../Follower/Follower.Entity";
 import PostEntity from "../Post/Post.entity";
 import { UserType } from "../types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import LikeEntity from "src/Like/Like.entity";
 
 @Entity({ name: "User" })
 export default class UserEntity implements UserType {
@@ -31,17 +32,24 @@ export default class UserEntity implements UserType {
     @Column()
     banner: string;
 
+    // Posts da pessoa
     @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
     posts: PostEntity[];
 
+    // Comentários da pessoa
     @OneToMany(() => CommentEntity, (commentEntity) => commentEntity.user)
     comments: CommentEntity[];
 
-    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.following)
+    // Seguidores da pessoa
+    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
     followers: FollowerEntity;
 
-    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.followed)
+    // Pessoas que o usuário segue
+    @OneToMany(() => FollowerEntity, (followerEntity) => followerEntity.following)
     following: FollowerEntity;
+
+    @OneToMany(() => LikeEntity, (likeEntity) => likeEntity.user)
+    likes: LikeEntity[];
 
     constructor(user?: Partial<UserEntity>) {
         this.id = user?.id;

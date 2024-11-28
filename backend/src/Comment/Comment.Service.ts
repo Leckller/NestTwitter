@@ -6,6 +6,7 @@ import CreateCommentRequestDto from "./DTOs/CreateComment.Request.Dto";
 import ResponseDto from "src/Utils/Response.Dto";
 import PostEntity from "src/Post/Post.entity";
 import UserEntity from "src/User/User.entity";
+import LikeEntity from "src/Like/Like.entity";
 
 @Injectable()
 export default class CommentService {
@@ -17,6 +18,8 @@ export default class CommentService {
         private readonly postRepo: Repository<PostEntity>,
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
+        @InjectRepository(LikeEntity)
+        private readonly likeRepo: Repository<LikeEntity>,
 
     ) { }
 
@@ -32,7 +35,12 @@ export default class CommentService {
 
             }
 
-            const user = await this.userRepo.findOne({ where: { id: userId } });
+            const user = await this.userRepo.findOne({
+                where: { id: userId },
+                select: {
+                    id: true, address: true, name: true, photo: true
+                }
+            });
 
             if (!user) {
 
@@ -53,7 +61,19 @@ export default class CommentService {
 
             await this.commentRepo.save(comment);
 
-            return new ResponseDto("Comentário adicionado!", true, { comment });
+            return new ResponseDto("Comentário adicionado!", true, {
+                postId, comment: {
+                    id: comment.id,
+                    comment: {
+                        id: newPost.id,
+                        isComment: true,
+                        text,
+                        likes: 0,
+                        comments: 0,
+                    },
+                    user: user
+                }
+            });
 
         } catch (err) {
 
@@ -72,6 +92,14 @@ export default class CommentService {
 
         }
 
+        const teste = await this.commentRepo
+            .createQueryBuilder('comment')
+            .leftJoinAndSelect('comment.post', 'post')
+            .leftJoinAndSelect('comment.comment', 'fields')
+            .loadRelationCountAndMap('fields.likes', 'fields.likes')
+            .loadRelationCountAndMap('fields.comments', 'fields.comments')
+            .getMany()
+
         const userComments = await this.commentRepo
             .find({
                 where: { user },
@@ -84,7 +112,7 @@ export default class CommentService {
                 }
             });
 
-        return new ResponseDto("Comentários do usuário!", true, { userComments });
+        return new ResponseDto("Comentários do usuário!", true, { teste });
 
     }
 

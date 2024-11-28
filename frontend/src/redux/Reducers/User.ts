@@ -1,15 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchLogin } from '../Thunks/User/LoginThunk';
-import { fetchRegister } from '../Thunks/User/RegisterThunk';
+import { fetchLoginBuilder } from '../Thunks/User/LoginThunk';
+import { fetchRegisterBuilder } from '../Thunks/User/RegisterThunk';
 
-interface UserState {
+export interface UserState {
   token: string,
   loading: boolean,
+  error: any,
+  userId: number | undefined,
 }
 
 const initialState: UserState = {
-  token: '',
+  token: JSON.parse(localStorage.getItem('nesTwitterToken')!).token || '',
   loading: false,
+  error: undefined,
+  userId: JSON.parse(localStorage.getItem('nesTwitterToken')!).userId || '',
 };
 
 export const UserSlice = createSlice({
@@ -17,23 +21,8 @@ export const UserSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchLogin.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchLogin.fulfilled, (state, action) => {
-        state.loading = false;
-        state.token = action.payload.result.token;
-      });
-
-    builder
-      .addCase(fetchRegister.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchRegister.fulfilled, (state, action) => {
-        state.loading = false;
-        state.token = action.payload.result.token;
-      });
+    fetchLoginBuilder(builder);
+    fetchRegisterBuilder(builder);
   },
 });
 

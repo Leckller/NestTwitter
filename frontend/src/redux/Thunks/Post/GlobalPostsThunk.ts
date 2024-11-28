@@ -1,11 +1,35 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import { GlobalPostRequest } from '../../../types/Post/GlobalPost.Request';
-import { globalPosts } from '../../../services/Post/globalPosts';
+import PostService from '../../../services/Post/PostService';
+import { PostState } from '../../Reducers/Post';
 
 export const fetchGlobalPosts = createAsyncThunk(
   'fetchGlobalPosts',
   async (fields: GlobalPostRequest) => {
-    const response = await globalPosts(fields);
+    const response = await PostService.getGlobalPosts(fields);
     return response;
   },
 );
+
+export function fetchGlobalPostsBuilder(builder: ActionReducerMapBuilder<PostState>) {
+  builder
+    .addCase(fetchGlobalPosts.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(fetchGlobalPosts.fulfilled, (state, action) => {
+      state.loading = false;
+
+      // Lógica para manter a página correta mesmo que não tenha mais posts
+      if (action.payload.result.length <= 0) {
+        state.pages[state.localPost] -= 1;
+        return;
+      }
+
+      state.posts = [...state.posts, ...action.payload.result];
+    })
+    .addCase(fetchGlobalPosts.rejected, (state, action) => {
+      state.loading = false;
+      state.pages[state.localPost] -= 1;
+      console.log(action);
+    });
+}
