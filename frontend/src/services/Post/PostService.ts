@@ -3,7 +3,7 @@ import { CreatePostResponse } from "../../types/Post/CreatePost.Response";
 import { GlobalPostRequest } from "../../types/Post/GlobalPost.Request";
 import { PostDetailsRequest } from "../../types/Post/PostDetails.Request";
 import { PostCommentType, PostDetailsResponse } from "../../types/Post/PostDetails.Response";
-import { PostType } from "../../types/Post/PostType";
+import { PostType, UserType } from "../../types/Post/PostType";
 import { Request } from "../../types/Request";
 import { bird } from "../../utils/bird";
 import { baseUrl } from "../baseUrl";
@@ -83,6 +83,20 @@ class PostService {
                 url: `${baseUrl}/like`,
                 headers: { authorization },
                 body: { postId },
+                method: 'POST',
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
+    async search({ text, authorization }: { text: string, authorization: string }) {
+        const request = await bird<Request<{ posts: PostType[], users: UserType[] }>>(
+            {
+                url: `${baseUrl}/like`,
+                headers: { authorization },
+                body: { text },
                 method: 'POST',
             },
         );

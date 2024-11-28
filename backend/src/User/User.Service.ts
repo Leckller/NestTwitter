@@ -103,7 +103,7 @@ export default class UserService {
             .where(`post.user.id = ${userId} AND post.isComment = false`)
             .orderBy('post.created_at', 'DESC')
             .take(10)
-            .skip(10 & page)
+            .skip(10 * page)
             .getMany();
 
         const userLiked = await this.likeRepo.find({

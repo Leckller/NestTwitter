@@ -5,6 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import PostEntity from "src/Post/Post.entity";
 import UserEntity from "src/User/User.entity";
 import AuthModule from "src/Auth/Auth.Module";
+import LikeEntity from "src/Like/Like.entity";
 
 @Module({
     controllers: [SearchController],
@@ -15,6 +16,7 @@ import AuthModule from "src/Auth/Auth.Module";
         TypeOrmModule.forFeature([
             PostEntity,
             UserEntity,
+            LikeEntity
         ])
     ]
 })

@@ -20,10 +20,13 @@ export type PagesType = {
 
 export interface PostState {
   loading: boolean;
+
   posts: PostType[];
   bubblePosts: PostType[];
-  postDetails: PostDetailsResponse | undefined;
+
   pages: PagesType,
+
+  postDetails: PostDetailsResponse | undefined;
 
   localPost: LocalPostType,
 
