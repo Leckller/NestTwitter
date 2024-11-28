@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { StyledLogin } from './StyledLogin';
 import { fetchLogin } from '../../redux/Thunks/User/LoginThunk';
+import { FaEyeSlash, FaRegEye } from 'react-icons/fa6';
 
 type FieldTypes = 'email' | 'password';
 
@@ -28,25 +29,35 @@ function Login() {
         onSubmit={(e) => e.preventDefault()}
       >
 
-        <label>
-          <h2>Email</h2>
-          <input
-            onChange={({ target: { value } }) => handleSetField('email', value)}
-            type="email"
-          />
-        </label>
+        <article>
+          <label>
+            <h2>Email</h2>
+            <input
+              onChange={({ target: { value } }) => handleSetField('email', value)}
+              type="email"
+            />
+          </label>
 
-        <label>
-          <h2>Password</h2>
-          <input
-            onChange={({ target: { value } }) => handleSetField('password', value)}
-            type={viewPassword ? 'text' : 'password'}
-          />
-        </label>
+          <article>
+            <label>
+              <h2>Password</h2>
+              <input
+                onChange={({ target: { value } }) => handleSetField('password', value)}
+                type={viewPassword ? 'text' : 'password'}
+              />
+            </label>
 
-        <button onClick={() => setViewPassword((prev) => !prev)}>
-          {viewPassword ? 'Hidde password' : 'Show password'}
-        </button>
+            <button onClick={() => setViewPassword((prev) => !prev)}>
+              {
+                viewPassword ? (
+                  <FaEyeSlash />
+                ) : (
+                  <FaRegEye />
+                )
+              }
+            </button>
+          </article>
+        </article>
 
         <section>
           <button onClick={() => navigate('/register')}>

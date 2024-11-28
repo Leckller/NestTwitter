@@ -63,10 +63,25 @@ export const StyledLogin = styled.main`
     position: absolute;
     z-index: 9999;
     background-color: #ff0000;
-    padding: 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
     border-radius: 9999px;
     width: 300px;
-    height: 300px;
+    min-height: 300px;
+
+    article > article {
+      display: flex;
+    }
+
+    input {
+      outline: none;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+    }
 
     ${media.xxs`
       width: 100%;
@@ -75,6 +90,7 @@ export const StyledLogin = styled.main`
       }
       input {
         width: 100%;
+        
       }
     `}
 
