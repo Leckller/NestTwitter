@@ -5,6 +5,7 @@ import { fetchPostDetails } from '../../redux/Thunks/Post/PostDetailsThunk';
 import SinglePost from '../../components/Posts/SinglePost/SinglePost';
 import { StyledPostDetails } from './StyledPostDetails';
 import { setLocalPosts } from '../../redux/Reducers/Post';
+import MorePosts from '../../components/Posts/MorePosts/MorePosts';
 
 function PostDetails() {
   const { id } = useParams();
@@ -51,6 +52,7 @@ function PostDetails() {
               key={comment.id}
             />
           ))}
+          <MorePosts postId={postDetails.id} />
         </>
       )}
     </StyledPostDetails>

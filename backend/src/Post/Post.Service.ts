@@ -213,7 +213,7 @@ export default class PostService {
     }
 
     // Pega os comentários de um post usando paginação
-    public async getPostComments(postId: number, page: number) {
+    public async getPostComments(userId: number, postId: number, page: number) {
 
         // Pega as info do comentário e conta quantos comentarios e likes tem
         const postComments = await this.commentRepo
@@ -231,11 +231,29 @@ export default class PostService {
                 'user.name',
                 'user.address',
             ])
-            .skip(page * 10)
-            .take(10)
+            .skip(5 * page)
+            .take(5)
             .getMany();
 
-        return new ResponseDto('Post Comments', true, { postComments });
+        const userLiked = await this.likeRepo.find({
+            where: {
+                user: { id: userId },
+                post: { id: In([...postComments.map(p => p.id)]) },
+            },
+            relations: { post: true, user: true, },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        });
+
+        const postsWithLikes = postComments.map(p => {
+            const isLiked = userLiked.some(pl => pl.post.id === p.id);
+            return { ...p, comment: { ...p.comment, isLiked } }
+        });
+
+
+        return new ResponseDto('Post Comments', true, { postComments: postsWithLikes });
 
     }
 

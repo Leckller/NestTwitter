@@ -12,6 +12,8 @@ import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
 import { fetchSearchBuilder } from '../Thunks/Post/Search/SearchThunk';
 import { fetchSearchPostsBuilder } from '../Thunks/Post/Search/SearchPostsThunk';
 import { fetchSearchUsersBuilder } from '../Thunks/Post/Search/SearchUsersThunk';
+import { fetchPostCommentsBuilder } from '../Thunks/Post/PostCommentsThunk';
+import { fetchUserPostsBuilder } from '../Thunks/User/UserPostsThunk';
 
 export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile' | 'searchUsers' | 'searchPosts'
 export type PagesType = {
@@ -93,7 +95,8 @@ export const PostSlice = createSlice({
     fetchSearchBuilder(builder);
     fetchSearchPostsBuilder(builder);
     fetchSearchUsersBuilder(builder);
-
+    fetchPostCommentsBuilder(builder);
+    fetchUserPostsBuilder(builder);
   },
 });
 

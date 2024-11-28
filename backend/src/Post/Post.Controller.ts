@@ -31,9 +31,9 @@ export default class PostController {
 
     // Pega os comentários de um post
     @Get("comments/:postId/:page")
-    public async getPostComments(@Param() { postId, page }: { postId: string, page: string }) {
+    public async getPostComments(@GetUser() userInfo: TokenType, @Param() { postId, page }: { postId: string, page: string }) {
 
-        return await this.postService.getPostComments(+postId, +page);
+        return await this.postService.getPostComments(+userInfo.id, +postId, +page);
 
     }
 
