@@ -10,10 +10,10 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  token: JSON.parse(localStorage.getItem('nesTwitterToken')!).token || '',
+  token: JSON.parse(localStorage.getItem('nesTwitterToken')!)?.token || '',
   loading: false,
   error: undefined,
-  userId: JSON.parse(localStorage.getItem('nesTwitterToken')!).userId || '',
+  userId: JSON.parse(localStorage.getItem('nesTwitterToken')!)?.userId || '',
 };
 
 export const UserSlice = createSlice({

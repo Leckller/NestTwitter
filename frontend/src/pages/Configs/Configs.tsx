@@ -13,6 +13,7 @@ function Configs() {
         onClick={() => {
           navigate('/login');
           dispatch(logout());
+          localStorage.removeItem('nesTwitterToken');
         }}
       >
         Encerrar Sessão
