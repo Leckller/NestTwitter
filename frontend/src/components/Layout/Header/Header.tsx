@@ -1,15 +1,17 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
 import { setLocalPosts, setPage } from '../../../redux/Reducers/Post';
 import { fetchBubblePosts } from '../../../redux/Thunks/Post/BubblePostsThunk';
 import { fetchGlobalPosts } from '../../../redux/Thunks/Post/GlobalPostsThunk';
 import { StyledHeader } from './StyledHeader';
+import { FaGear } from 'react-icons/fa6';
 
 function Header() {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector(s => s.User);
   const { pages, localPost, bubblePosts, posts } = useAppSelector(s => s.Post);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -17,6 +19,9 @@ function Header() {
         <StyledHeader isBubble={localPost}>
           <section>
             <button>Twitter</button>
+            <button onClick={() => navigate('/config')}>
+              <FaGear />
+            </button>
           </section>
           <section>
             <button onClick={() => {

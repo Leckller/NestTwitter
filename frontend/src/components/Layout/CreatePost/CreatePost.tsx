@@ -4,6 +4,8 @@ import { fetchCreatePost } from '../../../redux/Thunks/Post/CreatePostThunk';
 import { StyledCreatePost } from './StyledCreatePost';
 import { setComment, setNewPost } from '../../../redux/Reducers/Post';
 import { fetchCreateComment } from '../../../redux/Thunks/Post/CreateCommentThunk';
+import { BsArrowReturnLeft } from 'react-icons/bs';
+import { IoClose } from 'react-icons/io5';
 
 function CreatePost() {
   const { token } = useAppSelector((s) => s.User);
@@ -45,7 +47,13 @@ function CreatePost() {
         }}
       >
         <section>
-          <button onClick={() => dispatch(setNewPost(false))}>x</button>
+          <button onClick={() => dispatch(setNewPost(false))}>
+            <BsArrowReturnLeft />
+          </button>
+          <button onClick={() => dispatch(setNewPost(false))}>
+            <IoClose />
+          </button>
+          <button type="submit">Postar</button>
         </section>
         <textarea
           maxLength={300}

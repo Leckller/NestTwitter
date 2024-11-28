@@ -18,11 +18,13 @@ function Layout() {
         <Outlet />
       </div>
       {newPost && <CreatePost />}
-      <StyledNewPost
-        onClick={() => dispatch(setNewPost(!newPost))}
-      >
-        +
-      </StyledNewPost>
+      {!newPost && (
+        <StyledNewPost
+          onClick={() => dispatch(setNewPost(!newPost))}
+        >
+          +
+        </StyledNewPost>
+      )}
       <Footer />
     </StyledLayout>
   );

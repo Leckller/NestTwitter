@@ -9,6 +9,7 @@ import Login from './pages/Login/Login';
 import PostDetails from './pages/PostDetails/PostDetails';
 import Profile from './pages/Profile/Profile';
 import Search from './pages/Search/Search';
+import Configs from './pages/Configs/Configs';
 
 function App() {
   const { token } = useAppSelector((s) => s.User);
@@ -22,7 +23,7 @@ function App() {
     return (
       <Routes>
         <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound route="Register" />} />
       </Routes>
@@ -37,6 +38,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/postDetails/:id" element={<PostDetails />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/config" element={<Configs />} />
       </Route>
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />

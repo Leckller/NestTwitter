@@ -16,6 +16,15 @@ export interface ProfileType extends UserType {
   isFollowing: boolean,
 }
 
+export interface CreatePostType {
+  user: UserType;
+  created_at: Date;
+  text: string;
+  id: number;
+  isComment: boolean;
+
+}
+
 export interface PostType {
   id: number;
   isComment: boolean;
