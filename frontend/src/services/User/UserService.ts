@@ -48,8 +48,20 @@ class UserService {
         return { ...request, followedId };
     };
 
-    async profile({ authorization, userId, page }: { page: number, userId: number, authorization: string }) {
+    async profile({ authorization, userId }: { userId: number, authorization: string }) {
         const request = await bird<Request<{ user: ProfileType, posts: Omit<PostType, 'user'>[] }>>(
+            {
+                url: `${baseUrl}/user/id/${userId}`,
+                method: 'GET',
+                headers: { authorization },
+            },
+        );
+
+        return request;
+    }
+
+    async userPosts({ authorization, userId, page }: { page: number, userId: number, authorization: string }) {
+        const request = await bird<Request<{ posts: Omit<PostType, 'user'>[] }>>(
             {
                 url: `${baseUrl}/user/id/${userId}/${page}`,
                 method: 'GET',

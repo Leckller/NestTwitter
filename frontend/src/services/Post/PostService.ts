@@ -48,6 +48,19 @@ class PostService {
         return request;
     };
 
+
+    async getPostComments({ postId, authorization, page }: { postId: number, authorization: string, page: number }) {
+        const request = await bird<Request<{ postComments: PostCommentType[] }>>(
+            {
+                url: `${baseUrl}/post/comments/${postId}/${page}`,
+                headers: { authorization },
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
     async createPost({ text, authorization }: CreatePostRequest) {
         const request = await bird<Request<CreatePostResponse>>(
             {

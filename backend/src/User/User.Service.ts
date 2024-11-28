@@ -76,7 +76,7 @@ export default class UserService {
 
     }
 
-    public async getUserById(tokenId: number, userId: number, page: number) {
+    public async getUserById(tokenId: number, userId: number) {
 
         const user = await this.userRepository
             .createQueryBuilder('user')
@@ -102,8 +102,7 @@ export default class UserService {
             .loadRelationCountAndMap('post.likes', 'post.likes')
             .where(`post.user.id = ${userId} AND post.isComment = false`)
             .orderBy('post.created_at', 'DESC')
-            .take(10)
-            .skip(10 * page)
+            .take(5)
             .getMany();
 
         const userLiked = await this.likeRepo.find({
@@ -130,6 +129,42 @@ export default class UserService {
 
         return new ResponseDto(`User: ${user.name}`, true, { user: { ...user, isFollowing }, posts: postsWithLikes });
 
+    }
+
+    public async getUserPosts(tokenId: number, userId: number, page: number) {
+        const posts = await this.postRepository
+            .createQueryBuilder('post')
+            .loadRelationCountAndMap('post.comments', 'post.comments')
+            .loadRelationCountAndMap('post.likes', 'post.likes')
+            .where(`post.user.id = ${userId} AND post.isComment = false`)
+            .orderBy('post.created_at', 'DESC')
+            .take(5)
+            .skip(5 * page)
+            .getMany();
+
+        const userLiked = await this.likeRepo.find({
+            where: {
+                user: { id: tokenId },
+                post: { id: In([...posts.map(p => p.id)]) },
+            },
+            relations: { post: true, user: true, },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        });
+
+        const postsWithLikes = posts.map(p => {
+            const isLiked = userLiked.some(pl => pl.post.id === p.id);
+            return { ...p, isLiked }
+        });
+
+        // Verifica se o usuário segue o perfil.
+        const isFollowing = await this.followerRepo.exists({
+            where: { followed: { id: userId }, following: { id: tokenId } }
+        });
+
+        return new ResponseDto('User Posts', true, { posts: postsWithLikes });
     }
 
     public async login(user: LoginUserDto) {

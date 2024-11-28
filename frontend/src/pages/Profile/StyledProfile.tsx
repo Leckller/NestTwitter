@@ -111,6 +111,8 @@ export const StyledProfile = styled.main`
 
   // Section dos posts do usuário  
   & > section {
+    display: flex;
+    flex-direction: column;
     transform: translateY(-100px);
     ${media.sm`
       transform: translateY(-50px);
@@ -118,5 +120,7 @@ export const StyledProfile = styled.main`
     width: 100%;
     display: flex;
     justify-content: center;
+    padding-bottom: 100px;
+
   }
 `

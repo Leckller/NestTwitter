@@ -28,11 +28,19 @@ export default class UserController {
 
     }
 
+    @Get("id/:id")
+    @UseGuards(AuthGuard)
+    public async getUserById(@GetUser() userInfo: TokenType, @Param() { id }: { id: string }) {
+
+        return await this.userService.getUserById(+userInfo.id, +id);
+
+    }
+
     @Get("id/:id/:page")
     @UseGuards(AuthGuard)
-    public async getUserById(@GetUser() userInfo: TokenType, @Param() { id, page }: { id: string, page: string }) {
+    public async getUserPosts(@GetUser() userInfo: TokenType, @Param() { id, page }: { id: string, page: string }) {
 
-        return await this.userService.getUserById(+userInfo.id, +id, +page);
+        return await this.userService.getUserPosts(+userInfo.id, +id, +page);
 
     }
 

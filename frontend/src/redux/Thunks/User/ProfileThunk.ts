@@ -5,8 +5,8 @@ import { PostState } from '../../Reducers/Post';
 
 export const fetchProfile = createAsyncThunk(
   'fetchProfile',
-  async ({ userId, page, authorization }: { page: number, userId: number, authorization: string }) => {
-    const response = await UserService.profile({ page, userId, authorization });
+  async ({ userId, authorization }: { userId: number, authorization: string }) => {
+    const response = await UserService.profile({ userId, authorization });
 
     if (!response.ok) {
       if (Array.isArray(response.message)) {
