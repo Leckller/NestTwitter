@@ -1,16 +1,13 @@
 import { PostType, ProfileType } from "../../types/Post/PostType";
 import { Request } from "../../types/Request";
-import { LoginRequest } from "../../types/User/Login.Request";
-import { LoginResponse } from "../../types/User/Login.Response";
 import { RegisterRequest } from "../../types/User/Register.Request";
-import { RegisterResponse } from "../../types/User/Register.Response";
 import { bird } from "../../utils/bird";
 import { baseUrl } from "../baseUrl";
 
 class UserService {
 
-    async login({ email, password }: LoginRequest) {
-        const request = await bird<Request<LoginResponse>>(
+    async login({ email, password }: { email: string, password: string }) {
+        const request = await bird<Request<{ token: string, userId: number }>>(
             {
                 url: `${baseUrl}/user/login`,
                 method: 'POST',
@@ -25,7 +22,7 @@ class UserService {
     async register({
         email, password, address, banner, name, photo,
     }: RegisterRequest) {
-        const request = await bird<Request<RegisterResponse>>(
+        const request = await bird<Request<{ token: string, userId: number }>>(
             {
                 url: `${baseUrl}/user`,
                 method: 'POST',
@@ -39,7 +36,7 @@ class UserService {
     };
 
     async followUser({ followedId, authorization }: { followedId: number, authorization: string }) {
-        const request = await bird<Request<LoginResponse>>(
+        const request = await bird<Request<{ isFollowing: boolean }>>(
             {
                 url: `${baseUrl}/follow`,
                 method: 'POST',
@@ -48,7 +45,7 @@ class UserService {
             },
         );
 
-        return request;
+        return { ...request, followedId };
     };
 
     async profile({ authorization, userId, page }: { page: number, userId: number, authorization: string }) {

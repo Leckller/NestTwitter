@@ -4,6 +4,7 @@ export const StyledSinglePost = styled.article`
 
   display: flex;
   flex-direction: row;
+  width: 100%;
   gap: 8px;
   padding: 8px;
   border-bottom: 1px solid black;

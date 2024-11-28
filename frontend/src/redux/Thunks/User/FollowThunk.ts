@@ -1,7 +1,7 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import Swal from 'sweetalert2';
 import UserService from '../../../services/User/UserService';
-import { UserState } from '../../Reducers/User';
+import { PostState } from '../../Reducers/Post';
 
 export const fetchFollow = createAsyncThunk(
   'fetchFollow',
@@ -24,12 +24,22 @@ export const fetchFollow = createAsyncThunk(
 );
 
 
-export function fetchFollowBuilder(builder: ActionReducerMapBuilder<UserState>) {
+export function fetchFollowBuilder(builder: ActionReducerMapBuilder<PostState>) {
   builder
     .addCase(fetchFollow.pending, (state) => {
       state.loading = true;
     })
-    .addCase(fetchFollow.fulfilled, (state, action) => {
+    .addCase(fetchFollow.fulfilled, (state, { payload: { followedId, result: { isFollowing } } }) => {
+      state.loading = false;
+
+      if (state.localPost = 'search') {
+        state.search.users.find(u => u.id === +followedId)!.isFollowing = isFollowing;
+        return;
+      }
+
+      state.profile!.user.isFollowing = isFollowing;
+    })
+    .addCase(fetchFollow.rejected, (state, action) => {
       state.loading = false;
       console.log(action);
     });

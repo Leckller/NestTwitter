@@ -4,12 +4,13 @@ import { In, Like, Repository } from "typeorm";
 import UserEntity from "./User.entity";
 import AuthService from "../Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
-import { TokenType, UserTypeToken } from "../types";
+import { UserTypeToken } from "../types";
 import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 import LoginUserDto from "./DTOs/LoginUser.Dto";
 import ResponseDto from "src/Utils/Response.Dto";
 import PostEntity from "src/Post/Post.entity";
 import LikeEntity from "src/Like/Like.entity";
+import FollowerEntity from "src/Follower/Follower.Entity";
 
 @Injectable()
 export default class UserService {
@@ -22,6 +23,8 @@ export default class UserService {
         private postRepository: Repository<PostEntity>,
         @InjectRepository(LikeEntity)
         private readonly likeRepo: Repository<LikeEntity>,
+        @InjectRepository(FollowerEntity)
+        private readonly followerRepo: Repository<FollowerEntity>,
     ) { }
 
     public async createUser(user: CreateUserDto) {
@@ -42,13 +45,13 @@ export default class UserService {
 
         newUser.password = await this.AuthService.encrypt(user.password);
 
-        const { address, name, photo, banner } = newUser;
+        const { address, name, photo, banner, id } = newUser;
 
         await this.userRepository.save(newUser);
 
         const token = this.AuthService.createToken({ address, banner, id: newUser.id, name, photo } as UserTypeToken);
 
-        return new ResponseDto('Usuário criado com sucesso', true, { token });
+        return new ResponseDto('Usuário criado com sucesso', true, { token, userId: id });
 
     }
 
@@ -100,7 +103,7 @@ export default class UserService {
             .where(`post.user.id = ${userId} AND post.isComment = false`)
             .orderBy('post.created_at', 'DESC')
             .take(10)
-            .skip(10 & page)
+            .skip(10 * page)
             .getMany();
 
         const userLiked = await this.likeRepo.find({
@@ -113,14 +116,19 @@ export default class UserService {
                 post: { id: true },
                 user: { id: true }
             }
-        })
+        });
 
         const postsWithLikes = posts.map(p => {
             const isLiked = userLiked.some(pl => pl.post.id === p.id);
             return { ...p, isLiked }
-        })
+        });
 
-        return new ResponseDto(`User: ${user.name}`, true, { user, posts: postsWithLikes });
+        // Verifica se o usuário segue o perfil.
+        const isFollowing = await this.followerRepo.exists({
+            where: { followed: { id: userId }, following: { id: tokenId } }
+        });
+
+        return new ResponseDto(`User: ${user.name}`, true, { user: { ...user, isFollowing }, posts: postsWithLikes });
 
     }
 
@@ -140,7 +148,7 @@ export default class UserService {
 
         const token = this.AuthService.createToken({ address, banner, id, name, photo } as UserTypeToken);
 
-        return new ResponseDto('Bem vindo de volta!', true, { token });
+        return new ResponseDto('Bem vindo de volta!', true, { token, userId: id });
 
     }
 

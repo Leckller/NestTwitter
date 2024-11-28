@@ -6,6 +6,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import UserEntity from "./User.entity";
 import PostEntity from "src/Post/Post.entity";
 import LikeEntity from "src/Like/Like.entity";
+import FollowerEntity from "src/Follower/Follower.Entity";
 
 @Module({
     providers: [UserService],
@@ -16,7 +17,7 @@ import LikeEntity from "src/Like/Like.entity";
     ],
     imports: [
         AuthModule,
-        TypeOrmModule.forFeature([UserEntity, PostEntity, LikeEntity])
+        TypeOrmModule.forFeature([UserEntity, PostEntity, LikeEntity, FollowerEntity])
     ]
 })
 export default class UserModule { }

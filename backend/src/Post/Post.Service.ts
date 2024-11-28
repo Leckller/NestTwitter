@@ -152,6 +152,20 @@ export default class PostService {
             .where(`post.id = ${postId}`)
             .getOne()
 
+        const postLiked = await this.likeRepo.exists({
+            where: {
+                user: { id: userId },
+                post: { id: post.id },
+            },
+            relations: { post: true, user: true, },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        });
+
+        const postIsLiked = { ...post, isLiked: postLiked }
+
         if (!post) {
 
             throw new NotFoundException(new ResponseDto("Post não encontrado", false, {}));
@@ -194,7 +208,7 @@ export default class PostService {
             return { ...p, comment: { ...p.comment, isLiked } }
         });
 
-        return new ResponseDto('Post details', true, { ...post, postComments: postsWithLikes });
+        return new ResponseDto('Post details', true, { ...postIsLiked, postComments: postsWithLikes });
 
     }
 

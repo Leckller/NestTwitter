@@ -172,16 +172,16 @@ export default class SeedService {
 
     // Followes
 
-    const users = [morghUser, ruyUser, kayoUser];
+    // const users = [morghUser, ruyUser, kayoUser];
 
-    users.forEach((user) => {
-      users.filter(u => u.id !== user.id).forEach(async innerUser => {
-        const follow = this.followRepo.create({
-          followed: user, following: innerUser
-        })
-        await this.followRepo.save(follow);
-      })
-    })
+    // users.forEach((user) => {
+    //   users.filter(u => u.id !== user.id).forEach(async innerUser => {
+    //     const follow = this.followRepo.create({
+    //       followed: user, following: innerUser
+    //     })
+    //     await this.followRepo.save(follow);
+    //   })
+    // })
 
   }
 }

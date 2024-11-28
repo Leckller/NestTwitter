@@ -5,10 +5,15 @@ export interface UserType {
   name: string;
 }
 
+export interface UserSearch extends UserType {
+  isFollowing: boolean,
+}
+
 export interface ProfileType extends UserType {
   banner: string,
   followers: number,
   following: number,
+  isFollowing: boolean,
 }
 
 export interface PostType {

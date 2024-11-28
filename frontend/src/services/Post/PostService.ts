@@ -3,7 +3,7 @@ import { CreatePostResponse } from "../../types/Post/CreatePost.Response";
 import { GlobalPostRequest } from "../../types/Post/GlobalPost.Request";
 import { PostDetailsRequest } from "../../types/Post/PostDetails.Request";
 import { PostCommentType, PostDetailsResponse } from "../../types/Post/PostDetails.Response";
-import { PostType } from "../../types/Post/PostType";
+import { PostType, UserSearch, UserType } from "../../types/Post/PostType";
 import { Request } from "../../types/Request";
 import { bird } from "../../utils/bird";
 import { baseUrl } from "../baseUrl";
@@ -84,6 +84,45 @@ class PostService {
                 headers: { authorization },
                 body: { postId },
                 method: 'POST',
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
+    async search({ text, authorization }: { text: string, authorization: string }) {
+        const request = await bird<Request<{ posts: PostType[], users: UserSearch[] }>>(
+            {
+                url: `${baseUrl}/search/${text}`,
+                headers: { authorization },
+                method: 'GET',
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
+    async searchPosts({ page, text, authorization }: { page: number, text: string, authorization: string }) {
+        const request = await bird<Request<{ posts: PostType[] }>>(
+            {
+                url: `${baseUrl}/search/posts/${text}/${page}`,
+                headers: { authorization },
+                method: 'GET',
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
+    async searchUsers({ page, text, authorization }: { page: number, text: string, authorization: string }) {
+        const request = await bird<Request<{ users: UserSearch[] }>>(
+            {
+                url: `${baseUrl}/search/users/${text}/${page}`,
+                headers: { authorization },
+                method: 'GET',
             },
         );
 

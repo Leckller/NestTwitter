@@ -6,6 +6,7 @@ import CommentService from "./Comment.Service";
 import AuthModule from "src/Auth/Auth.Module";
 import UserEntity from "src/User/User.entity";
 import PostEntity from "src/Post/Post.entity";
+import LikeEntity from "src/Like/Like.entity";
 
 @Module({
     controllers: [CommentControler],
@@ -15,7 +16,8 @@ import PostEntity from "src/Post/Post.entity";
         TypeOrmModule.forFeature([
             CommentEntity,
             UserEntity,
-            PostEntity
+            PostEntity,
+            LikeEntity,
         ])
     ]
 

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { StyledLogin } from './StyledLogin';
-import { LoginRequest } from '../../types/User/Login.Request';
 import { fetchLogin } from '../../redux/Thunks/User/LoginThunk';
 
 type FieldTypes = 'email' | 'password';
@@ -10,7 +9,7 @@ type FieldTypes = 'email' | 'password';
 function Login() {
   const [viewPassword, setViewPassword] = useState(false);
 
-  const [fields, setFields] = useState<LoginRequest>({ email: '', password: '' });
+  const [fields, setFields] = useState<{ email: string, password: string }>({ email: '', password: '' });
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -26,13 +25,13 @@ function Login() {
   return (
     <StyledLogin>
       <form
-        onSubmit={ (e) => e.preventDefault() }
+        onSubmit={(e) => e.preventDefault()}
       >
 
         <label>
           <h2>Email</h2>
           <input
-            onChange={ ({ target: { value } }) => handleSetField('email', value) }
+            onChange={({ target: { value } }) => handleSetField('email', value)}
             type="email"
           />
         </label>
@@ -40,20 +39,20 @@ function Login() {
         <label>
           <h2>Password</h2>
           <input
-            onChange={ ({ target: { value } }) => handleSetField('password', value) }
-            type={ viewPassword ? 'text' : 'password' }
+            onChange={({ target: { value } }) => handleSetField('password', value)}
+            type={viewPassword ? 'text' : 'password'}
           />
         </label>
 
-        <button onClick={ () => setViewPassword((prev) => !prev) }>
+        <button onClick={() => setViewPassword((prev) => !prev)}>
           {viewPassword ? 'Hidde password' : 'Show password'}
         </button>
 
         <section>
-          <button onClick={ () => navigate('/register') }>
+          <button onClick={() => navigate('/register')}>
             Ainda não possui uma conta? cadastre-se!
           </button>
-          <button type="submit" onClick={ () => handleSubmit() }>
+          <button type="submit" onClick={() => handleSubmit()}>
             Logar
           </button>
         </section>

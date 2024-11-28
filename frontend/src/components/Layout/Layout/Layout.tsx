@@ -12,19 +12,19 @@ function Layout() {
   const { newPost } = useAppSelector((s) => s.Post);
 
   return (
-    <>
+    <StyledLayout>
       <Header />
-      <StyledLayout>
+      <div>
         <Outlet />
-      </StyledLayout>
+      </div>
       {newPost && <CreatePost />}
       <StyledNewPost
-        onClick={ () => dispatch(setNewPost(!newPost)) }
+        onClick={() => dispatch(setNewPost(!newPost))}
       >
         +
       </StyledNewPost>
       <Footer />
-    </>
+    </StyledLayout>
   );
 }
 

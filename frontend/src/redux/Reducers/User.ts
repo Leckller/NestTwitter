@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchLoginBuilder } from '../Thunks/User/LoginThunk';
 import { fetchRegisterBuilder } from '../Thunks/User/RegisterThunk';
-import { fetchFollowBuilder } from '../Thunks/User/FollowThunk';
 
 export interface UserState {
   token: string,
   loading: boolean,
-  error: any
+  error: any,
+  userId: number | undefined,
 }
 
 const initialState: UserState = {
-  token: JSON.parse(localStorage.getItem('nesTwitterToken')!) || '',
+  token: JSON.parse(localStorage.getItem('nesTwitterToken')!).token || '',
   loading: false,
   error: undefined,
+  userId: JSON.parse(localStorage.getItem('nesTwitterToken')!).userId || '',
 };
 
 export const UserSlice = createSlice({
@@ -22,7 +23,6 @@ export const UserSlice = createSlice({
   extraReducers: (builder) => {
     fetchLoginBuilder(builder);
     fetchRegisterBuilder(builder);
-    fetchFollowBuilder(builder);
   },
 });
 
