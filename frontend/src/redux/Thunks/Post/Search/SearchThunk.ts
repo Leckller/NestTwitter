@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
-import PostService from '../../../services/Post/PostService';
-import { PostState } from '../../Reducers/Post';
+import PostService from '../../../../services/Post/PostService';
+import { PostState } from '../../../Reducers/Post';
 
 export const fetchSearch = createAsyncThunk(
   'fetchSearch',

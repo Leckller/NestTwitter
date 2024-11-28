@@ -17,7 +17,7 @@ function Footer() {
         Home
       </button>
       <button onClick={() => {
-        dispatch(setLocalPosts('search'));
+        dispatch(setLocalPosts('searchPosts'));
         navigate('/search')
       }}>
         Search

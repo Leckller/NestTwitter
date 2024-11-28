@@ -104,6 +104,32 @@ class PostService {
         return request;
     };
 
+    async searchPosts({ page, text, authorization }: { page: number, text: string, authorization: string }) {
+        const request = await bird<Request<{ posts: PostType[] }>>(
+            {
+                url: `${baseUrl}/search/posts/${text}/${page}`,
+                headers: { authorization },
+                method: 'GET',
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
+    async searchUsers({ page, text, authorization }: { page: number, text: string, authorization: string }) {
+        const request = await bird<Request<{ users: UserSearch[] }>>(
+            {
+                url: `${baseUrl}/search/users/${text}/${page}`,
+                headers: { authorization },
+                method: 'GET',
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
 }
 
 export default new PostService();

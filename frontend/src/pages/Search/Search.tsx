@@ -1,22 +1,26 @@
 import { useState } from "react"
 import { FaSearch } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { fetchSearch } from "../../redux/Thunks/Post/SearchThunk";
 import GroupPost from "../../components/Posts/GroupPost/GroupPost";
 import SingleUser from "../../components/Posts/SingleUser/SingleUser";
+import { fetchSearch } from "../../redux/Thunks/Post/Search/SearchThunk";
+import MorePosts from "../../components/Posts/MorePosts/MorePosts";
+import { StyledSearch } from "./StyledSearch";
+import { setPage } from "../../redux/Reducers/Post";
 
 function Search() {
   const [text, setText] = useState('');
   const dispatch = useAppDispatch();
   const { token } = useAppSelector(s => s.User);
-  const { search } = useAppSelector(s => s.Post);
+  const { search, localPost, pages } = useAppSelector(s => s.Post);
 
   return (
 
-    <main>
+    <StyledSearch>
       <form onSubmit={(e) => {
         e.preventDefault();
-        dispatch(fetchSearch({ authorization: token, text }))
+        dispatch(fetchSearch({ authorization: token, text }));
+        dispatch(setPage({ type: localPost, page: pages[localPost] + 1 }))
       }}>
         <label>
           <FaSearch />
@@ -42,7 +46,10 @@ function Search() {
         </section>
       )}
       <GroupPost posts={search.posts} />
-    </main>
+      {search.posts.length > 0 && (
+        <MorePosts text={text} />
+      )}
+    </StyledSearch>
 
   )
 }

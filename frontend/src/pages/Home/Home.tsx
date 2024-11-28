@@ -5,6 +5,7 @@ import { fetchBubblePosts } from '../../redux/Thunks/Post/BubblePostsThunk';
 import { fetchGlobalPosts } from '../../redux/Thunks/Post/GlobalPostsThunk';
 import { useEffect } from 'react';
 import { setPage } from '../../redux/Reducers/Post';
+import MorePosts from '../../components/Posts/MorePosts/MorePosts';
 
 function Home() {
   const { localPost, posts, bubblePosts, pages } = useAppSelector(s => s.Post);
@@ -23,6 +24,7 @@ function Home() {
   return (
     <StyledHome>
       <GroupPost posts={localPost === 'bubble' ? bubblePosts : posts} />
+      <MorePosts />
     </StyledHome>
   );
 }

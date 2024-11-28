@@ -6,6 +6,5 @@ export const StyledGroupPost = styled.main`
   flex-direction: column;
   width: 100%;
   max-width: 650px;
-  padding-bottom: 100px;
 
 `;
