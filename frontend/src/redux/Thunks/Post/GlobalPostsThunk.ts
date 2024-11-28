@@ -19,8 +19,7 @@ export function fetchGlobalPostsBuilder(builder: ActionReducerMapBuilder<PostSta
     .addCase(fetchGlobalPosts.fulfilled, (state, action) => {
       state.loading = false;
 
-      // Lógica para evitar que o usuário fique fazendo requisição
-      // desnecessária quando o banco de dados não possui mais posts
+      // Lógica para manter a página correta mesmo que não tenha mais posts
       if (action.payload.result.length <= 0) {
         state.pages[state.localPost] -= 1;
         return;

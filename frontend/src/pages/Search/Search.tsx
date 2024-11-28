@@ -6,7 +6,7 @@ import SingleUser from "../../components/Posts/SingleUser/SingleUser";
 import { fetchSearch } from "../../redux/Thunks/Post/Search/SearchThunk";
 import MorePosts from "../../components/Posts/MorePosts/MorePosts";
 import { StyledSearch } from "./StyledSearch";
-import { setPage } from "../../redux/Reducers/Post";
+import { setLocalPosts, setPage } from "../../redux/Reducers/Post";
 
 function Search() {
   const [text, setText] = useState('');
@@ -34,20 +34,53 @@ function Search() {
           Pesquisar
         </button>
       </form>
-      {search.users.length > 0 && (
-        <section>
-          <h1>Pessoas</h1>
+
+      <nav>
+        <button
+          onClick={() => {
+            dispatch(setLocalPosts('searchPosts'));
+          }}
+        >
+          Principais
+        </button>
+        <button
+          onClick={() => {
+            dispatch(setLocalPosts('searchUsers'));
+          }}
+        >
+          Pessoas
+        </button>
+      </nav>
+
+      {(localPost === 'searchPosts' && search.users.length > 0) ? (
+        <>
+          <section>
+            <h1>Pessoas</h1>
+            {search.users.map((u, i) => (
+              <SingleUser key={u.id + i} user={u} />
+            ))}
+            <button
+              onClick={() => {
+                dispatch(setLocalPosts('searchUsers'));
+              }}
+            >
+              Ver tudo
+            </button>
+          </section>
+          <GroupPost posts={search.posts} />
+          {search.posts.length > 0 && (
+            <MorePosts text={text} />
+          )}
+        </>
+      ) : (
+        <>
           {search.users.map((u, i) => (
             <SingleUser key={u.id + i} user={u} />
           ))}
-          <button>
-            Ver tudo
-          </button>
-        </section>
-      )}
-      <GroupPost posts={search.posts} />
-      {search.posts.length > 0 && (
-        <MorePosts text={text} />
+          {search.users.length > 0 && (
+            <MorePosts text={text} />
+          )}
+        </>
       )}
     </StyledSearch>
 
