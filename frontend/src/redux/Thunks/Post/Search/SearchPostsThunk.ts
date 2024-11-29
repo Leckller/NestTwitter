@@ -20,14 +20,16 @@ export function fetchSearchPostsBuilder(builder: ActionReducerMapBuilder<PostSta
 
       // Lógica para manter a página correta mesmo que não tenha mais posts
       if (action.payload.result.posts.length <= 0) {
-        state.pages[state.localPost] -= 1;
+        state.pages.searchPosts -= 1;
         return;
       }
 
+      state.pages.searchPosts += 1;
       state.search.posts = [...state.search.posts, ...action.payload.result.posts];
     })
     .addCase(fetchSearchPosts.rejected, (state, action) => {
       state.loading = false;
+      state.pages.searchPosts -= 1;
       console.log(action);
     });
 }

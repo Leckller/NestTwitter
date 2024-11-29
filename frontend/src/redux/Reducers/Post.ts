@@ -15,7 +15,7 @@ import { fetchSearchUsersBuilder } from '../Thunks/Post/Search/SearchUsersThunk'
 import { fetchPostCommentsBuilder } from '../Thunks/Post/PostCommentsThunk';
 import { fetchUserPostsBuilder } from '../Thunks/User/UserPostsThunk';
 
-export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile' | 'searchUsers' | 'searchPosts'
+export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile' | 'searchUsers' | 'searchPosts' | 'likes' | 'answers'
 export type PagesType = {
   bubble: number,
   global: number,
@@ -23,6 +23,8 @@ export type PagesType = {
   details: number,
   searchPosts: number,
   searchUsers: number,
+  answers: number,
+  likes: number,
 }
 
 export interface PostState {
@@ -49,9 +51,12 @@ export interface PostState {
 
 const initialState: PostState = {
   newPost: false,
+
   loading: false,
+
   isComment: false,
-  pages: { bubble: 0, global: 0, profile: 0, details: 0, searchPosts: 0, searchUsers: 0 },
+
+  pages: { bubble: 0, global: 0, profile: 0, details: 0, searchPosts: 0, searchUsers: 0, answers: 0, likes: 0 },
 
   postDetails: undefined,
   profile: undefined,

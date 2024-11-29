@@ -14,9 +14,7 @@ function Layout() {
   return (
     <StyledLayout>
       <Header />
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
       {newPost && <CreatePost />}
       {!newPost && (
         <StyledNewPost

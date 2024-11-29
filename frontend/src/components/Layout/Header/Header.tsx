@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
-import { setLocalPosts, setPage } from '../../../redux/Reducers/Post';
+import { setLocalPosts } from '../../../redux/Reducers/Post';
 import { fetchBubblePosts } from '../../../redux/Thunks/Post/BubblePostsThunk';
 import { fetchGlobalPosts } from '../../../redux/Thunks/Post/GlobalPostsThunk';
 import { StyledHeader } from './StyledHeader';
@@ -27,7 +27,6 @@ function Header() {
             <button onClick={() => {
               dispatch(setLocalPosts('global'));
               if (posts.length <= 0) {
-                dispatch(setPage({ type: 'global', page: pages['global'] + 1 }))
                 dispatch(fetchGlobalPosts({ authorization: token, page: pages.global }))
               }
             }}>
@@ -36,7 +35,6 @@ function Header() {
             <button onClick={() => {
               dispatch(setLocalPosts('bubble'));
               if (bubblePosts.length <= 0) {
-                dispatch(setPage({ type: 'bubble', page: pages['bubble'] + 1 }))
                 dispatch(fetchBubblePosts({ authorization: token, page: pages.bubble }))
               }
             }}>

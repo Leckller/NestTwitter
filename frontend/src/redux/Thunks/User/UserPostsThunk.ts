@@ -31,14 +31,19 @@ export function fetchUserPostsBuilder(builder: ActionReducerMapBuilder<PostState
     })
     .addCase(fetchUserPosts.fulfilled, (state, action) => {
       state.loading = false;
+      console.log(action);
 
       if (action.payload.result.posts.length <= 0) {
         state.pages.profile -= 1;
         return;
       }
 
+      state.pages.profile += 1;
       state.profile!.posts = [...state.profile!.posts, ...action.payload.result.posts];
 
+    }).addCase(fetchUserPosts.rejected, (state, action) => {
+      state.loading = false;
+      state.pages.profile -= 1;
       console.log(action);
     });
 }

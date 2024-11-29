@@ -21,15 +21,16 @@ export function fetchGlobalPostsBuilder(builder: ActionReducerMapBuilder<PostSta
 
       // Lógica para manter a página correta mesmo que não tenha mais posts
       if (action.payload.result.length <= 0) {
-        state.pages[state.localPost] -= 1;
+        state.pages.global -= 1;
         return;
       }
 
+      state.pages.global += 1;
       state.posts = [...state.posts, ...action.payload.result];
     })
     .addCase(fetchGlobalPosts.rejected, (state, action) => {
       state.loading = false;
-      state.pages[state.localPost] -= 1;
+      state.pages.global -= 1;
       console.log(action);
     });
 }

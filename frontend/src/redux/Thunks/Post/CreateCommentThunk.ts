@@ -17,7 +17,8 @@ export function fetchCreateCommentBuilder(builder: ActionReducerMapBuilder<PostS
     })
     .addCase(fetchCreateComment.fulfilled, (state, action) => {
       state.loading = false;
-      state.posts.find(p => p.id === action.payload.result.postId)!.comments += 1;
+
+      (state.localPost === 'bubble' ? state.bubblePosts : state.posts).find(p => p.id === action.payload.result.postId)!.comments += 1;
       state.postDetails?.postComments.unshift(action.payload.result.comment);
       console.log(action);
     })
