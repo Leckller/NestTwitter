@@ -14,15 +14,15 @@ function Layout() {
   return (
     <StyledLayout>
       <Header />
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
       {newPost && <CreatePost />}
-      <StyledNewPost
-        onClick={() => dispatch(setNewPost(!newPost))}
-      >
-        +
-      </StyledNewPost>
+      {!newPost && (
+        <StyledNewPost
+          onClick={() => dispatch(setNewPost(!newPost))}
+        >
+          +
+        </StyledNewPost>
+      )}
       <Footer />
     </StyledLayout>
   );

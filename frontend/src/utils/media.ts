@@ -5,6 +5,7 @@ import { Styles } from 'styled-components/dist/types';
 // ${media.sm` width: 50px `}
 
 const device = {
+  xxs: '320px',
   xs: '400px',
   sm: '600px',
   md: '980px',
@@ -14,6 +15,11 @@ const device = {
 };
 
 const media = {
+  xxs: (...args: any) => css`
+  @media (max-width: ${device.xxs}) {
+    ${css(...args as [Styles<object>])};
+  }
+`,
   xs: (...args: any) => css`
     @media (max-width: ${device.xs}) {
       ${css(...args as [Styles<object>])};

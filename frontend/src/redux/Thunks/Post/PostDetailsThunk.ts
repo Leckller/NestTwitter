@@ -19,6 +19,12 @@ export function fetchPostDetailsBuilder(builder: ActionReducerMapBuilder<PostSta
     .addCase(fetchPostDetails.fulfilled, (state, action) => {
       state.loading = false;
       state.postDetails = action.payload.result;
+
+      if (action.payload.result.postComments.length <= 0) {
+        state.pages.details -= 1;
+        return;
+      }
+      state.pages.details += 1;
     })
     .addCase(fetchPostDetails.rejected, (state, action) => {
       state.loading = false;

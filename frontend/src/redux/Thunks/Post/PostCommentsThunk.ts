@@ -23,11 +23,13 @@ export function fetchPostCommentsBuilder(builder: ActionReducerMapBuilder<PostSt
         return;
       }
 
+      state.pages.details += 1;
       state.postDetails!.postComments = [...state.postDetails?.postComments!, ...action.payload.result.postComments];
 
     })
     .addCase(fetchPostComments.rejected, (state, action) => {
       state.loading = false;
+      state.pages.details -= 1;
       console.log(action);
     });
 }

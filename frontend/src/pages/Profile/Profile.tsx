@@ -8,7 +8,7 @@ import DefaultIcon from '../../assets/ProfilePictures/iconFace.png';
 import GroupPost from "../../components/Posts/GroupPost/GroupPost";
 import { fetchFollow } from "../../redux/Thunks/User/FollowThunk";
 import MorePosts from "../../components/Posts/MorePosts/MorePosts";
-import { setPage } from "../../redux/Reducers/Post";
+import { setLocalPosts, setPage } from "../../redux/Reducers/Post";
 
 function Profile() {
   const { id } = useParams();
@@ -18,6 +18,7 @@ function Profile() {
 
   useEffect(() => {
     dispatch(fetchProfile({ authorization: token, userId: +id! }));
+    dispatch(setLocalPosts('profile'));
     dispatch(setPage({ type: 'profile', page: 1 }));
   }, [id])
 
@@ -54,13 +55,19 @@ function Profile() {
           </div>
 
           <nav>
-            <button>
+            <button
+              onClick={() => dispatch(setLocalPosts('profile'))}
+            >
               Posts
             </button>
-            <button>
+            <button
+              onClick={() => dispatch(setLocalPosts('answers'))}
+            >
               Respostas
             </button>
-            <button>
+            <button
+              onClick={() => dispatch(setLocalPosts('likes'))}
+            >
               Curtidas
             </button>
           </nav>

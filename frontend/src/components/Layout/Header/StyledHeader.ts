@@ -11,7 +11,10 @@ export const StyledHeader = styled.header<{ isBubble: string }>`
   padding: 8px;
   width: 100%;
 
-
+  section:nth-child(1) {
+    display: flex;
+    gap: 8px;
+  }
   
   section:nth-child(2) {
 

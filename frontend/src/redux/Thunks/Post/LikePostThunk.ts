@@ -1,6 +1,19 @@
 import { ActionReducerMapBuilder, createAsyncThunk } from '@reduxjs/toolkit';
 import PostService from '../../../services/Post/PostService';
 import { PostState } from '../../Reducers/Post';
+import { PostType } from '../../../types/Post/PostType';
+
+function likePost(post: Omit<PostType, 'user'>, removed: boolean) {
+  if (removed) {
+    post!.likes -= 1;
+    post!.isLiked = false;
+    return;
+  }
+
+  post!.isLiked = true;
+  post!.likes += 1;
+  return;
+}
 
 export const fetchLikePost = createAsyncThunk(
   'fetchLikePost',
@@ -19,56 +32,32 @@ export function fetchLikePostBuilder(builder: ActionReducerMapBuilder<PostState>
       state.loading = false;
 
       if (state.localPost === 'profile') {
-        const post = state.profile?.posts.find(p => p.id === postId);
+        const post = state.profile!.posts.find(p => p.id === postId);
+        likePost(post as PostType, removed);
+        return;
+      }
 
-        if (removed) {
-          post!.likes -= 1;
-          post!.isLiked = false;
-          return;
-        }
-
-        post!.isLiked = true;
-        post!.likes += 1;
+      if (state.localPost === 'searchPosts') {
+        const post = state.search.posts.find(p => p.id === postId);
+        likePost(post as PostType, removed);
         return;
       }
 
       if (state.localPost === 'details') {
 
         if (state.postDetails?.id === postId) {
-          if (removed) {
-            state.postDetails.likes -= 1;
-            state.postDetails.isLiked = false;
-            return;
-          }
-
-          state.postDetails.isLiked = true;
-          state.postDetails.likes += 1;
+          likePost(state.postDetails, removed);
           return;
         }
 
-        const post = state.postDetails?.postComments.find(p => p.comment.id === postId);
+        const post = state.postDetails?.postComments.find(p => p.comment.id === postId)!;
 
-        if (removed) {
-          post!.comment.likes -= 1;
-          post!.comment.isLiked = false;
-          return;
-        }
-
-        post!.comment.isLiked = true;
-        post!.comment.likes += 1;
+        likePost(post.comment, removed);
         return;
       }
 
       const post = (state.localPost === 'bubble' ? state.bubblePosts : state.posts).find(p => p.id === postId);
-
-      if (removed) {
-        post!.likes -= 1;
-        post!.isLiked = false;
-        return;
-      }
-
-      post!.isLiked = true;
-      post!.likes += 1;
+      likePost(post as PostType, removed);
     })
     .addCase(fetchLikePost.rejected, (state, action) => {
       state.loading = false;

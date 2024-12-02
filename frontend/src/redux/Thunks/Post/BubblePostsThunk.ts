@@ -21,15 +21,16 @@ export function fetchBubblePostsBuilder(builder: ActionReducerMapBuilder<PostSta
       // Lógica para evitar que o usuário fique fazendo requisição
       // desnecessária quando o banco de dados não possui mais posts
       if (action.payload.result.length <= 0) {
-        state.pages[state.localPost] -= 1;
+        state.pages.bubble -= 1;
         return;
       }
 
+      state.pages.bubble += 1;
       state.bubblePosts = [...state.bubblePosts, ...action.payload.result];
     })
     .addCase(fetchBubblePosts.rejected, (state, action) => {
       state.loading = false;
-      state.pages[state.localPost] -= 1;
+      state.pages.bubble -= 1;
       console.log(action);
     });
 }

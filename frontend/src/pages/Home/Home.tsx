@@ -4,7 +4,6 @@ import { StyledHome } from './StyledHome';
 import { fetchBubblePosts } from '../../redux/Thunks/Post/BubblePostsThunk';
 import { fetchGlobalPosts } from '../../redux/Thunks/Post/GlobalPostsThunk';
 import { useEffect } from 'react';
-import { setPage } from '../../redux/Reducers/Post';
 import MorePosts from '../../components/Posts/MorePosts/MorePosts';
 
 function Home() {
@@ -13,18 +12,19 @@ function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (localPost === 'bubble') {
+    if (localPost === 'bubble' && bubblePosts.length <= 0) {
       dispatch(fetchBubblePosts({ authorization: token, page: pages.bubble }));
-    } else {
+    } else if (localPost === 'global' && posts.length <= 0) {
       dispatch(fetchGlobalPosts({ authorization: token, page: pages.global }));
     }
-    dispatch(setPage({ type: localPost, page: pages[localPost] + 1 }))
   }, [])
 
   return (
     <StyledHome>
       <GroupPost posts={localPost === 'bubble' ? bubblePosts : posts} />
-      <MorePosts />
+      {((localPost === 'bubble' && bubblePosts.length > 0) || posts.length > 0) && (
+        <MorePosts />
+      )}
     </StyledHome>
   );
 }
