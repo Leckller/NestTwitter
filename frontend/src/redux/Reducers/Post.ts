@@ -50,6 +50,8 @@ export interface PostState {
 
   // Profile
   profile: { user: ProfileType, posts: Omit<PostType, 'user'>[] } | undefined
+  profileLikes: [],
+  profileAnswers: []
 }
 
 const initialState: PostState = {
@@ -62,8 +64,11 @@ const initialState: PostState = {
   pages: { bubble: 0, global: 0, profile: 0, details: 0, searchPosts: 0, searchUsers: 0, answers: 0, likes: 0 },
 
   postDetails: undefined,
-  profile: undefined,
   search: { posts: [], users: [] },
+
+  profile: undefined,
+  profileAnswers: [],
+  profileLikes: [],
 
   posts: [],
   bubblePosts: [],
