@@ -32,7 +32,7 @@ export function fetchFollowBuilder(builder: ActionReducerMapBuilder<PostState>) 
     .addCase(fetchFollow.fulfilled, (state, { payload: { followedId, result: { isFollowing } } }) => {
       state.loading = false;
 
-      if (state.localPost = 'search') {
+      if (state.localPost === 'searchPosts' || state.localPost === 'searchUsers') {
         state.search.users.find(u => u.id === +followedId)!.isFollowing = isFollowing;
         return;
       }

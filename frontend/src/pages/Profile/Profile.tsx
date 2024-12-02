@@ -18,6 +18,7 @@ function Profile() {
 
   useEffect(() => {
     dispatch(fetchProfile({ authorization: token, userId: +id! }));
+    dispatch(setLocalPosts('profile'));
     dispatch(setPage({ type: 'profile', page: 1 }));
   }, [id])
 
