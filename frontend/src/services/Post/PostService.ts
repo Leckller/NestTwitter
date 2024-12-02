@@ -141,6 +141,21 @@ class PostService {
         return request;
     };
 
+
+    async userAnswers({ page, userId, authorization }: { page: number, userId: number, authorization: string }) {
+        const request = await bird<Request<{ id: number, post: PostType, comment: PostType }[]>>(
+            {
+                url: `${baseUrl}/comment/${page}/${userId}`,
+                headers: { authorization },
+                method: 'GET',
+            },
+        );
+
+        console.log(request);
+        return request;
+    };
+
+
 }
 
 export default new PostService();

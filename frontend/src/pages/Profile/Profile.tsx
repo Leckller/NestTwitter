@@ -9,10 +9,12 @@ import GroupPost from "../../components/Posts/GroupPost/GroupPost";
 import { fetchFollow } from "../../redux/Thunks/User/FollowThunk";
 import MorePosts from "../../components/Posts/MorePosts/MorePosts";
 import { setLocalPosts, setPage } from "../../redux/Reducers/Post";
+import SinglePost from "../../components/Posts/SinglePost/SinglePost";
+import { fetchUserAnswers } from "../../redux/Thunks/Post/UserAnswers";
 
 function Profile() {
   const { id } = useParams();
-  const { profile } = useAppSelector(s => s.Post);
+  const { profile, localPost, profileAnswers, profileLikes, pages } = useAppSelector(s => s.Post);
   const { token, userId } = useAppSelector(s => s.User);
   const dispatch = useAppDispatch();
 
@@ -61,7 +63,10 @@ function Profile() {
               Posts
             </button>
             <button
-              onClick={() => dispatch(setLocalPosts('answers'))}
+              onClick={() => {
+                dispatch(setLocalPosts('answers'));
+                dispatch(fetchUserAnswers({ authorization: token, page: pages.answers, userId: +id! }))
+              }}
             >
               Respostas
             </button>
@@ -73,7 +78,21 @@ function Profile() {
           </nav>
 
           <section>
-            <GroupPost posts={profile.posts.map(p => ({ ...p, user: profile.user }))} />
+            {localPost === 'profile' && (
+              <GroupPost posts={profile.posts.map(p => ({ ...p, user: profile.user }))} />
+            )}
+            {
+              localPost === 'answers' && (
+                profileAnswers.map(ans => (
+                  <>
+                    <SinglePost post={ans.post} key={ans.post.id} />
+                    <SinglePost
+                      post={{ ...ans.comment, user: profile.user }}
+                      key={ans.comment.id} />
+                  </>
+                ))
+              )
+            }
             <MorePosts userId={profile.user.id} />
           </section>
         </StyledProfile>
