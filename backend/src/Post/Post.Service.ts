@@ -194,7 +194,7 @@ export default class PostService {
         const userLiked = await this.likeRepo.find({
             where: {
                 user: { id: userId },
-                post: { id: In([...postComments.map(p => p.id)]) },
+                post: { id: In([...postComments.map(p => p.comment.id)]) },
             },
             relations: { post: true, user: true, },
             select: {
@@ -204,7 +204,7 @@ export default class PostService {
         });
 
         const postsWithLikes = postComments.map(p => {
-            const isLiked = userLiked.some(pl => pl.post.id === p.id);
+            const isLiked = userLiked.some(pl => pl.post.id === p.comment.id);
             return { ...p, comment: { ...p.comment, isLiked } }
         });
 

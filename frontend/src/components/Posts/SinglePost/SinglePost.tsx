@@ -9,7 +9,7 @@ import { setComment, setNewPost } from '../../../redux/Reducers/Post';
 import { PostType } from '../../../types/Post/PostType';
 
 function SinglePost({ post }: { post: PostType }) {
-  const { comments, id, isLiked, likes, text, user } = post;
+  const { comments, id, isLiked, likes, text, user, created_at } = post;
   const dispatch = useAppDispatch();
   const { token } = useAppSelector(s => s.User);
 
@@ -28,6 +28,9 @@ function SinglePost({ post }: { post: PostType }) {
             </p>
             <p>
               {`@${user.address}`}
+            </p>
+            <p>
+              {new Date(created_at).toLocaleDateString()}
             </p>
           </article>
           <article>

@@ -96,8 +96,12 @@ export default class CommentService {
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.post', 'post')
             .leftJoinAndSelect('comment.comment', 'fields')
+            .leftJoin("comment.user", "user")
             .loadRelationCountAndMap('fields.likes', 'fields.likes')
             .loadRelationCountAndMap('fields.comments', 'fields.comments')
+            .where(`user.id = ${userId}`)
+            .skip(page * 10)
+            .take(10)
             .getMany()
 
         const userComments = await this.commentRepo

@@ -1,9 +1,7 @@
-import { CreatePostRequest } from "../../types/Post/CreatePost.Request";
-import { CreatePostResponse } from "../../types/Post/CreatePost.Response";
 import { GlobalPostRequest } from "../../types/Post/GlobalPost.Request";
 import { PostDetailsRequest } from "../../types/Post/PostDetails.Request";
 import { PostCommentType, PostDetailsResponse } from "../../types/Post/PostDetails.Response";
-import { PostType, UserSearch, UserType } from "../../types/Post/PostType";
+import { CreatePostType, PostType, UserSearch } from "../../types/Post/PostType";
 import { Request } from "../../types/Request";
 import { bird } from "../../utils/bird";
 import { baseUrl } from "../baseUrl";
@@ -61,8 +59,8 @@ class PostService {
         return request;
     };
 
-    async createPost({ text, authorization }: CreatePostRequest) {
-        const request = await bird<Request<CreatePostResponse>>(
+    async createPost({ text, authorization }: { text: string, authorization: string }) {
+        const request = await bird<Request<CreatePostType>>(
             {
                 url: `${baseUrl}/post`,
                 headers: { authorization },

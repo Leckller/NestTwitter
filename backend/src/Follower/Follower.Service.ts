@@ -94,7 +94,7 @@ export default class FollowerService {
             // Faz o join para obter informações do autor do post
             .innerJoinAndSelect("post.user", "author")
             .orderBy('post.created_at', 'DESC')
-            .where('author.id IN (:...following) AND post.isComment = false', { following: following.map(f => f.followed.id) })
+            .where('author.id IN (:...following) AND post.isComment = false', { following: [...following.map(f => f.followed.id), userId] })
             .select([
                 'post',
                 "author.id",

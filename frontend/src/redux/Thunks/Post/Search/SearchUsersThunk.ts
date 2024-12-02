@@ -21,14 +21,15 @@ export function fetchSearchUsersBuilder(builder: ActionReducerMapBuilder<PostSta
 
       // Lógica para manter a página correta mesmo que não tenha mais posts
       if (action.payload.result.users.length <= 0) {
-        state.pages[state.localPost] -= 1;
+        state.pages.searchUsers -= 1;
         return;
       }
-
+      state.pages.searchUsers += 1;
       state.search.users = [...state.search.users, ...action.payload.result.users];
     })
     .addCase(fetchSearchUsers.rejected, (state, action) => {
       state.loading = false;
+      state.pages.searchUsers -= 1;
       console.log(action);
     });
 }
