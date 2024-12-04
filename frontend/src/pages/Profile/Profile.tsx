@@ -85,7 +85,10 @@ function Profile() {
               localPost === 'answers' && (
                 profileAnswers.map(ans => (
                   <>
-                    <SinglePost post={ans.post} key={ans.post.id} />
+                    <SinglePost
+                      borderB={false}
+                      post={ans.post}
+                      key={ans.post.id} />
                     <SinglePost
                       post={{ ...ans.comment, user: profile.user }}
                       key={ans.comment.id} />

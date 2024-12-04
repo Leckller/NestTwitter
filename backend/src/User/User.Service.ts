@@ -167,6 +167,57 @@ export default class UserService {
         return new ResponseDto('User Posts', true, { posts: postsWithLikes });
     }
 
+    public async getUserLikes(tokenId: number, userId: number, page: number) {
+
+        const user = await this.userRepository.findOne({ where: { id: userId } });
+
+        if (!user) {
+
+            return new NotFoundException(new ResponseDto('Usuário não encontrado', false, {}));
+
+        }
+
+        const userLikes = await this.likeRepo
+            .createQueryBuilder('likes')
+            .leftJoin('likes.user', 'user')
+            .leftJoinAndSelect('likes.post', 'post')
+            .leftJoinAndSelect('post.user', 'postAuthor')
+            .loadRelationCountAndMap('post.comments', 'post.comments')
+            .loadRelationCountAndMap('post.likes', 'post.likes')
+            .where(`user.id = ${userId}`)
+            .select([
+                "likes",
+                "post",
+                "postAuthor.id",
+                "postAuthor.photo",
+                "postAuthor.name",
+                "postAuthor.address",
+            ])
+            .take(10)
+            .skip(10 * page)
+            .getMany();
+
+        const userLiked = await this.likeRepo.find({
+            where: {
+                user: { id: tokenId },
+                post: { id: In([...userLikes.map(p => p.post.id)]) },
+            },
+            relations: { post: true, user: true, },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        });
+
+        const postsWithLikes = userLikes.map(p => {
+            const isLiked = userLiked.some(pl => pl.post.id === p.post.id);
+            return { ...p, post: { ...p.post, isLiked } }
+        });
+
+        return new ResponseDto('User Liked Posts', true, postsWithLikes);
+
+    }
+
     public async login(user: LoginUserDto) {
 
         const findUser = await this.userRepository.findOne({ where: { email: user.email } });
