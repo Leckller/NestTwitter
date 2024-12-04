@@ -75,7 +75,7 @@ class PostService {
 
 
     async createComment({ text, postId, authorization }: { text: string, postId: number, authorization: string }) {
-        const request = await bird<Request<{ postId: number, comment: PostCommentType }>>(
+        const request = await bird<Request<{ id: number, postId: number, comment: PostCommentType }>>(
             {
                 url: `${baseUrl}/comment`,
                 headers: { authorization },

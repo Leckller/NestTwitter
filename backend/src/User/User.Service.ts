@@ -193,6 +193,7 @@ export default class UserService {
                 "postAuthor.name",
                 "postAuthor.address",
             ])
+            .orderBy('post.created_at', 'DESC')
             .take(10)
             .skip(10 * page)
             .getMany();

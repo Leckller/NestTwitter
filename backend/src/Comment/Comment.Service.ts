@@ -62,6 +62,7 @@ export default class CommentService {
             await this.commentRepo.save(comment);
 
             return new ResponseDto("Comentário adicionado!", true, {
+                id: comment.id,
                 postId, comment: {
                     id: comment.id,
                     comment: {
@@ -111,6 +112,7 @@ export default class CommentService {
                 "author.photo",
                 "author.name"
             ])
+            .orderBy('post.created_at', 'DESC')
             .where(`user.id = ${userId}`)
             .skip(page * 10)
             .take(10)
@@ -138,7 +140,7 @@ export default class CommentService {
             }
         });
 
-        return new ResponseDto("Comentários do usuário!", true, [ ...postsWithLikes ]);
+        return new ResponseDto("Comentários do usuário!", true, [...postsWithLikes]);
 
     }
 

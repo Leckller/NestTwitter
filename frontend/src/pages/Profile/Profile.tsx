@@ -67,7 +67,7 @@ function Profile() {
             <button
               onClick={() => {
                 dispatch(setLocalPosts('answers'));
-                if (profileAnswers.length <= 0) {
+                if (pages.answers <= 0) {
                   dispatch(fetchUserAnswers({ authorization: token, page: pages.answers, userId: +id! }))
                 }
               }}
@@ -77,7 +77,7 @@ function Profile() {
             <button
               onClick={() => {
                 dispatch(setLocalPosts('likes'));
-                if (profileLikes.length <= 0) {
+                if (pages.likes <= 0) {
                   dispatch(fetchUserLikedPosts({ authorization: token, page: pages.likes, userId: +id! }))
                 }
               }}
