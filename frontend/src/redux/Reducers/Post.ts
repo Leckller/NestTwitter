@@ -15,6 +15,7 @@ import { fetchSearchUsersBuilder } from '../Thunks/Post/Search/SearchUsersThunk'
 import { fetchPostCommentsBuilder } from '../Thunks/Post/PostCommentsThunk';
 import { fetchUserPostsBuilder } from '../Thunks/User/UserPostsThunk';
 import { fetchUserAnswersBuilder } from '../Thunks/Post/UserAnswers';
+import { fetchUserLikedPostsBuilder } from '../Thunks/User/UserLikedPostsThunk';
 
 export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile' | 'searchUsers' | 'searchPosts' | 'likes' | 'answers'
 export type PagesType = {
@@ -51,7 +52,7 @@ export interface PostState {
 
   // Profile
   profile: { user: ProfileType, posts: Omit<PostType, 'user'>[] } | undefined
-  profileLikes: [],
+  profileLikes: { id: number, post: PostType }[],
   profileAnswers: { id: number, comment: PostType, post: PostType }[]
 }
 
@@ -118,6 +119,9 @@ export const PostSlice = createSlice({
 
     // Comentários de um usuário
     fetchUserAnswersBuilder(builder);
+
+    // Likes de um usuário
+    fetchUserLikedPostsBuilder(builder);
 
     // Seguir usuário
     fetchFollowBuilder(builder);

@@ -11,6 +11,7 @@ import MorePosts from "../../components/Posts/MorePosts/MorePosts";
 import { setLocalPosts, setPage } from "../../redux/Reducers/Post";
 import SinglePost from "../../components/Posts/SinglePost/SinglePost";
 import { fetchUserAnswers } from "../../redux/Thunks/Post/UserAnswers";
+import { fetchUserLikedPosts } from "../../redux/Thunks/User/UserLikedPostsThunk";
 
 function Profile() {
   const { id } = useParams();
@@ -65,13 +66,20 @@ function Profile() {
             <button
               onClick={() => {
                 dispatch(setLocalPosts('answers'));
-                dispatch(fetchUserAnswers({ authorization: token, page: pages.answers, userId: +id! }))
+                if (profileAnswers.length <= 0) {
+                  dispatch(fetchUserAnswers({ authorization: token, page: pages.answers, userId: +id! }))
+                }
               }}
             >
               Respostas
             </button>
             <button
-              onClick={() => dispatch(setLocalPosts('likes'))}
+              onClick={() => {
+                dispatch(setLocalPosts('likes'));
+                if (profileLikes.length <= 0) {
+                  dispatch(fetchUserLikedPosts({ authorization: token, page: pages.answers, userId: +id! }))
+                }
+              }}
             >
               Curtidas
             </button>
@@ -80,6 +88,9 @@ function Profile() {
           <section>
             {localPost === 'profile' && (
               <GroupPost posts={profile.posts.map(p => ({ ...p, user: profile.user }))} />
+            )}
+            {localPost === 'likes' && (
+              <GroupPost posts={profileLikes.map(p => p.post)} />
             )}
             {
               localPost === 'answers' && (

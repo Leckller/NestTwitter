@@ -5,6 +5,7 @@ import { fetchBubblePosts } from '../../redux/Thunks/Post/BubblePostsThunk';
 import { fetchGlobalPosts } from '../../redux/Thunks/Post/GlobalPostsThunk';
 import { useEffect } from 'react';
 import MorePosts from '../../components/Posts/MorePosts/MorePosts';
+import { setLocalPosts } from '../../redux/Reducers/Post';
 
 function Home() {
   const { localPost, posts, bubblePosts, pages } = useAppSelector(s => s.Post);
@@ -12,10 +13,17 @@ function Home() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Garantia que caso reinicie a página vai realizar o fetch correto
+    if (localPost != 'bubble' && localPost != 'global') {
+      dispatch(setLocalPosts('bubble'));
+      dispatch(fetchBubblePosts({ authorization: token, page: pages.bubble }));
+    }
     if (localPost === 'bubble' && bubblePosts.length <= 0) {
       dispatch(fetchBubblePosts({ authorization: token, page: pages.bubble }));
+      return
     } else if (localPost === 'global' && posts.length <= 0) {
       dispatch(fetchGlobalPosts({ authorization: token, page: pages.global }));
+      return;
     }
   }, [])
 
