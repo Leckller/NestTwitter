@@ -100,6 +100,13 @@ export const PostSlice = createSlice({
     },
     setLocalPosts(state, action: PayloadAction<LocalPostType>) {
       state.localPost = action.payload;
+    },
+    resetProfile(state) {
+      state.profileAnswers = [];
+      state.profileLikes = [];
+      state.pages.answers = 0;
+      state.pages.profile = 0;
+      state.pages.likes = 0;
     }
   },
   extraReducers: (builder) => {
@@ -137,6 +144,6 @@ export const PostSlice = createSlice({
   },
 });
 
-export const { setPage, setNewPost, setComment, setLocalPosts, setSearchText } = PostSlice.actions;
+export const { resetProfile, setPage, setNewPost, setComment, setLocalPosts, setSearchText } = PostSlice.actions;
 
 export default PostSlice.reducer;
