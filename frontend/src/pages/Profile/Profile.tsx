@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks"
 import { fetchProfile } from "../../redux/Thunks/User/ProfileThunk";
@@ -12,12 +12,20 @@ import { resetProfile, setLocalPosts, setPage } from "../../redux/Reducers/Post"
 import SinglePost from "../../components/Posts/SinglePost/SinglePost";
 import { fetchUserAnswers } from "../../redux/Thunks/Post/UserAnswers";
 import { fetchUserLikedPosts } from "../../redux/Thunks/User/UserLikedPostsThunk";
+import { EditProfileType } from "../../types/User/UserType";
+
+
 
 function Profile() {
   const { id } = useParams();
+  const dispatch = useAppDispatch();
+
   const { profile, localPost, profileAnswers, profileLikes, pages } = useAppSelector(s => s.Post);
   const { token, userId } = useAppSelector(s => s.User);
-  const dispatch = useAppDispatch();
+
+  const [editProfile, setEditProfile] = useState<EditProfileType>({
+    address: '', banner: '', description: '', name: '', photo: ''
+  })
 
   useEffect(() => {
     dispatch(fetchProfile({ authorization: token, userId: +id! }));
