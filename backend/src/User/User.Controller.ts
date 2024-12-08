@@ -44,6 +44,14 @@ export default class UserController {
 
     }
 
+    @Get("likes/:userId/:page")
+    @UseGuards(AuthGuard)
+    public async getUserLikes(@GetUser() { id }: TokenType, @Param() { userId, page }: { userId: string, page: string }) {
+
+        return await this.userService.getUserLikes(+id, +userId, +page);
+
+    }
+
     @Post("login")
     public async login(@Body() { email, password }: LoginUserDto) {
 

@@ -5,6 +5,8 @@ import { fetchGlobalPosts } from "../../../redux/Thunks/Post/GlobalPostsThunk";
 import { fetchPostComments } from "../../../redux/Thunks/Post/PostCommentsThunk";
 import { fetchSearchPosts } from "../../../redux/Thunks/Post/Search/SearchPostsThunk";
 import { fetchSearchUsers } from "../../../redux/Thunks/Post/Search/SearchUsersThunk";
+import { fetchUserAnswers } from "../../../redux/Thunks/Post/UserAnswers";
+import { fetchUserLikedPosts } from "../../../redux/Thunks/User/UserLikedPostsThunk";
 import { fetchUserPosts } from "../../../redux/Thunks/User/UserPostsThunk";
 
 function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, postId?: number, text?: string }) {
@@ -26,6 +28,12 @@ function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, pos
       }
       else if (localPost === 'profile') {
         dispatch(fetchUserPosts({ authorization: token, page: pages.profile, userId }));
+      }
+      else if (localPost === 'answers') {
+        dispatch(fetchUserAnswers({ authorization: token, page: pages.answers, userId }));
+      }
+      else if (localPost === 'likes') {
+        dispatch(fetchUserLikedPosts({ authorization: token, page: pages.likes, userId }));
       }
       else if (localPost === 'searchPosts') {
         dispatch(fetchSearchPosts({ authorization: token, page: pages.searchPosts, text }));
