@@ -56,6 +56,19 @@ export function fetchLikePostBuilder(builder: ActionReducerMapBuilder<PostState>
         return;
       }
 
+      if (state.localPost === 'likes') {
+        const post = state.profileLikes.find(p => p.post.id === postId);
+        likePost(post?.post as PostType, removed);
+        return;
+      }
+
+      if (state.localPost === 'answers') {
+        const post = state.profileAnswers.find(p => p.post.id === postId);
+        const comment = state.profileAnswers.find(p => p.comment.id === postId);
+        likePost(post ? post.post : comment?.comment as PostType, removed);
+        return;
+      }
+
       const post = (state.localPost === 'bubble' ? state.bubblePosts : state.posts).find(p => p.id === postId);
       likePost(post as PostType, removed);
     })

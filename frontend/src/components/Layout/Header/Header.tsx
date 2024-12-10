@@ -23,6 +23,7 @@ function Header() {
               <FaGear />
             </button>
           </section>
+
           <section>
             <button onClick={() => {
               dispatch(setLocalPosts('global'));

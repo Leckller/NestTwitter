@@ -14,6 +14,8 @@ import { fetchSearchPostsBuilder } from '../Thunks/Post/Search/SearchPostsThunk'
 import { fetchSearchUsersBuilder } from '../Thunks/Post/Search/SearchUsersThunk';
 import { fetchPostCommentsBuilder } from '../Thunks/Post/PostCommentsThunk';
 import { fetchUserPostsBuilder } from '../Thunks/User/UserPostsThunk';
+import { fetchUserAnswersBuilder } from '../Thunks/Post/UserAnswers';
+import { fetchUserLikedPostsBuilder } from '../Thunks/User/UserLikedPostsThunk';
 
 export type LocalPostType = 'details' | 'global' | 'bubble' | 'profile' | 'searchUsers' | 'searchPosts' | 'likes' | 'answers'
 export type PagesType = {
@@ -50,8 +52,8 @@ export interface PostState {
 
   // Profile
   profile: { user: ProfileType, posts: Omit<PostType, 'user'>[] } | undefined
-  profileLikes: [],
-  profileAnswers: []
+  profileLikes: { id: number, post: PostType }[],
+  profileAnswers: { id: number, comment: PostType, post: PostType }[]
 }
 
 const initialState: PostState = {
@@ -98,6 +100,13 @@ export const PostSlice = createSlice({
     },
     setLocalPosts(state, action: PayloadAction<LocalPostType>) {
       state.localPost = action.payload;
+    },
+    resetProfile(state) {
+      state.profileAnswers = [];
+      state.profileLikes = [];
+      state.pages.answers = 0;
+      state.pages.profile = 0;
+      state.pages.likes = 0;
     }
   },
   extraReducers: (builder) => {
@@ -115,6 +124,12 @@ export const PostSlice = createSlice({
     fetchCreatePostBuilder(builder);
     fetchCreateCommentBuilder(builder);
 
+    // Comentários de um usuário
+    fetchUserAnswersBuilder(builder);
+
+    // Likes de um usuário
+    fetchUserLikedPostsBuilder(builder);
+
     // Seguir usuário
     fetchFollowBuilder(builder);
 
@@ -129,6 +144,6 @@ export const PostSlice = createSlice({
   },
 });
 
-export const { setPage, setNewPost, setComment, setLocalPosts, setSearchText } = PostSlice.actions;
+export const { resetProfile, setPage, setNewPost, setComment, setLocalPosts, setSearchText } = PostSlice.actions;
 
 export default PostSlice.reducer;

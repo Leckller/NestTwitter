@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { StyledLogin } from './StyledLogin';
 import { fetchLogin } from '../../redux/Thunks/User/LoginThunk';
@@ -13,7 +13,6 @@ function Login() {
   const [fields, setFields] = useState<{ email: string, password: string }>({ email: '', password: '' });
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSetField = (field: FieldTypes, value: string) => {
     setFields((prev) => ({ ...prev, [field]: value }));
@@ -25,27 +24,36 @@ function Login() {
 
   return (
     <StyledLogin>
+      <div className='bubble'>😜</div>
+      <div className='bubble'>😂</div>
+
       <form
         onSubmit={(e) => e.preventDefault()}
       >
 
-        <article>
-          <label>
-            <h2>Email</h2>
-            <input
-              onChange={({ target: { value } }) => handleSetField('email', value)}
-              type="email"
-            />
-          </label>
-
+        <section>
           <article>
-            <label>
-              <h2>Password</h2>
+            <input
+              value={fields.email}
+              id='email-i'
+              required
+              onChange={({ target: { value } }) => handleSetField('email', value)}
+              type="text"
+            />
+            <label htmlFor='email-i'>Email</label>
+          </article>
+
+          <div>
+            <article>
               <input
+                value={fields.password}
+                id='password-i'
+                required
                 onChange={({ target: { value } }) => handleSetField('password', value)}
                 type={viewPassword ? 'text' : 'password'}
               />
-            </label>
+              <label htmlFor='password-i'>Password</label>
+            </article>
 
             <button onClick={() => setViewPassword((prev) => !prev)}>
               {
@@ -56,29 +64,24 @@ function Login() {
                 )
               }
             </button>
-          </article>
-        </article>
+          </div>
+
+        </section>
 
         <section>
-          <button onClick={() => navigate('/register')}>
-            Ainda não possui uma conta? cadastre-se!
-          </button>
+          <p>
+            Ainda não possui uma conta?
+            <Link to={'/register'}>
+              cadastre-se!
+            </Link>
+          </p>
           <button type="submit" onClick={() => handleSubmit()}>
             Logar
           </button>
         </section>
 
       </form>
-      <div>
-        <div>
-          <div>
-            <div>
-              <div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </StyledLogin>
   );
 }

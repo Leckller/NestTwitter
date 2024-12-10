@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchPostDetails } from '../../redux/Thunks/Post/PostDetailsThunk';
 import SinglePost from '../../components/Posts/SinglePost/SinglePost';
 import { StyledPostDetails } from './StyledPostDetails';
-import { setLocalPosts } from '../../redux/Reducers/Post';
+import { setLocalPosts, setPage } from '../../redux/Reducers/Post';
 import MorePosts from '../../components/Posts/MorePosts/MorePosts';
 
 function PostDetails() {
@@ -15,6 +15,7 @@ function PostDetails() {
 
   useEffect(() => {
     dispatch(setLocalPosts('details'));
+    dispatch(setPage({ type: 'details', page: 0 }));
     dispatch(fetchPostDetails({ id: +id!, authorization: token }));
   }, [id]);
 

@@ -8,13 +8,13 @@ import { fetchLikePost } from '../../../redux/Thunks/Post/LikePostThunk';
 import { setComment, setNewPost } from '../../../redux/Reducers/Post';
 import { PostType } from '../../../types/Post/PostType';
 
-function SinglePost({ post }: { post: PostType }) {
+function SinglePost({ post, borderB = true }: { post: PostType, borderB?: boolean }) {
   const { comments, id, isLiked, likes, text, user, created_at } = post;
   const dispatch = useAppDispatch();
   const { token } = useAppSelector(s => s.User);
 
   return (
-    <StyledSinglePost>
+    <StyledSinglePost borderB={borderB}>
       <section>
         <GoToPostDetails route='profile' id={user.id}>
           <img src={user.photo || DefaultImg} alt={user.name} />

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import media from "../../utils/media";
+import media from "../../../utils/media";
 
 export const StyledProfile = styled.main`
 
@@ -35,12 +35,11 @@ export const StyledProfile = styled.main`
 
         ${media.sm`
           transform: translateY(-50px);
+          width: 35%;
         `}
 
         border-radius: 99999px;
-        width: 35%;
         max-width: 200px;
-        height: 35%;
         max-height: 200px;
       }  
 
@@ -113,6 +112,7 @@ export const StyledProfile = styled.main`
   & > section {
     display: flex;
     flex-direction: column;
+    align-items: center;
     transform: translateY(-100px);
     ${media.sm`
       transform: translateY(-50px);

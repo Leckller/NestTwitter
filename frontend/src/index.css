@@ -9,3 +9,11 @@
     cursor: pointer;
   }
 }
+
+body {
+  overflow: hidden;
+}
+
+.icon {
+  scale: 1.2;
+}

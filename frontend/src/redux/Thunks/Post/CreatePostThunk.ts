@@ -27,5 +27,8 @@ export function fetchCreatePostBuilder(builder: ActionReducerMapBuilder<PostStat
         comments: 0, likes: 0,
         isLiked: false
       }, ...state.bubblePosts];
+      if (action.payload.result.user.id === state.profile?.user.id) {
+        state.profile.posts.unshift({ ...action.payload.result, comments: 0, likes: 0, isLiked: false });
+      }
     });
 }
