@@ -7,6 +7,9 @@ export const StyledLogin = styled.main`
   height: 100vh;
   display: flex;
 
+  overflow-x: hidden;
+  overflow-y: hidden;
+  
   justify-content: center;
   align-items: center;
 
@@ -14,21 +17,6 @@ export const StyledLogin = styled.main`
   
   button {
     cursor: pointer;
-  }
-
-  .wave {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-  }
-
-  .tzero{
-    top:0;
-  }
-
-  .bzero {
-    bottom: 0;
-
   }
 
   form {
@@ -89,7 +77,8 @@ export const StyledLogin = styled.main`
           top: 0;
           background-color: white;
           border: 1px solid black;
-          font-size: 0.7rem;
+          border-radius: 8px;
+          font-size: 0.8rem;
         }
 
       }
@@ -130,17 +119,39 @@ export const StyledLogin = styled.main`
       button {
         border: solid black 1px;
         border-radius: 32px;
+        font-size: 1.2rem;
         padding: 16px;
       }
 
     }
   }
 
-  @keyframes textFrame {
-    100% {
-      transform: translate(-45px);
-    }
+  .bubble {
+    border-radius: 9999px;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(0, 0, 255, 0.8);
+    position: absolute;
+    left: 0;
+    animation: ease-in-out slide 5s infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+  
+  .bubble:nth-child(2) {
+    animation: ease-in-out slide 5s infinite reverse;
+    background-color: rgba(0, 255, 0, 0.8);
+  }
 
+  @keyframes slide {
+    0% {
+      transform: translateX(-150px);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
   }
 
 `;
