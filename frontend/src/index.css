@@ -9,3 +9,7 @@
     cursor: pointer;
   }
 }
+
+.icon {
+  scale: 1.2;
+}
