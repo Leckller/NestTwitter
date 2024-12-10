@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks"
 import { fetchProfile } from "../../redux/Thunks/User/ProfileThunk";
-import { StyledProfile } from "./StyledProfile";
+import { StyledProfile } from "./Styles/StyledProfile";
 import DefaultBanner from '../../assets/ProfilePictures/banner.png';
 import DefaultIcon from '../../assets/ProfilePictures/iconFace.png';
 import GroupPost from "../../components/Posts/GroupPost/GroupPost";
@@ -12,9 +12,7 @@ import { resetProfile, setLocalPosts, setPage } from "../../redux/Reducers/Post"
 import SinglePost from "../../components/Posts/SinglePost/SinglePost";
 import { fetchUserAnswers } from "../../redux/Thunks/Post/UserAnswers";
 import { fetchUserLikedPosts } from "../../redux/Thunks/User/UserLikedPostsThunk";
-import { EditProfileType } from "../../types/User/UserType";
-
-
+import EditProfile from "./EditProfile";
 
 function Profile() {
   const { id } = useParams();
@@ -23,9 +21,7 @@ function Profile() {
   const { profile, localPost, profileAnswers, profileLikes, pages } = useAppSelector(s => s.Post);
   const { token, userId } = useAppSelector(s => s.User);
 
-  const [editProfile, setEditProfile] = useState<EditProfileType>({
-    address: '', banner: '', description: '', name: '', photo: ''
-  })
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProfile({ authorization: token, userId: +id! }));
@@ -38,15 +34,18 @@ function Profile() {
     <>
       {profile ? (
         <StyledProfile>
-
+          {edit && <EditProfile />}
           <div>
             <article>
               <img src={profile.user.banner || DefaultBanner} alt={`${profile.user.name}-banner`} />
             </article>
             <article>
               <img src={profile.user.photo || DefaultIcon} alt={`${profile.user.name}-photo`} />
+
               {userId === +id! ? (
-                <button>Editar Perfil</button>
+                <button>
+                  Editar Perfil
+                </button>
               ) : (
                 <button onClick={() => dispatch(fetchFollow({ authorization: token, followedId: +id! }))}>
                   {profile.user.isFollowing ? 'seguindo' : 'seguir'}

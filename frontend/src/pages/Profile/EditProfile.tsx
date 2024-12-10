@@ -1,9 +1,15 @@
 import { useAppSelector } from "../../hooks/reduxHooks";
 import DefaultBanner from '../../assets/ProfilePictures/banner.png';
 import DefaultIcon from '../../assets/ProfilePictures/iconFace.png';
+import { EditProfileType } from "../../types/User/UserType";
+import { useState } from "react";
 
 function EditProfile() {
   const { profile } = useAppSelector(s => s.Post);
+
+  const [editProfile, setEditProfile] = useState<EditProfileType>({
+    address: '', banner: '', description: '', name: '', photo: ''
+  })
 
   return (
     <div>

@@ -6,6 +6,7 @@ export const StyledOutlet = styled.div`
   width: 100%;
   display: flex;
   max-width: 1300px;
+  gap: 16px;
   justify-content: center;
 
   aside {

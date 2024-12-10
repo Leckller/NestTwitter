@@ -6,114 +6,141 @@ export const StyledLogin = styled.main`
   width: 100%;
   height: 100vh;
   display: flex;
-  overflow: hidden;
 
   justify-content: center;
   align-items: center;
 
+  font-size: 1.2rem;
+  
   button {
     cursor: pointer;
   }
 
-  div {
-    border-radius: 400px 201px 400px 201px;
-      -webkit-border-radius: 400px 201px 400px 201px;
-      -moz-border-radius: 400px 201px 400px 201px;
-
-    ${media.sm`
-      min-width: 400px;
-      min-height: 400px;
-      border-radius: 250px 151px 250px 151px;
-        -webkit-border-radius: 250px 151px 250px 151px;
-        -moz-border-radius: 250px 151px 250px 151px;
-    `}
-
-    border: solid black 2px;
-    min-width: 600px;
-    min-height: 600px;
+  .wave {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
   }
 
-  div {
-    animation: PR1 20s infinite;
-    background-color: rgb(102, 0, 0);
+  .tzero{
+    top:0;
   }
 
-  div div{
-    animation: PL1 15s infinite;
-    background-color: #800000;
-  }
+  .bzero {
+    bottom: 0;
 
-  div div div {
-    animation: PR1 10s infinite;
-    background-color: #990000;
-  }
-
-  div div div div{
-    animation: PL1 5s infinite;
-    background-color: #b30000;
-  }
-
-  div div div div div{
-    animation: none;
-    background-color: #cc0000;
   }
 
   form {
+    z-index: 10;
+    
+    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.2);
 
-    position: absolute;
-    z-index: 9999;
-    background-color: #ff0000;
+    width: 50%;
+    max-width: 800px;    
+
+    ${media.sm`
+      width: 90%;
+    `}
+    
+    min-height: 300px;
+    height: 50%;
+    max-height: 600px;
+
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 8px;
-    border-radius: 9999px;
-    width: 300px;
-    min-height: 300px;
+    justify-content: center;
+    gap: 16px;
 
-    article > article {
+    section:nth-child(1) {
+      width: 80%;
       display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      article {
+        width: 100%;
+        position: relative;
+
+        label {
+          padding: 0 5px;
+          position: absolute;
+          top: 50%;
+          left: 1em;
+          transform: translateY(-50%);
+          pointer-events: none;
+          transition: .3s;
+        }
+
+        input {
+          width: 100%;
+          border: solid black 1px;
+          border-radius: 32px;
+          padding: 16px;
+          background-color: transparent;
+          outline: none;
+        }
+
+        input:focus~label,
+        input:valid~label{
+          top: 0;
+          background-color: white;
+          border: 1px solid black;
+          font-size: 0.7rem;
+        }
+
+      }
+
+      div {
+        gap: 8px;
+        display: flex;
+        position: relative;
+        align-items: center;
+
+        input {
+          padding-right: 30px;
+        }
+
+        button {
+          right: 1rem;
+          position: absolute;
+          transform: translateY(2px);
+        }
+      }
+
     }
 
-    input {
-      outline: none;
-      border: none;
-      padding: 8px;
-      border-radius: 4px;
+    section:nth-child(2) {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      gap: 16px;
+
+      // Ainda não possui cadastro/login
+      p {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      
+      // Logar
+      button {
+        border: solid black 1px;
+        border-radius: 32px;
+        padding: 16px;
+      }
+
     }
-
-    ${media.xxs`
-      width: 100%;
-      label {
-        width: 100%;
-      }
-      input {
-        width: 100%;
-        
-      }
-    `}
-
-    border: 10px solid #e60000;
-
   }
 
-  @keyframes PR1 {
-    0% {
-      transform: rotate(0deg);
-    }
+  @keyframes textFrame {
     100% {
-      transform: rotate(360deg);
+      transform: translate(-45px);
     }
-  }
 
-  @keyframes PL1 {
-    0% {
-      transform: rotate(360deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
   }
 
 `;
