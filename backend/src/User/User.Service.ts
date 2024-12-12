@@ -51,7 +51,7 @@ export default class UserService {
 
         const token = this.AuthService.createToken({ address, banner, id: newUser.id, name, photo } as UserTypeToken);
 
-        return new ResponseDto('Usuário criado com sucesso', true, { token, userId: id });
+        return new ResponseDto('Usuário criado com sucesso', true, { token, userId: newUser.id });
 
     }
 

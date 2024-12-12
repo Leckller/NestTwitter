@@ -8,6 +8,7 @@ export const StyledOutlet = styled.div`
   max-width: 1300px;
   gap: 16px;
   justify-content: center;
+  position: relative;
 
   aside {
     visibility: visible;
@@ -38,6 +39,29 @@ export const StyledOutlet = styled.div`
       position: absolute;
     `}
   }
+  
+  aside:nth-child(1) {
+    position: relative;
+  }
 
+  aside:nth-child(1) section {
+    position: fixed;
+    min-width: 200px;
+  }
+
+  aside:nth-child(3) {
+
+    padding: 8px;
+
+  }
+
+
+  div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
 `
