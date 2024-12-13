@@ -21,7 +21,6 @@ export function fetchBubblePostsBuilder(builder: ActionReducerMapBuilder<PostSta
       // Lógica para evitar que o usuário fique fazendo requisição
       // desnecessária quando o banco de dados não possui mais posts
       if (action.payload.result.length <= 0) {
-        state.pages.bubble -= 1;
         return;
       }
 

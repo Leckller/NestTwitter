@@ -21,7 +21,6 @@ export function fetchPostDetailsBuilder(builder: ActionReducerMapBuilder<PostSta
       state.postDetails = action.payload.result;
 
       if (action.payload.result.postComments.length <= 0) {
-        state.pages.details -= 1;
         return;
       }
       state.pages.details += 1;

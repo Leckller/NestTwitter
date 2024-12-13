@@ -188,6 +188,7 @@ export default class PostService {
                 'user.name',
                 'user.address',
             ])
+            .orderBy('fields.created_at', 'DESC')
             .take(5)
             .getMany();
 
@@ -231,6 +232,7 @@ export default class PostService {
                 'user.name',
                 'user.address',
             ])
+            .orderBy('fields.created_at', 'DESC')
             .skip(5 * page)
             .take(5)
             .getMany();

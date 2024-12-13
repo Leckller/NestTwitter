@@ -21,7 +21,6 @@ export function fetchSearchUsersBuilder(builder: ActionReducerMapBuilder<PostSta
 
       // Lógica para manter a página correta mesmo que não tenha mais posts
       if (action.payload.result.users.length <= 0) {
-        state.pages.searchUsers -= 1;
         return;
       }
       state.pages.searchUsers += 1;

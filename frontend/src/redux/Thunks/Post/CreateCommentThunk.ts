@@ -46,6 +46,48 @@ export function fetchCreateCommentBuilder(builder: ActionReducerMapBuilder<PostS
         return;
       }
 
+      if (state.localPost === 'answers') {
+        const post = state.profileAnswers.find(p => p.post.id === action.payload.result.postId)?.post;
+        const comment = state.profileAnswers.find(p => p.comment.id === action.payload.result.postId)?.comment;
+        post ? post.comments++ : comment!.comments++;
+
+        state.profileAnswers.unshift({
+          id: action.payload.result.id,
+          comment: action.payload.result.comment.comment,
+          post: {
+            ...(post ? post! : comment!)!,
+            user: {
+              address: state.profile!.user.address,
+              id: state.profile!.user.id,
+              name: state.profile!.user.name,
+              photo: state.profile!.user.photo
+            }
+          }
+        });
+        return;
+      }
+
+
+      if (state.localPost === 'likes') {
+        const post = state.profileLikes.find(p => p.post.id === action.payload.result.postId)?.post;
+        post!.comments++;
+
+        state.profileAnswers.unshift({
+          id: action.payload.result.id,
+          comment: action.payload.result.comment.comment,
+          post: {
+            ...post!, user: {
+              address: state.profile!.user.address,
+              id: state.profile!.user.id,
+              name: state.profile!.user.name,
+              photo: state.profile!.user.photo
+            }
+          }
+        })
+
+        return;
+      }
+
       console.log(action);
     })
 

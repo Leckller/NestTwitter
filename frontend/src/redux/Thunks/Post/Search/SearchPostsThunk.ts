@@ -20,7 +20,6 @@ export function fetchSearchPostsBuilder(builder: ActionReducerMapBuilder<PostSta
 
       // Lógica para manter a página correta mesmo que não tenha mais posts
       if (action.payload.result.posts.length <= 0) {
-        state.pages.searchPosts -= 1;
         return;
       }
 

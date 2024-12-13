@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
-import { setLocalPosts } from '../../../redux/Reducers/Post';
-import { fetchBubblePosts } from '../../../redux/Thunks/Post/BubblePostsThunk';
-import { fetchGlobalPosts } from '../../../redux/Thunks/Post/GlobalPostsThunk';
 import { StyledHeader } from './StyledHeader';
 import { FaGear } from 'react-icons/fa6';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { setLocalPosts } from '../../redux/Reducers/Post';
+import { fetchGlobalPosts } from '../../redux/Thunks/Post/GlobalPostsThunk';
+import { fetchBubblePosts } from '../../redux/Thunks/Post/BubblePostsThunk';
 
 function Header() {
   const dispatch = useAppDispatch();
@@ -23,6 +23,7 @@ function Header() {
               <FaGear />
             </button>
           </section>
+
           <section>
             <button onClick={() => {
               dispatch(setLocalPosts('global'));
