@@ -40,9 +40,8 @@ function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, pos
         dispatch(fetchSearchPosts({ authorization: token, page: pages.searchPosts, text }));
       }
       else if (localPost === 'searchUsers') {
-        dispatch(fetchSearchUsers({ authorization: token, page: pages.searchPosts, text }));
+        dispatch(fetchSearchUsers({ authorization: token, page: pages.searchUsers, text }));
       }
-      dispatch(setPage({ type: localPost, page: pages[localPost] + 1 }))
     }}>
       Mais postagens
     </StyledMorePosts>

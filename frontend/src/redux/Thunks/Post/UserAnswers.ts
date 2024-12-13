@@ -19,7 +19,6 @@ export function fetchUserAnswersBuilder(builder: ActionReducerMapBuilder<PostSta
             state.loading = false;
 
             if (action.payload.result.length <= 0) {
-                state.pages.answers -= 1;
                 return;
             }
 

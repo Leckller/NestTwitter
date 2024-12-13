@@ -9,7 +9,7 @@ function FormSearch() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate(); ''
   const { token } = useAppSelector(s => s.User);
-  const { localPost, pages, searchText } = useAppSelector(s => s.Post);
+  const { searchText } = useAppSelector(s => s.Post);
   const { pathname } = useLocation();
 
   return (
@@ -18,8 +18,9 @@ function FormSearch() {
       if (!pathname.includes('search')) {
         navigate('/search');
       };
+      dispatch(setPage({ type: 'searchPosts', page: 0 }));
+      dispatch(setPage({ type: 'searchUsers', page: 0 }));
       dispatch(fetchSearch({ authorization: token, text: searchText }));
-      dispatch(setPage({ type: localPost, page: pages[localPost] + 1 }))
     }}>
       <label>
         <FaSearch />

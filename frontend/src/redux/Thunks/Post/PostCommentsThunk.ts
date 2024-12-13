@@ -19,7 +19,6 @@ export function fetchPostCommentsBuilder(builder: ActionReducerMapBuilder<PostSt
       state.loading = false;
 
       if (action.payload.result.postComments.length <= 0) {
-        state.pages.details -= 1;
         return;
       }
 

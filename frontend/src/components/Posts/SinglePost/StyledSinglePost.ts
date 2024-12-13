@@ -9,6 +9,10 @@ export const StyledSinglePost = styled.article<{ borderB: boolean }>`
   padding: 8px;
   border-bottom: ${p => p.borderB && "1px solid black"};
 
+  p {
+    word-break: break-all;
+  }
+
   section:nth-child(1) {
     
     // Imagem do usuário
@@ -49,6 +53,7 @@ export const StyledSinglePost = styled.article<{ borderB: boolean }>`
 
       display: flex;
       gap: 8px;
+
       button {
         display: flex;
         align-items: center;

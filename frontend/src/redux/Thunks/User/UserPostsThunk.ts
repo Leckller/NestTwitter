@@ -34,7 +34,6 @@ export function fetchUserPostsBuilder(builder: ActionReducerMapBuilder<PostState
       console.log(action);
 
       if (action.payload.result.posts.length <= 0) {
-        state.pages.profile -= 1;
         return;
       }
 

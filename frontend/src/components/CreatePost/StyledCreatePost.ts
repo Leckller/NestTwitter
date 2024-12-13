@@ -94,6 +94,10 @@ export const StyledCreatePost = styled.section`
           position: static;
         `}
 
+        &:disabled {
+         cursor: not-allowed;
+        }
+
       }
     }
 
@@ -102,11 +106,17 @@ export const StyledCreatePost = styled.section`
       button {
         width: 100px;
         background-color: lightblue;
+        
         ${media.sm`
           position: absolute;  
           visibility: hidden;
         `}
+
+        &:disabled {
+          cursor: not-allowed;
+        }
       }
+
     }
 
     textarea {

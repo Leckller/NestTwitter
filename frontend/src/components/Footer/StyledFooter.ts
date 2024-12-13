@@ -9,7 +9,7 @@ export const StyledFooter = styled.footer`
     visibility: visible;
 
     justify-content: space-around;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     min-height: 5vh;
     position: fixed;

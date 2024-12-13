@@ -34,7 +34,6 @@ export function fetchUserLikedPostsBuilder(builder: ActionReducerMapBuilder<Post
       console.log(action);
 
       if (action.payload.result.length <= 0) {
-        state.pages.likes -= 1;
         return;
       }
 

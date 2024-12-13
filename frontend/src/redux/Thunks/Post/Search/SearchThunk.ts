@@ -18,6 +18,8 @@ export function fetchSearchBuilder(builder: ActionReducerMapBuilder<PostState>) 
     .addCase(fetchSearch.fulfilled, (state, action) => {
       state.loading = false;
       state.search = action.payload.result;
+      state.pages.searchPosts += 1;
+      state.pages.searchUsers += 1;
     })
     .addCase(fetchSearch.rejected, (state, action) => {
       state.loading = false;

@@ -15,7 +15,7 @@ export const StyledNewPost = styled.button`
     height: 50px;
     
     position: fixed;
-    color: white;
+    color: black;
 
     z-index: 99999;
     border-radius: 9999px;

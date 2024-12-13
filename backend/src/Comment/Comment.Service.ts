@@ -112,7 +112,7 @@ export default class CommentService {
                 "author.photo",
                 "author.name"
             ])
-            .orderBy('post.created_at', 'DESC')
+            .orderBy('fields.created_at', 'DESC')
             .where(`user.id = ${userId}`)
             .skip(page * 10)
             .take(10)
