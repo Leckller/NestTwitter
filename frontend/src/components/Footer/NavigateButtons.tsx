@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../hooks/reduxHooks";
-import { LocalPostType, setLocalPosts } from "../../../redux/Reducers/Post";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { LocalPostType, setLocalPosts } from "../../redux/Reducers/Post";
 import { ReactNode } from "react";
 
 function NavigateButtons({ local, nav, text, Icon }: { Icon?: ReactNode, text: string, local: LocalPostType, nav: string }) {

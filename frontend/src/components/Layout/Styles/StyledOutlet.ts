@@ -5,17 +5,17 @@ export const StyledOutlet = styled.div`
 
   width: 100%;
   display: flex;
-  max-width: 1300px;
   gap: 16px;
+  align-items: start;
   justify-content: center;
   position: relative;
 
-  aside {
+  aside, aside section {
     visibility: visible;
-    min-width: 200px;
-    display: flex;
+    display: flex;    
+    width: 33%;
     flex-direction: column;
-    gap: 8px;
+    align-items: end;
 
     button {
       display: flex;
@@ -40,24 +40,36 @@ export const StyledOutlet = styled.div`
     `}
   }
   
+  // Aside que garante o tamanho para a section dos botões
   aside:nth-child(1) {
     position: relative;
+    
+    ${media.md`
+      position: absolute;
+    `}
   }
 
+  // Section dos botões
   aside:nth-child(1) section {
+
     position: fixed;
-    min-width: 200px;
+    display: flex;
+    width: 200px;
+    align-items: start;
   }
 
   aside:nth-child(3) {
 
+    display: flex;
+    align-items: start;
     padding: 8px;
 
   }
 
 
-  div {
+  div#mainDiv {
     width: 100%;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -1,5 +1,5 @@
 import { StyledFooter } from './StyledFooter';
-import { useAppSelector } from '../../../hooks/reduxHooks';
+import { useAppSelector } from '../../hooks/reduxHooks';
 import NavigateButtons from './NavigateButtons';
 
 function Footer() {

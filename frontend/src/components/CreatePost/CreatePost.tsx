@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
-import { fetchCreatePost } from '../../../redux/Thunks/Post/CreatePostThunk';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { fetchCreatePost } from '../../redux/Thunks/Post/CreatePostThunk';
 import { StyledCreatePost } from './StyledCreatePost';
-import { setComment, setNewPost } from '../../../redux/Reducers/Post';
-import { fetchCreateComment } from '../../../redux/Thunks/Post/CreateCommentThunk';
+import { setComment, setNewPost } from '../../redux/Reducers/Post';
+import { fetchCreateComment } from '../../redux/Thunks/Post/CreateCommentThunk';
 import { BsArrowReturnLeft } from 'react-icons/bs';
 import { IoClose } from 'react-icons/io5';
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import media from '../../../utils/media';
+import media from '../../utils/media';
 
 export const StyledHeader = styled.header<{ isBubble: string }>`
   section:nth-child(1) {
@@ -12,7 +12,7 @@ export const StyledHeader = styled.header<{ isBubble: string }>`
     `}
   }
 
-    max-width: 500px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;

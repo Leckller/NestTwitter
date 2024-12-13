@@ -8,6 +8,7 @@ import { fetchSearchUsers } from "../../../redux/Thunks/Post/Search/SearchUsersT
 import { fetchUserAnswers } from "../../../redux/Thunks/Post/UserAnswers";
 import { fetchUserLikedPosts } from "../../../redux/Thunks/User/UserLikedPostsThunk";
 import { fetchUserPosts } from "../../../redux/Thunks/User/UserPostsThunk";
+import { StyledMorePosts } from "./StyledMorePosts";
 
 function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, postId?: number, text?: string }) {
 
@@ -16,7 +17,7 @@ function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, pos
   const dispatch = useAppDispatch();
 
   return (
-    <button onClick={() => {
+    <StyledMorePosts onClick={() => {
       if (localPost === 'bubble') {
         dispatch(fetchBubblePosts({ authorization: token, page: pages.bubble }));
       }
@@ -44,7 +45,7 @@ function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, pos
       dispatch(setPage({ type: localPost, page: pages[localPost] + 1 }))
     }}>
       Mais postagens
-    </button>
+    </StyledMorePosts>
   )
 }
 
