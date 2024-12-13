@@ -21,7 +21,6 @@ export function fetchGlobalPostsBuilder(builder: ActionReducerMapBuilder<PostSta
 
       // Lógica para manter a página correta mesmo que não tenha mais posts
       if (action.payload.result.length <= 0) {
-        state.pages.global -= 1;
         return;
       }
 

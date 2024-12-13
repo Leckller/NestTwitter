@@ -3,10 +3,10 @@ import Swal from 'sweetalert2';
 import UserService from '../../../services/User/UserService';
 import { PostState } from '../../Reducers/Post';
 
-export const fetchUserPosts = createAsyncThunk(
-  'fetchUserPosts',
+export const fetchUserLikedPosts = createAsyncThunk(
+  'fetchUserLikedPosts',
   async ({ userId, authorization, page }: { page: number, userId: number, authorization: string }) => {
-    const response = await UserService.userPosts({ page, userId, authorization });
+    const response = await UserService.userLikedPosts({ page, userId, authorization });
 
     if (!response.ok) {
       if (Array.isArray(response.message)) {
@@ -24,25 +24,25 @@ export const fetchUserPosts = createAsyncThunk(
 );
 
 
-export function fetchUserPostsBuilder(builder: ActionReducerMapBuilder<PostState>) {
+export function fetchUserLikedPostsBuilder(builder: ActionReducerMapBuilder<PostState>) {
   builder
-    .addCase(fetchUserPosts.pending, (state) => {
+    .addCase(fetchUserLikedPosts.pending, (state) => {
       state.loading = true;
     })
-    .addCase(fetchUserPosts.fulfilled, (state, action) => {
+    .addCase(fetchUserLikedPosts.fulfilled, (state, action) => {
       state.loading = false;
       console.log(action);
 
-      if (action.payload.result.posts.length <= 0) {
+      if (action.payload.result.length <= 0) {
         return;
       }
 
-      state.pages.profile += 1;
-      state.profile!.posts = [...state.profile!.posts, ...action.payload.result.posts];
+      state.pages.likes += 1;
+      state.profileLikes = [...state.profileLikes, ...action.payload.result];
 
-    }).addCase(fetchUserPosts.rejected, (state, action) => {
+    }).addCase(fetchUserLikedPosts.rejected, (state, action) => {
       state.loading = false;
-      state.pages.profile -= 1;
+      state.pages.likes -= 1;
       console.log(action);
     });
 }

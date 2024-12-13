@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 
-export const StyledSinglePost = styled.article`
+export const StyledSinglePost = styled.article<{ borderB: boolean }>`
 
   display: flex;
   flex-direction: row;
   width: 100%;
   gap: 8px;
   padding: 8px;
-  border-bottom: 1px solid black;
+  border-bottom: ${p => p.borderB && "1px solid black"};
+
+  p {
+    word-break: break-all;
+  }
 
   section:nth-child(1) {
     
@@ -49,6 +53,7 @@ export const StyledSinglePost = styled.article`
 
       display: flex;
       gap: 8px;
+
       button {
         display: flex;
         align-items: center;

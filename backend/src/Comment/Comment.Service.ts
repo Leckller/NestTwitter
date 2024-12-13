@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import CommentEntity from "./Comment.Entity";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import CreateCommentRequestDto from "./DTOs/CreateComment.Request.Dto";
 import ResponseDto from "src/Utils/Response.Dto";
 import PostEntity from "src/Post/Post.entity";
@@ -62,6 +62,7 @@ export default class CommentService {
             await this.commentRepo.save(comment);
 
             return new ResponseDto("Comentário adicionado!", true, {
+                id: comment.id,
                 postId, comment: {
                     id: comment.id,
                     comment: {
@@ -96,27 +97,50 @@ export default class CommentService {
             .createQueryBuilder('comment')
             .leftJoinAndSelect('comment.post', 'post')
             .leftJoinAndSelect('comment.comment', 'fields')
+            .leftJoinAndSelect("post.user", "author")
             .leftJoin("comment.user", "user")
+            .loadRelationCountAndMap('post.likes', 'post.likes')
+            .loadRelationCountAndMap('post.comments', 'post.comments')
             .loadRelationCountAndMap('fields.likes', 'fields.likes')
             .loadRelationCountAndMap('fields.comments', 'fields.comments')
+            .select([
+                "comment",
+                "fields",
+                "post",
+                "author.id",
+                "author.address",
+                "author.photo",
+                "author.name"
+            ])
+            .orderBy('fields.created_at', 'DESC')
             .where(`user.id = ${userId}`)
             .skip(page * 10)
             .take(10)
             .getMany()
 
-        const userComments = await this.commentRepo
-            .find({
-                where: { user },
-                skip: page * 10,
-                take: 10,
-                relations: { comment: { user: true }, post: { user: true } },
-                select: {
-                    post: { id: true, user: { address: true } },
-                    comment: { id: true, user: { photo: true, address: true, name: true }, text: true },
-                }
-            });
+        const userLiked = await this.likeRepo.find({
+            where: {
+                user: { id: userId },
+                post: { id: In([...teste.map(p => p.comment.id), ...teste.map(p => p.post.id)]) },
+            },
+            relations: { post: true, user: true },
+            select: {
+                post: { id: true },
+                user: { id: true }
+            }
+        });
 
-        return new ResponseDto("Comentários do usuário!", true, { teste });
+        const postsWithLikes = teste.map(p => {
+            const isLikedPost = userLiked.some(pl => pl.post.id === p.post.id);
+            const isLikedComment = userLiked.some(pl => pl.post.id === p.comment.id);
+            return {
+                ...p,
+                comment: { ...p.comment, isLiked: isLikedComment },
+                post: { ...p.post, isLiked: isLikedPost }
+            }
+        });
+
+        return new ResponseDto("Comentários do usuário!", true, [...postsWithLikes]);
 
     }
 

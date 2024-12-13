@@ -1,17 +1,15 @@
 import { useEffect } from "react"
-import { FaSearch } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import GroupPost from "../../components/Posts/GroupPost/GroupPost";
 import SingleUser from "../../components/Posts/SingleUser/SingleUser";
-import { fetchSearch } from "../../redux/Thunks/Post/Search/SearchThunk";
 import MorePosts from "../../components/Posts/MorePosts/MorePosts";
 import { StyledSearch } from "./StyledSearch";
-import { setLocalPosts, setPage, setSearchText } from "../../redux/Reducers/Post";
+import { setLocalPosts } from "../../redux/Reducers/Post";
+import FormSearch from "./FormSearch";
 
 function Search() {
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector(s => s.User);
-  const { search, localPost, pages, searchText } = useAppSelector(s => s.Post);
+  const { search, localPost, searchText } = useAppSelector(s => s.Post);
 
   useEffect(() => {
     dispatch(setLocalPosts('searchPosts'));
@@ -20,23 +18,8 @@ function Search() {
   return (
 
     <StyledSearch>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        dispatch(fetchSearch({ authorization: token, text: searchText }));
-        dispatch(setPage({ type: localPost, page: pages[localPost] + 1 }))
-      }}>
-        <label>
-          <FaSearch />
-          <input
-            type="text"
-            value={searchText}
-            onChange={({ target: { value } }) => dispatch(setSearchText(value))}
-          />
-        </label>
-        <button type="submit">
-          Pesquisar
-        </button>
-      </form>
+
+      <FormSearch />
 
       <nav>
         <button

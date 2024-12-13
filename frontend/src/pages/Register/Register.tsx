@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { StyledRegister } from './StyledRegister';
+import { Link } from 'react-router-dom';
 import { RegisterRequest } from '../../types/User/Register.Request';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import { fetchRegister } from '../../redux/Thunks/User/RegisterThunk';
+import { StyledLogin } from '../Login/StyledLogin';
+import { FaEyeSlash, FaRegEye } from 'react-icons/fa6';
 
 type FieldTypes = 'email' | 'address' | 'password' | 'name' | 'photo';
 
@@ -15,7 +16,6 @@ function Register() {
   });
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSetField = (field: FieldTypes, value: string) => {
     setFields((prev) => ({ ...prev, [field]: value }));
@@ -26,58 +26,72 @@ function Register() {
   };
 
   return (
-    <StyledRegister>
+    <StyledLogin>
+      <div className='bubble'>😜</div>
+      <div className='bubble'>😂</div>
+
       <form
-        onSubmit={ (e) => e.preventDefault() }
+        onSubmit={(e) => e.preventDefault()}
       >
 
-        <label>
-          <h2>Email</h2>
-          <input
-            onChange={ ({ target: { value } }) => handleSetField('email', value) }
-            type="email"
-          />
-        </label>
+        <section>
+          <article>
+            <input
+              onChange={({ target: { value } }) => handleSetField('email', value)}
+              required
+              type="text"
+            />
+            <label htmlFor='email-i'>Email</label>
+          </article>
 
-        <label>
-          <h2>Name</h2>
-          <input
-            onChange={ ({ target: { value } }) => handleSetField('name', value) }
-            type="text"
-          />
-        </label>
+          <article>
+            <input
+              onChange={({ target: { value } }) => handleSetField('name', value)}
+              required
+              type="text"
+            />
+            <label htmlFor='name-i'>Name</label>
+          </article>
 
-        <label>
-          <h2>Unique Name</h2>
-          <input
-            onChange={ ({ target: { value } }) => handleSetField('address', value) }
-            type="text"
-          />
-        </label>
+          <article>
+            <input
+              onChange={({ target: { value } }) => handleSetField('address', value)}
+              required
+              type="text"
+            />
+            <label htmlFor='unique-name-i'>Unique Name</label>
+          </article>
 
-        <label>
-          <h2>Password</h2>
-          <input
-            onChange={ ({ target: { value } }) => handleSetField('password', value) }
-            type={ viewPassword ? 'text' : 'password' }
-          />
-        </label>
+          <div>
+            <article>
+              <input
+                onChange={({ target: { value } }) => handleSetField('password', value)}
+                required
+                type={viewPassword ? 'text' : 'password'}
+              />
+              <label htmlFor='password-i'>Password</label>
+            </article>
 
-        <button onClick={ () => setViewPassword((prev) => !prev) }>
-          {viewPassword ? 'Hidde password' : 'Show password'}
-        </button>
+            <button onClick={() => setViewPassword((prev) => !prev)}>
+              {viewPassword ? (<FaEyeSlash />) : (<FaRegEye />)}
+            </button>
+          </div>
+        </section>
 
         <section>
-          <button onClick={ () => navigate('/login') }>
-            Já possui uma conta? Faça o login!
-          </button>
-          <button type="submit" onClick={ () => handleSubmit() }>
+          <p>
+            Já possui uma conta?
+            <Link to={'/login'}>
+              Faça o login!
+            </Link>
+          </p>
+          <button type="submit" onClick={() => handleSubmit()}>
             Cadastrar
           </button>
         </section>
 
       </form>
-    </StyledRegister>
+    </StyledLogin>
   );
 }
 

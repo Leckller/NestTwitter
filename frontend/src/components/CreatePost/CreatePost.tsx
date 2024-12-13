@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHooks';
-import { fetchCreatePost } from '../../../redux/Thunks/Post/CreatePostThunk';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { fetchCreatePost } from '../../redux/Thunks/Post/CreatePostThunk';
 import { StyledCreatePost } from './StyledCreatePost';
-import { setComment, setNewPost } from '../../../redux/Reducers/Post';
-import { fetchCreateComment } from '../../../redux/Thunks/Post/CreateCommentThunk';
+import { setComment, setNewPost } from '../../redux/Reducers/Post';
+import { fetchCreateComment } from '../../redux/Thunks/Post/CreateCommentThunk';
 import { BsArrowReturnLeft } from 'react-icons/bs';
 import { IoClose } from 'react-icons/io5';
 
@@ -38,6 +38,8 @@ function CreatePost() {
           dispatch(setNewPost(false));
           dispatch(setComment({ isComment: false, postId: 0 }))
 
+          if (text.length < 1) return;
+
           // Caso seja um comentário faz o envio para a rota de comentários.
           if (isComment) {
             dispatch(fetchCreateComment({ authorization: token, text, postId }));
@@ -56,12 +58,14 @@ function CreatePost() {
           <button type="submit">Postar</button>
         </section>
         <textarea
+          value={text}
           maxLength={300}
+          minLength={1}
           placeholder="O que deu na telha?"
           onChange={({ target: { value } }) => setText(value)}
         />
         <section>
-          <button type="submit">Postar</button>
+          <button disabled={text.length < 1} type="submit">Postar</button>
         </section>
       </form>
     </StyledCreatePost>

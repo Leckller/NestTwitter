@@ -6,113 +6,151 @@ export const StyledLogin = styled.main`
   width: 100%;
   height: 100vh;
   display: flex;
-  overflow: hidden;
 
+  overflow-x: hidden;
+  overflow-y: hidden;
+  
   justify-content: center;
   align-items: center;
 
+  font-size: 1.2rem;
+  
   button {
     cursor: pointer;
   }
 
-  div {
-    border-radius: 400px 201px 400px 201px;
-      -webkit-border-radius: 400px 201px 400px 201px;
-      -moz-border-radius: 400px 201px 400px 201px;
+  form {
+    z-index: 10;
+    
+    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.2);
+
+    width: 50%;
+    max-width: 800px;    
 
     ${media.sm`
-      min-width: 400px;
-      min-height: 400px;
-      border-radius: 250px 151px 250px 151px;
-        -webkit-border-radius: 250px 151px 250px 151px;
-        -moz-border-radius: 250px 151px 250px 151px;
+      width: 90%;
     `}
+    
+    min-height: 300px;
+    height: 50%;
+    max-height: 600px;
 
-    border: solid black 2px;
-    min-width: 600px;
-    min-height: 600px;
-  }
-
-  div {
-    animation: PR1 20s infinite;
-    background-color: rgb(102, 0, 0);
-  }
-
-  div div{
-    animation: PL1 15s infinite;
-    background-color: #800000;
-  }
-
-  div div div {
-    animation: PR1 10s infinite;
-    background-color: #990000;
-  }
-
-  div div div div{
-    animation: PL1 5s infinite;
-    background-color: #b30000;
-  }
-
-  div div div div div{
-    animation: none;
-    background-color: #cc0000;
-  }
-
-  form {
-
-    position: absolute;
-    z-index: 9999;
-    background-color: #ff0000;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    section:nth-child(1) {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      article {
+        width: 100%;
+        position: relative;
+
+        label {
+          padding: 0 5px;
+          position: absolute;
+          top: 50%;
+          left: 1em;
+          transform: translateY(-50%);
+          pointer-events: none;
+          transition: .3s;
+        }
+
+        input {
+          width: 100%;
+          border: solid black 1px;
+          border-radius: 32px;
+          padding: 16px;
+          background-color: transparent;
+          outline: none;
+        }
+
+        input:focus~label,
+        input:valid~label{
+          top: 0;
+          background-color: white;
+          border: 1px solid black;
+          border-radius: 8px;
+          font-size: 0.8rem;
+        }
+
+      }
+
+      div {
+        gap: 8px;
+        display: flex;
+        position: relative;
+        align-items: center;
+
+        input {
+          padding-right: 30px;
+        }
+
+        button {
+          right: 1rem;
+          position: absolute;
+          transform: translateY(2px);
+        }
+      }
+
+    }
+
+    section:nth-child(2) {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      gap: 16px;
+
+      // Ainda não possui cadastro/login
+      p {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      
+      // Logar
+      button {
+        border: solid black 1px;
+        border-radius: 32px;
+        font-size: 1.2rem;
+        padding: 16px;
+      }
+
+    }
+  }
+
+  .bubble {
+    border-radius: 9999px;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(0, 0, 255, 0.8);
+    position: absolute;
+    left: 0;
+    animation: ease-in-out slide 5s infinite;
+    display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px;
-    border-radius: 9999px;
-    width: 300px;
-    min-height: 300px;
-
-    article > article {
-      display: flex;
-    }
-
-    input {
-      outline: none;
-      border: none;
-      padding: 8px;
-      border-radius: 4px;
-    }
-
-    ${media.xxs`
-      width: 100%;
-      label {
-        width: 100%;
-      }
-      input {
-        width: 100%;
-        
-      }
-    `}
-
-    border: 10px solid #e60000;
-
+    padding: 16px;
+  }
+  
+  .bubble:nth-child(2) {
+    animation: ease-in-out slide 5s infinite reverse;
+    background-color: rgba(0, 255, 0, 0.8);
   }
 
-  @keyframes PR1 {
+  @keyframes slide {
     0% {
-      transform: rotate(0deg);
+      transform: translateX(-150px);
     }
     100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes PL1 {
-    0% {
-      transform: rotate(360deg);
-    }
-    100% {
-      transform: rotate(0deg);
+      transform: translateX(100vw);
     }
   }
 

@@ -57,6 +57,8 @@ class UserService {
             },
         );
 
+        console.log(request);
+
         return request;
     }
 
@@ -69,7 +71,25 @@ class UserService {
             },
         );
 
+        console.log(request);
+
         return request;
+    }
+
+    async userLikedPosts({ authorization, userId, page }: { page: number, userId: number, authorization: string }) {
+
+        const request = await bird<Request<{ id: number, post: PostType }[]>>(
+            {
+                url: `${baseUrl}/user/likes/${userId}/${page}`,
+                method: 'GET',
+                headers: { authorization },
+            },
+        );
+
+        console.log(request);
+
+        return request;
+
     }
 
 }

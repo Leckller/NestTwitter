@@ -2,7 +2,6 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound/NotFound';
-import Layout from './components/Layout/Layout/Layout';
 import { useAppSelector } from './hooks/reduxHooks';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
@@ -10,6 +9,7 @@ import PostDetails from './pages/PostDetails/PostDetails';
 import Profile from './pages/Profile/Profile';
 import Search from './pages/Search/Search';
 import Configs from './pages/Configs/Configs';
+import Layout from './components/Layout/Layout';
 
 function App() {
   const { token } = useAppSelector((s) => s.User);
