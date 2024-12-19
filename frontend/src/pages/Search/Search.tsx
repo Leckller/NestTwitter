@@ -13,7 +13,7 @@ function Search() {
 
   useEffect(() => {
     dispatch(setLocalPosts('searchPosts'));
-  }, [])
+  }, []);
 
   return (
 
@@ -42,7 +42,7 @@ function Search() {
         <>
           <section>
             <h1>Pessoas</h1>
-            {search.users.map((u, i) => (
+            {search.users.slice(0,3).map((u, i) => (
               <SingleUser key={u.id + i} user={u} />
             ))}
             <button
@@ -53,10 +53,7 @@ function Search() {
               Ver tudo
             </button>
           </section>
-          <GroupPost posts={search.posts} />
-          {search.posts.length > 0 && (
-            <MorePosts text={searchText} />
-          )}
+
         </>
       ) : (
         <>
@@ -64,10 +61,20 @@ function Search() {
             <SingleUser key={u.id + i} user={u} />
           ))}
           {search.users.length > 0 && (
-            <MorePosts text={searchText} />
+            <MorePosts text={searchText} title="Mais usuários" />
           )}
         </>
       )}
+
+      {
+        localPost === "searchPosts" && search.posts.length > 0 && (
+          <>
+            <GroupPost posts={search.posts} />
+            <MorePosts text={searchText} />
+          </>
+        )  
+      }
+
     </StyledSearch>
 
   )
