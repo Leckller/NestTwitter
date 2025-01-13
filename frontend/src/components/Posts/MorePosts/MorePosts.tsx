@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
-import { setPage } from "../../../redux/Reducers/Post";
 import { fetchBubblePosts } from "../../../redux/Thunks/Post/BubblePostsThunk";
 import { fetchGlobalPosts } from "../../../redux/Thunks/Post/GlobalPostsThunk";
 import { fetchPostComments } from "../../../redux/Thunks/Post/PostCommentsThunk";
@@ -10,7 +9,7 @@ import { fetchUserLikedPosts } from "../../../redux/Thunks/User/UserLikedPostsTh
 import { fetchUserPosts } from "../../../redux/Thunks/User/UserPostsThunk";
 import { StyledMorePosts } from "./StyledMorePosts";
 
-function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, postId?: number, text?: string }) {
+function MorePosts({ text = '', postId = 0, userId = 0, title = "Mais postagens" }: { title?: string, userId?: number, postId?: number, text?: string }) {
 
   const { localPost, pages } = useAppSelector(s => s.Post);
   const { token } = useAppSelector((s) => s.User);
@@ -43,7 +42,7 @@ function MorePosts({ text = '', postId = 0, userId = 0 }: { userId?: number, pos
         dispatch(fetchSearchUsers({ authorization: token, page: pages.searchUsers, text }));
       }
     }}>
-      Mais postagens
+      {title}
     </StyledMorePosts>
   )
 }
