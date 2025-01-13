@@ -5,3 +5,5 @@ export interface EditProfileType {
   photo: string;
   description: string;
 }
+
+export type EditProfileTypeFields = "address" | 'banner' | 'name' | "photo" | 'description';

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import media from "../../../utils/media";
 
 export const StyledEditProfile = styled.div`
   position: absolute;
@@ -9,8 +10,8 @@ export const StyledEditProfile = styled.div`
   width: 100%;
 
   .bg {
-    background-color: rgba(0, 0, 0, 0.41);
-    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
     width: 100%;
     height: 100%;
     position: absolute;
@@ -20,21 +21,56 @@ export const StyledEditProfile = styled.div`
   section {
     position: absolute;
     background-color: white;
-    max-width: 600px;
+    flex-direction: column;
+    display: flex;
+    
+    ${media.sm`
+      width: 100%;
+      height: 100%;
+    `}
+
     z-index: 20;
     width: 80%;
     height: 80%;
+    max-width: 600px;
     max-height: 80vh;
     min-height: 400px;
     margin-top: 50px;
+    gap: 8px;
 
     button {
-      img {
-        width: 100%;
-        &:hover {
-          backdrop-filter: blur(10px);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+
+        .editable {
+          position: absolute;
+          visibility: visible;
+          display: flex;
         }
+        
       }
+
+      .editable {
+        position: absolute;
+        visibility: hidden;
+        position: absolute;
+        display: none;
+        width: 40px;
+        height: 40px;
+        z-index: 21;
+        background-color: white;
+        border-radius: 9999px;
+        padding: 4px;
+      }
+
+      img {
+        max-width: 100%;
+      }
+      
     }
 
   }
