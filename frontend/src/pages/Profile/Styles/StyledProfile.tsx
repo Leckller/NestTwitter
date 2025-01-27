@@ -3,6 +3,7 @@ import media from "../../../utils/media";
 
 export const StyledProfile = styled.main`
 
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
