@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const StyledPostDetails = styled.section<{ isClicked: boolean }>`
   margin-bottom: 50px;
   width: 100%;
+  
   form {
     display: flex;
     flex-direction: ${p => p.isClicked ? 'column' : 'row'};
