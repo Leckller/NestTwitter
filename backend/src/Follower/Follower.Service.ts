@@ -2,10 +2,10 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { InjectRepository } from "@nestjs/typeorm";
 import FollowerEntity from "./Follower.Entity";
 import { In, Repository } from "typeorm";
-import UserEntity from "../User/User.entity";
+import UserEntity from "../User/User.Entity";
 import ResponseDto from "src/Utils/Response.Dto";
-import LikeEntity from "src/Like/Like.entity";
-import PostEntity from "src/Post/Post.entity";
+import LikeEntity from "src/Like/Like.Entity";
+import PostEntity from "src/Post/Post.Entity";
 
 @Injectable()
 export default class FollowerService {

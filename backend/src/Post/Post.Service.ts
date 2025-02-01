@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import PostEntity from "./Post.entity";
+import PostEntity from "./Post.Entity";
 import { In, Repository } from "typeorm";
-import UserEntity from "../User/User.entity";
+import UserEntity from "../User/User.Entity";
 import ResponseDto from "src/Utils/Response.Dto";
 import PostRequestDto from "./DTOs/Post.Request.dto";
 import CommentEntity from "src/Comment/Comment.Entity";
-import LikeEntity from "src/Like/Like.entity";
+import LikeEntity from "src/Like/Like.Entity";
 
 @Injectable()
 export default class PostService {
