@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import LikeEntity from "./Like.entity";
+import LikeEntity from "./Like.Entity";
 import LikeController from "./Like.Controller";
 import LikeService from "./Like.Service";
-import UserEntity from "../User/User.entity";
-import PostEntity from "../Post/Post.entity";
+import UserEntity from "../User/User.Entity";
+import PostEntity from "../Post/Post.Entity";
 import AuthModule from "../Auth/Auth.Module";
 
 @Module({
@@ -20,4 +20,4 @@ import AuthModule from "../Auth/Auth.Module";
     ],
     providers: [LikeService]
 })
-export default class LikeModule {}
+export default class LikeModule { }

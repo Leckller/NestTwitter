@@ -3,9 +3,9 @@ import UserService from "./User.Service";
 import UserController from "./User.Controller";
 import AuthModule from "../Auth/Auth.Module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import UserEntity from "./User.entity";
-import PostEntity from "src/Post/Post.entity";
-import LikeEntity from "src/Like/Like.entity";
+import UserEntity from "./User.Entity";
+import PostEntity from "src/Post/Post.Entity";
+import LikeEntity from "src/Like/Like.Entity";
 import FollowerEntity from "src/Follower/Follower.Entity";
 
 @Module({

@@ -3,9 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import AuthService from "src/Auth/Auth.Service";
 import CommentEntity from "src/Comment/Comment.Entity";
 import FollowerEntity from "src/Follower/Follower.Entity";
-import LikeEntity from "src/Like/Like.entity";
-import PostEntity from "src/Post/Post.entity";
-import UserEntity from "src/User/User.entity";
+import LikeEntity from "src/Like/Like.Entity";
+import PostEntity from "src/Post/Post.Entity";
+import UserEntity from "src/User/User.Entity";
 import { Repository } from "typeorm";
 
 @Injectable()
