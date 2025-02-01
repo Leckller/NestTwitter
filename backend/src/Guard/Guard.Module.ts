@@ -3,7 +3,7 @@ import AuthGuard from "./Auth.Guard";
 import UserModule from "../User/User.Module";
 import AuthModule from "../Auth/Auth.Module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import UserEntity from "../User/User.entity";
+import UserEntity from "../User/User.Entity";
 
 @Module({
     providers: [AuthGuard],
