@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import FollowerEntity from "src/Follower/Follower.Entity";
-import LikeEntity from "src/Like/Like.entity";
-import PostEntity from "src/Post/Post.entity";
-import UserEntity from "src/User/User.entity";
+import LikeEntity from "src/Like/Like.Entity";
+import PostEntity from "src/Post/Post.Entity";
+import UserEntity from "src/User/User.Entity";
 import ResponseDto from "src/Utils/Response.Dto";
 import { In, Like, Repository } from "typeorm";
 

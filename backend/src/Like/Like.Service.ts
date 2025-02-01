@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import LikeEntity from "./Like.entity";
+import LikeEntity from "./Like.Entity";
 import { Repository } from "typeorm";
-import UserEntity from "../User/User.entity";
-import PostEntity from "../Post/Post.entity";
+import UserEntity from "../User/User.Entity";
+import PostEntity from "../Post/Post.Entity";
 import ResponseDto from "src/Utils/Response.Dto";
 
 @Injectable()

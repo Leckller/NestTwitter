@@ -1,24 +1,25 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Like, Repository } from "typeorm";
-import UserEntity from "./User.entity";
+import UserEntity from "./User.Entity";
 import AuthService from "../Auth/Auth.Service";
 import CreateUserDto from "./DTOs/CreateUser.Dto";
 import { UserTypeToken } from "../types";
 import GetUserResponseDto from "./DTOs/GetUser.Response.Dto";
 import LoginUserDto from "./DTOs/LoginUser.Dto";
 import ResponseDto from "src/Utils/Response.Dto";
-import PostEntity from "src/Post/Post.entity";
-import LikeEntity from "src/Like/Like.entity";
+import PostEntity from "src/Post/Post.Entity";
+import LikeEntity from "src/Like/Like.Entity";
 import FollowerEntity from "src/Follower/Follower.Entity";
 
 @Injectable()
 export default class UserService {
 
     constructor(
+        private readonly AuthService: AuthService,
+
         @InjectRepository(UserEntity)
         private userRepository: Repository<UserEntity>,
-        private readonly AuthService: AuthService,
         @InjectRepository(PostEntity)
         private postRepository: Repository<PostEntity>,
         @InjectRepository(LikeEntity)

@@ -4,9 +4,9 @@ import CommentEntity from "./Comment.Entity";
 import { In, Repository } from "typeorm";
 import CreateCommentRequestDto from "./DTOs/CreateComment.Request.Dto";
 import ResponseDto from "src/Utils/Response.Dto";
-import PostEntity from "src/Post/Post.entity";
-import UserEntity from "src/User/User.entity";
-import LikeEntity from "src/Like/Like.entity";
+import PostEntity from "src/Post/Post.Entity";
+import UserEntity from "src/User/User.Entity";
+import LikeEntity from "src/Like/Like.Entity";
 
 @Injectable()
 export default class CommentService {
