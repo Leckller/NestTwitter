@@ -1,14 +1,28 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { entities, modules } from '.';
 import GuardModule from './Guard/Guard.Module';
 import UserModule from './User/User.Module';
 import AuthModule from './Auth/Auth.Module';
+import PostModule from './Post/Post.Module';
+import LikeModule from './Like/Like.Module';
+import { SearchModule } from './Search/Search.Module';
+import CommentModule from './Comment/Comment.Module';
+import FollowerModule from './Follower/Follower.Module';
+import SeedModule from './DB/Seeds/Seed.Module';
+import LikeEntity from './Like/Like.entity';
+import PostEntity from './Post/Post.entity';
+import UserEntity from './User/User.entity';
+import FollowerEntity from './Follower/Follower.Entity';
+import CommentEntity from './Comment/Comment.Entity';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
   imports: [
-    ...modules,
+
+    GuardModule, UserModule, AuthModule,
+    PostModule, LikeModule, SearchModule,
+    CommentModule, FollowerModule, SeedModule,
+
     TypeOrmModule.forRoot({
       type: 'sqlite',
       // port: Number(process.env.DB_PORT) || 3306,
@@ -17,7 +31,10 @@ import AuthModule from './Auth/Auth.Module';
       // password: process.env.DB_PASSWORD || "root",
       database: process.env.DB_DATABASE || "nestwitter.db",
       synchronize: true,
-      entities,
+      entities: [
+        LikeEntity, PostEntity, UserEntity,
+        FollowerEntity, CommentEntity
+      ],
     })
   ],
 })
