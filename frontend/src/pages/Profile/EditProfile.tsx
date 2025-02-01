@@ -31,10 +31,11 @@ function EditProfile({ setEdit }: { setEdit: React.Dispatch<React.SetStateAction
         </button>
 
         <article>
-          <label>
-            <h2>{editProfile.name}</h2>
-            <button>Editar</button>
-          </label>
+          <input
+            type="text"
+            defaultValue={editProfile.name}
+            onChange={({ target: { value } }) => handleEdit("name", value)}
+          />
 
           <label>
             <h3>{editProfile.address}</h3>

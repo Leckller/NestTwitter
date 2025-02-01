@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { fetchPostDetails } from '../../redux/Thunks/Post/PostDetailsThunk';
 import SinglePost from '../../components/Posts/SinglePost/SinglePost';
 import { StyledPostDetails } from './StyledPostDetails';
-import { setComment, setLocalPosts, setNewPost, setPage } from '../../redux/Reducers/Post';
+import { setLocalPosts, setPage } from '../../redux/Reducers/Post';
 import MorePosts from '../../components/Posts/MorePosts/MorePosts';
 import { fetchCreateComment } from '../../redux/Thunks/Post/CreateCommentThunk';
 
