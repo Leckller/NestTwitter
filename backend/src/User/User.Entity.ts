@@ -1,9 +1,9 @@
 import CommentEntity from "src/Comment/Comment.Entity";
 import FollowerEntity from "../Follower/Follower.Entity";
-import PostEntity from "../Post/Post.entity";
+import PostEntity from "../Post/Post.Entity";
 import { UserType } from "../types";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import LikeEntity from "src/Like/Like.entity";
+import LikeEntity from "src/Like/Like.Entity";
 
 @Entity({ name: "User" })
 export default class UserEntity implements UserType {

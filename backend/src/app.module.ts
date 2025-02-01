@@ -9,9 +9,9 @@ import { SearchModule } from './Search/Search.Module';
 import CommentModule from './Comment/Comment.Module';
 import FollowerModule from './Follower/Follower.Module';
 import SeedModule from './DB/Seeds/Seed.Module';
-import LikeEntity from './Like/Like.entity';
-import PostEntity from './Post/Post.entity';
-import UserEntity from './User/User.entity';
+import LikeEntity from './Like/Like.Entity';
+import PostEntity from './Post/Post.Entity';
+import UserEntity from './User/User.Entity';
 import FollowerEntity from './Follower/Follower.Entity';
 import CommentEntity from './Comment/Comment.Entity';
 

@@ -1,6 +1,6 @@
 import CommentEntity from "src/Comment/Comment.Entity";
-import LikeEntity from "../Like/Like.entity";
-import UserEntity from "../User/User.entity";
+import LikeEntity from "../Like/Like.Entity";
+import UserEntity from "../User/User.Entity";
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "Post" })

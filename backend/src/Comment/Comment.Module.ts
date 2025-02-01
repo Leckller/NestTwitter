@@ -4,9 +4,9 @@ import CommentEntity from "./Comment.Entity";
 import CommentControler from "./Comment.Controller";
 import CommentService from "./Comment.Service";
 import AuthModule from "src/Auth/Auth.Module";
-import UserEntity from "src/User/User.entity";
-import PostEntity from "src/Post/Post.entity";
-import LikeEntity from "src/Like/Like.entity";
+import UserEntity from "src/User/User.Entity";
+import PostEntity from "src/Post/Post.Entity";
+import LikeEntity from "src/Like/Like.Entity";
 
 @Module({
     controllers: [CommentControler],
