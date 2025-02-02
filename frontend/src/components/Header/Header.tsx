@@ -18,7 +18,7 @@ function Header() {
       {(pathname.includes('home') || pathname === '/') &&
         <StyledHeader isBubble={localPost}>
           <section>
-            <button>Twitter</button>
+            <button>Plim</button>
             <button onClick={() => navigate('/config')}>
               <FaGear />
             </button>
