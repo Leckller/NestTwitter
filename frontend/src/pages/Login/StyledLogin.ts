@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import media from '../../utils/media';
+import texture from '../../assets/cartographer.png'
 
 export const StyledLogin = styled.main`
 
@@ -7,14 +8,13 @@ export const StyledLogin = styled.main`
   height: 100vh;
   display: flex;
 
-  overflow-x: hidden;
-  overflow-y: hidden;
-  
   justify-content: center;
   align-items: center;
 
   font-size: 1.2rem;
   
+  background-image: url(${texture});
+
   button {
     cursor: pointer;
   }

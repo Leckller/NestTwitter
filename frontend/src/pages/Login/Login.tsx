@@ -4,6 +4,7 @@ import { useAppDispatch } from '../../hooks/reduxHooks';
 import { StyledLogin } from './StyledLogin';
 import { fetchLogin } from '../../redux/Thunks/User/LoginThunk';
 import { FaEyeSlash, FaRegEye } from 'react-icons/fa6';
+import waves from '../../assets/wave.png'
 
 type FieldTypes = 'email' | 'password';
 
@@ -24,8 +25,6 @@ function Login() {
 
   return (
     <StyledLogin>
-      <div className='bubble'>😜</div>
-      <div className='bubble'>😂</div>
 
       <form
         onSubmit={(e) => e.preventDefault()}
