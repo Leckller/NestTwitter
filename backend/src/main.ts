@@ -21,7 +21,7 @@ async function bootstrap() {
     .build();
 
   // Aqui você chama o serviço de seed
-  const environment = process.env.ENVIRONMENT;
+  const environment = process.env.ENVIRONMENT || "production";
 
   if (environment === "development") {
     const seedService = app.get(SeedService);
