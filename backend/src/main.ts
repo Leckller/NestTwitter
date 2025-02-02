@@ -21,8 +21,12 @@ async function bootstrap() {
     .build();
 
   // Aqui você chama o serviço de seed
-  const seedService = app.get(SeedService);
-  await seedService.seeds();
+  const environment = process.env.ENVIRONMENT;
+
+  if (environment === "development") {
+    const seedService = app.get(SeedService);
+    await seedService.seeds();
+  }
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
