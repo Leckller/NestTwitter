@@ -24,8 +24,6 @@ function Login() {
 
   return (
     <StyledLogin>
-      <div className='bubble'>😜</div>
-      <div className='bubble'>😂</div>
 
       <form
         onSubmit={(e) => e.preventDefault()}
