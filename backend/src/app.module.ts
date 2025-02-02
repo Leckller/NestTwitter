@@ -14,9 +14,15 @@ import PostEntity from './Post/Post.Entity';
 import UserEntity from './User/User.Entity';
 import FollowerEntity from './Follower/Follower.Entity';
 import CommentEntity from './Comment/Comment.Entity';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   exports: [GuardModule, AuthModule, UserModule],
+
+  controllers: [AppController],
+  providers: [AppService],
+
   imports: [
 
     GuardModule, UserModule, AuthModule,
