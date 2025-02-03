@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import media from '../../utils/media';
-import texture from '../../assets/cartographer.png'
+import texture from '../../assets/cartographer.png';
 
 export const StyledLogin = styled.main`
 
@@ -19,6 +19,10 @@ export const StyledLogin = styled.main`
     cursor: pointer;
   }
 
+  button:disabled {
+    cursor: not-allowed;
+  }
+
   form {
     z-index: 10;
     
@@ -33,7 +37,7 @@ export const StyledLogin = styled.main`
     `}
     
     min-height: 300px;
-    height: 50%;
+    padding: 18px;
     max-height: 600px;
 
     border-radius: 16px;
@@ -126,32 +130,5 @@ export const StyledLogin = styled.main`
     }
   }
 
-  .bubble {
-    border-radius: 9999px;
-    width: 150px;
-    height: 150px;
-    background-color: rgba(0, 0, 255, 0.8);
-    position: absolute;
-    left: 0;
-    animation: ease-in-out slide 5s infinite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px;
-  }
-  
-  .bubble:nth-child(2) {
-    animation: ease-in-out slide 5s infinite reverse;
-    background-color: rgba(0, 255, 0, 0.8);
-  }
-
-  @keyframes slide {
-    0% {
-      transform: translateX(-150px);
-    }
-    100% {
-      transform: translateX(100vw);
-    }
-  }
 
 `;
