@@ -91,6 +91,13 @@ function Register() {
             <p
               style={ {
                 color: `${ValidadorDeSenha
+                  .hasSpecialChar(fields.password) ? 'blue' : 'red'}` } }
+            >
+              Caractere especial
+            </p>
+            <p
+              style={ {
+                color: `${ValidadorDeSenha
                   .hasUpperCase(fields.password) ? 'blue' : 'red'}` } }
             >
               Letra maiúscula
@@ -108,13 +115,6 @@ function Register() {
                   .hasNumber(fields.password) ? 'blue' : 'red'}` } }
             >
               Número
-            </p>
-            <p
-              style={ {
-                color: `${ValidadorDeSenha
-                  .hasSpecialChar(fields.password) ? 'blue' : 'red'}` } }
-            >
-              Caractere especial
             </p>
           </article>
 

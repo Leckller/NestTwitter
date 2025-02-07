@@ -30,7 +30,7 @@ export const StyledLogin = styled.main`
     background-color: rgba(255, 255, 255, 0.2);
 
     width: 50%;
-    max-width: 800px;    
+    max-width: 600px;    
 
     ${media.sm`
       width: 90%;
@@ -38,7 +38,7 @@ export const StyledLogin = styled.main`
     
     min-height: 300px;
     padding: 18px;
-    max-height: 600px;
+    max-height: 800px;
 
     border-radius: 16px;
     display: flex;
