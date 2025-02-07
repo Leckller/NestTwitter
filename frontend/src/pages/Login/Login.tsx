@@ -1,16 +1,22 @@
+/* eslint-disable react/jsx-max-depth */
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { FaEyeSlash, FaRegEye } from 'react-icons/fa6';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { StyledLogin } from './StyledLogin';
 import { fetchLogin } from '../../redux/Thunks/User/LoginThunk';
-import { FaEyeSlash, FaRegEye } from 'react-icons/fa6';
+import Loading from '../../components/Loading/Loading';
 
 type FieldTypes = 'email' | 'password';
 
 function Login() {
   const [viewPassword, setViewPassword] = useState(false);
 
-  const [fields, setFields] = useState<{ email: string, password: string }>({ email: '', password: '' });
+  const { loading } = useAppSelector((s) => s.User);
+
+  const [fields, setFields] = useState<{ email: string, password: string }>(
+    { email: '', password: '' },
+  );
 
   const dispatch = useAppDispatch();
 
@@ -26,34 +32,34 @@ function Login() {
     <StyledLogin>
 
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={ (e) => e.preventDefault() }
       >
 
         <section>
           <article>
             <input
-              value={fields.email}
-              id='email-i'
+              value={ fields.email }
+              id="email-i"
               required
-              onChange={({ target: { value } }) => handleSetField('email', value)}
+              onChange={ ({ target: { value } }) => handleSetField('email', value) }
               type="text"
             />
-            <label htmlFor='email-i'>Email</label>
+            <label htmlFor="email-i">Email</label>
           </article>
 
           <div>
             <article>
               <input
-                value={fields.password}
-                id='password-i'
+                value={ fields.password }
+                id="password-i"
                 required
-                onChange={({ target: { value } }) => handleSetField('password', value)}
-                type={viewPassword ? 'text' : 'password'}
+                onChange={ ({ target: { value } }) => handleSetField('password', value) }
+                type={ viewPassword ? 'text' : 'password' }
               />
-              <label htmlFor='password-i'>Password</label>
+              <label htmlFor="password-i">Password</label>
             </article>
 
-            <button onClick={() => setViewPassword((prev) => !prev)}>
+            <button onClick={ () => setViewPassword((prev) => !prev) }>
               {
                 viewPassword ? (
                   <FaEyeSlash />
@@ -69,12 +75,16 @@ function Login() {
         <section>
           <p>
             Ainda não possui uma conta?
-            <Link to={'/register'}>
+            <Link to="/register">
               cadastre-se!
             </Link>
           </p>
-          <button type="submit" onClick={() => handleSubmit()}>
-            Logar
+          <button
+            disabled={ loading }
+            type="submit"
+            onClick={ () => handleSubmit() }
+          >
+            {loading ? <Loading /> : 'Logar'}
           </button>
         </section>
 
